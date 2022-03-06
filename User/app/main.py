@@ -15,67 +15,41 @@ def get_db():
 
 app = FastAPI()
 
-userList: List[schemas.UserModel] = []
+# userList: List[schemas.UserModel] = []
 
 @app.get("/users/{user_id}")
-def getUser(user_id: int):    
-    for user in userList:
-        if user.userId == str(user_id):
-            userModel = schemas.CreateUserModel(
-                userName = user.userName,
-                bio = user.bio,
-                email = user.email
-            )
-            return userModel
-
-    raise HTTPException(status_code=404, detail="User not found")
+def getUser(user_id: int, db: Session = Depends(get_db)):    
+    return crud.get_user(db, user_id)
 
 @app.get("/users")
-def getUsersList(db: Session = Depends(get_db)):
-    crud.get_users(db)
-    return userList
+def getUsers(db: Session = Depends(get_db)):
+    return crud.get_users(db)
 
 @app.delete("/user/delete/{user_id}")
 def deleteUser(user_id: int):    
-    
-    for user in userList:
-        if str(user_id) == user.userId:
-            userList.remove(user)
-            return Response(status_code=204)
+    # for user in userList:
+    #     if str(user_id) == user.userId:
+    #         userList.remove(user)
+    #         return Response(status_code=204)
 
-    raise HTTPException(status_code=500, detail="Cannot be deleted")
+    # raise HTTPException(status_code=500, detail="Cannot be deleted")
+    pass
 
 @app.put("/user/update/{user_id}")
-def updateUser(userInfo: schemas.UserModel, user_id: int):    
-    
-    for user in userList:
-        if str(user_id) == user.userId:
-            user.userName = userInfo.userName
-            user.bio = userInfo.bio
-            user.email = userInfo.email
-            user.password = userInfo.password
-            return "updated"
-
-    raise HTTPException(status_code=500, detail="Cannot update")
+def updateUser(userInfo: schemas.CreateUserModel, user_id: int, db: Session = Depends(get_db)):    
+    return crud.update_user(db, userInfo, user_id)
 
 @app.post("/user/create")
-def getUsersList(userInfo: schemas.UserModel):  
-    if(isEmailUnique(userInfo.email) == False):
-        raise HTTPException(status_code=400, detail="Email has been used")
+def createUsers(userInfo: schemas.CreateUserModel, db: Session = Depends(get_db)):  
+    # if(isEmailUnique(userInfo.email) == False):
+    #     raise HTTPException(status_code=400, detail="Email has been used")
+    response = crud.create_user(db, userInfo)
+    # userList.append(userData)
 
-    userData = schemas.UserModel(
-        userName = userInfo.userName,
-        email = userInfo.email,
-        bio = userInfo.bio,
-        userId = len(userList),
-        password = userInfo.password
-    )
-    userList.append(userData)
+    return response
 
-    return userData
-
-def isEmailUnique(email: str):
-    for user in userList:
-        if email == user.email:
-            return False
-    return True
+# def isEmailUnique(email: str):
+#     for user in userList:
+#         if email == user.email:
+#             return False
+#     return True

@@ -8,8 +8,18 @@ class UserModel(BaseModel):
     bio: Optional[str] = None
     email: str
     password: str
+    occupation: str
+
+class ResponseUserModel(BaseModel):
+    userName: str
+    bio: Optional[str] = None
+    email: str
+    occupation: str
 
 class CreateUserModel(BaseModel):
     userName: str
     bio: Optional[str] = None
     email: str
+    password: str
+    occupation: str
+    password: str
