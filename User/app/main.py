@@ -4,7 +4,7 @@ from typing import Optional, List
 from .database import SessionLocal, engine
 from sqlalchemy.orm import Session
 
-from . import schemas, crud
+from . import schemas, models
 
 def get_db():
     db = SessionLocal()
@@ -15,41 +15,58 @@ def get_db():
 
 app = FastAPI()
 
-# userList: List[schemas.UserModel] = []
-
 @app.get("/users/{user_id}")
 def getUser(user_id: int, db: Session = Depends(get_db)):    
-    return crud.get_user(db, user_id)
+    return db.query(models.User).filter(models.User.userId == user_id).first()
+
 
 @app.get("/users")
 def getUsers(db: Session = Depends(get_db)):
-    return crud.get_users(db)
+    return db.query(models.User).all()
+
 
 @app.delete("/user/delete/{user_id}")
-def deleteUser(user_id: int):    
-    # for user in userList:
-    #     if str(user_id) == user.userId:
-    #         userList.remove(user)
-    #         return Response(status_code=204)
+def deleteUser(user_id: int, db: Session = Depends(get_db)):    
+    db.query(models.User).filter(models.User.userId == user_id).delete(synchronize_session=False)
+    db.commit()
+    return user_id
 
-    # raise HTTPException(status_code=500, detail="Cannot be deleted")
-    pass
 
 @app.put("/user/update/{user_id}")
-def updateUser(userInfo: schemas.CreateUserModel, user_id: int, db: Session = Depends(get_db)):    
-    return crud.update_user(db, userInfo, user_id)
+def updateUser(userInfo: schemas.CreateUserModel, user_id: int, db: Session = Depends(get_db)):
+    try:
+        query = db.query(models.User).filter(models.User.userId == user_id)
+        
+        previousEmail = query.first().email
+        userInfo = userInfo.dict()
+
+        if userInfo['email'] == previousEmail:
+            del userInfo['email']
+
+        query.update(
+            userInfo, synchronize_session=False
+        )
+        db.commit()
+        return userInfo
+    except:
+        raise HTTPException(status_code=400, detail="Email already registered")
+    
 
 @app.post("/user/create")
 def createUsers(userInfo: schemas.CreateUserModel, db: Session = Depends(get_db)):  
-    # if(isEmailUnique(userInfo.email) == False):
-    #     raise HTTPException(status_code=400, detail="Email has been used")
-    response = crud.create_user(db, userInfo)
-    # userList.append(userData)
+    userData = models.User(
+        userName = userInfo.userName,
+        email = userInfo.email,
+        bio = userInfo.bio,
+        password = userInfo.password,
+        occupation = userInfo.occupation
+    )
 
-    return response
-
-# def isEmailUnique(email: str):
-#     for user in userList:
-#         if email == user.email:
-#             return False
-#     return True
+    try:
+        db.add(userData)
+        db.commit()
+        db.refresh(userData)
+        user_id = db.query(models.User).filter(models.User.email == userData.email).first().userId
+        return user_id
+    except:
+        raise HTTPException(status_code=400, detail="Email already registered")
