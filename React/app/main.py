@@ -37,26 +37,9 @@ def createReactsForPost(reactInfo: schemas.CreateReactModel, db: Session = Depen
         db.add(reactData)
         db.commit()
         db.refresh(reactData)
-        post_id = db.query(models.React).filter(models.React.postId == reactData.postId).first().postId
-        return post_id
-    except:
-        raise HTTPException(status_code=500, detail="Internal server error")
 
-@app.post("/react/create")
-def createReactsForPost(reactInfo: schemas.CreateReactModel, db: Session = Depends(get_db)):  
-    reactData = models.React(
-        postId = reactInfo.postId,
-        smileReactCount = reactInfo.smileReactCount,
-        loveReactCount = reactInfo.loveReactCount,
-        likeReactCount = reactInfo.likeReactCount
-    )
-
-    try:
-        db.add(reactData)
-        db.commit()
-        db.refresh(reactData)
-        post_id = db.query(models.React).filter(models.React.postId == post_id).first().postId
-        return post_id
+        react_id = db.query(models.React).filter(models.React.postId == reactInfo.postId).first().reactId
+        return react_id
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
 
@@ -64,14 +47,21 @@ def createReactsForPost(reactInfo: schemas.CreateReactModel, db: Session = Depen
 def updateLoveReactForPost(post_id: int, db: Session = Depends(get_db)):
     try:
         query = db.query(models.React).filter(models.React.postId == post_id)
-        reactInfo = query.first().dict()
-        reactInfo["loveReactCount"] = reactInfo["loveReactCount"]+1
+        reactInfo = query.first()
+        reactData = schemas.CreateReactModel(
+            postId = reactInfo.postId,
+            loveReactCount = reactInfo.loveReactCount+1,
+            smileReactCount = reactInfo.smileReactCount,
+            likeReactCount = reactInfo.likeReactCount
+        )
+        reactData = reactData.dict()
 
         query.update(
-            reactInfo, synchronize_session=False
+            reactData,
+            synchronize_session=False
         )
         db.commit()
-        return reactInfo
+        return reactData
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
 
@@ -79,14 +69,21 @@ def updateLoveReactForPost(post_id: int, db: Session = Depends(get_db)):
 def updateLikeReactForPost(post_id: int, db: Session = Depends(get_db)):
     try:
         query = db.query(models.React).filter(models.React.postId == post_id)
-        reactInfo = query.first().dict()
-        reactInfo["likeReactCount"] = reactInfo["likeReactCount"]+1
+        reactInfo = query.first()
+        reactData = schemas.CreateReactModel(
+            postId = reactInfo.postId,
+            loveReactCount = reactInfo.loveReactCount,
+            smileReactCount = reactInfo.smileReactCount,
+            likeReactCount = reactInfo.likeReactCount+1
+        )
+        reactData = reactData.dict()
 
         query.update(
-            reactInfo, synchronize_session=False
+            reactData,
+            synchronize_session=False
         )
         db.commit()
-        return reactInfo
+        return reactData
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
 
@@ -94,13 +91,20 @@ def updateLikeReactForPost(post_id: int, db: Session = Depends(get_db)):
 def updateSmileReactForPost(post_id: int, db: Session = Depends(get_db)):
     try:
         query = db.query(models.React).filter(models.React.postId == post_id)
-        reactInfo = query.first().dict()
-        reactInfo["smileReactCount"] = reactInfo["smileReactCount"]+1
+        reactInfo = query.first()
+        reactData = schemas.CreateReactModel(
+            postId = reactInfo.postId,
+            loveReactCount = reactInfo.loveReactCount,
+            smileReactCount = reactInfo.smileReactCount+1,
+            likeReactCount = reactInfo.likeReactCount
+        )
+        reactData = reactData.dict()
 
         query.update(
-            reactInfo, synchronize_session=False
+            reactData,
+            synchronize_session=False
         )
         db.commit()
-        return reactInfo
+        return reactData
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
