@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException, status, Response, Depends
 from typing import Optional, List
-from .database import SessionLocal, engine
+from .database import SessionLocal
 from sqlalchemy.orm import Session
 
 from . import schemas, models
@@ -42,6 +42,27 @@ def createReactsForPost(reactInfo: schemas.CreateReactModel, db: Session = Depen
         return react_id
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
+
+
+# def initiateReactsForPost(post_id: int):
+#     db: Session = Depends(get_db)
+  
+#     reactData = models.React(
+#         postId = post_id,
+#         smileReactCount = 0,
+#         loveReactCount = 0,
+#         likeReactCount = 0
+#     )
+
+#     try:
+#         db.add(reactData)
+#         db.commit()
+#         db.refresh(reactData)
+
+#         react_id = db.query(models.React).filter(models.React.postId == reactInfo.postId).first().reactId
+#         return react_id
+#     except:
+#         raise HTTPException(status_code=500, detail="Internal server error")
 
 @app.put("/react/{post_id}/love")
 def updateLoveReactForPost(post_id: int, db: Session = Depends(get_db)):

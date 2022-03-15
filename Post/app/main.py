@@ -1,10 +1,12 @@
 from pydantic import BaseModel
-from fastapi import FastAPI, HTTPException, status, Response, Depends
+from fastapi import FastAPI, HTTPException, status, Response, Depends, BackgroundTasks
 from typing import Optional, List
 from .database import SessionLocal, engine
 from sqlalchemy.orm import Session
 
-from . import schemas, models
+
+from . import schemas, models, publisher
+
 
 def get_db():
     db = SessionLocal()
@@ -47,6 +49,7 @@ def createPosts(postInfo: schemas.CreatePostModel, db: Session = Depends(get_db)
         db.commit()
         db.refresh(postData)
         post_id = db.query(models.Post).filter(models.Post.postDateTime == postInfo.postDateTime and models.Post.userId == postInfo.userId).first().postId
+        publisher.publish_message(str(post_id))
         return post_id
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
