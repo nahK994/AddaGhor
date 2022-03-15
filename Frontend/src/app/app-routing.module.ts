@@ -4,13 +4,13 @@ import { LoginComponent } from 'src/login-registration-sectioin/login/login.comp
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'login',
+    path: "",
+    redirectTo: "/login",
     pathMatch: 'full'
   },
   {
-    path: 'login',
-    component: LoginComponent
+    path: "login",
+    loadChildren: () => import('../login-registration-sectioin/login-registration-sectioin.module').then(m => m.LoginRegistrationSectioinModule)
   },
 ];
 
