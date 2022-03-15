@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import {MatButtonModule} from '@angular/material/button';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -13,8 +11,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   imports: [
     CommonModule,
     MatButtonModule,
-    BrowserModule,
-    BrowserAnimationsModule,
   ],
   exports: [
     LoginComponent
