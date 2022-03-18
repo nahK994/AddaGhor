@@ -1,5 +1,5 @@
 import pika
-from fastapi import HTTPException
+# from fastapi import HTTPException
 import requests
 
 
