@@ -1,1 +1,42 @@
-<p>registration works!</p>
+<div class="sign-up-page">
+  <div class="header">
+    <div>
+      <div class="title">Sign Up</div>
+      <div class="subtitle mt-8">Join Adda Ghor Now :)</div>
+    </div>
+    <div>
+        <mat-icon (click)="closeWindow()">close</mat-icon>
+    </div>
+  </div>
+  <div class="mt-16"><mat-divider></mat-divider></div>
+
+
+  <div class="sign-up-form mt-8">
+    <div class="name">
+      <div class="first-name">
+        <input type="text" placeholder="First Name">
+      </div>
+      <div class="last-name">
+        <input type="text"  placeholder="Last Name">
+      </div>
+    </div>
+    <div class="email">
+      <input type="email" placeholder="Email">
+    </div>
+    <div class="password">
+      <div class="new-password">
+        <input type="password" placeholder="New Password">
+      </div>
+      <div class="confirm-password">
+        <input  type="password" placeholder="Confirm New Password">
+      </div>
+    </div>
+  </div>
+  <div class="footer mt-16">
+    <div class="circle"></div>
+    <span>By clicking Sign Up, you agree to our Terms, Data Policy and Cookie Policy.</span>
+  </div>
+  <div class="action mt-8">
+    <button mat-flat-button color="primary">Sign Up</button>
+  </div>
+</div>
