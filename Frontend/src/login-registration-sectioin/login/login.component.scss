@@ -13,11 +13,14 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
 
-    .header{
-      font-weight: 700;
-      .title{
+    .header {
+      .title {
         font-size: 24px;
         color: #1877f2;
+        font-weight: 700;
+      }
+      .subtitle {
+        font-weight: 500;
       }
     }
     .login-form {
@@ -54,6 +57,7 @@
       .login-button {
         button {
           color: white;
+          line-height: 0px;
           background: #1877f2;
         }
       }
