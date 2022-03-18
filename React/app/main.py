@@ -18,7 +18,6 @@ app = FastAPI()
 
 @app.get("/reacts")
 def getReacts(db: Session = Depends(get_db)):
-    print("HaHa")
     return db.query(models.React).all()
 
 @app.get("/reacts/{post_id}")

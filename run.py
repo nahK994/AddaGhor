@@ -17,6 +17,8 @@ os.system("gnome-terminal -e 'bash -c \"source env/bin/activate; cd React/app/; 
 
 os.system(get_command('Comment', 8003))
 
+os.system(get_command('Timeline', 8004))
+
 print("done")
 
 # https://stackoverflow.com/questions/43332703/open-terminal-run-command-python
