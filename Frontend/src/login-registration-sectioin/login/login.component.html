@@ -7,8 +7,7 @@
     <div class="login-form mt-16">
       <div class="email-phone">
         <input class="input-field"
-          placeholder="Email or Phone"
-        >
+          placeholder="Email or Phone">
       </div>
       <div class="password mt-16">
         <input class="input-field"
@@ -23,9 +22,9 @@
       <div class="forget-passowrd">
         <span>Forget password ?</span>
       </div>
-      <hr>
+      <mat-divider class="mt-8"></mat-divider>
       <div class="create-account mt-16">
-        <button mat-button color="primary">Create New Account</button>
+        <button mat-button color="primary" (click)="createAccount()">Create New Account</button>
       </div>
     </div>
   </div>
