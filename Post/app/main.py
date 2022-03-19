@@ -48,9 +48,15 @@ def createPosts(postInfo: schemas.CreatePostModel, db: Session = Depends(get_db)
         db.add(postData)
         db.commit()
         db.refresh(postData)
-        post_id = db.query(models.Post).filter(models.Post.postDateTime == postInfo.postDateTime and models.Post.userId == postInfo.userId).first().postId
-        publisher.publish_message(str(post_id))
-        return post_id
+        post = db.query(models.Post).filter(models.Post.postDateTime == postInfo.postDateTime and models.Post.userId == postInfo.userId).first()
+        post_model = schemas.PostModel(
+            postId = post.postId,
+            userId = post.userId,
+            postText = post.postText,
+            postDateTime = post.postDateTime
+        )
+        publisher.publish_message(post_model)
+        return post_model
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
 

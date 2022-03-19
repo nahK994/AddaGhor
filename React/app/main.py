@@ -108,6 +108,3 @@ def updateSmileReactForPost(post_id: int, db: Session = Depends(get_db)):
         return reactData
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
-
-def asdf():
-    print("HaHa")

@@ -3,8 +3,7 @@ from fastapi import FastAPI, HTTPException, status, Response, Depends, Backgroun
 from typing import Optional, List
 from .database import SessionLocal, engine
 from sqlalchemy.orm import Session
-
-
+import json
 from . import schemas, models
 
 
@@ -29,21 +28,24 @@ def getReacts(db: Session = Depends(get_db)):
 def getComments(db: Session = Depends(get_db)):
     return db.query(models.Comment).all()
 
-@app.post("/post/create")
-def createPosts(postInfo: schemas.CreatePostModel, db: Session = Depends(get_db)):  
+@app.post("/post/create/{postInfo}")
+def createPosts(postInfo: str, db: Session = Depends(get_db)):  
+    print("timeline 1 ==> ", postInfo)
+    postInfo = json.loads(postInfo)
+    print("timeline 2 ==> ", postInfo)
     postData = models.Post(
-        userId = postInfo.userId,
-        postText = postInfo.postText,
-        postDateTime = postInfo.postDateTime
+        userId = int(postInfo['userId']),
+        postId = int(postInfo['postId']),
+        postText = postInfo['postText'],
+        postDateTime = postInfo['postDateTime']
     )
+    print("timeline 3 ==> ", postData)
 
     try:
         db.add(postData)
         db.commit()
         db.refresh(postData)
-        post_id = db.query(models.Post).filter(models.Post.postDateTime == postInfo.postDateTime and models.Post.userId == postInfo.userId).first().postId
-        publisher.publish_message(str(post_id))
-        return post_id
+        return postInfo.postId
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
 
