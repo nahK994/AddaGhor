@@ -129,6 +129,9 @@ def initiateReactsForPost(post_id: int):
         loveReactCount = 0,
         likeReactCount = 0
     )
+    reactForPostInitiated = db.query(models.React).filter(models.React.postId == post_id).first()
+    if reactForPostInitiated is not None:
+        return None
 
     try:
         db.add(reactData)

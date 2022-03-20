@@ -75,11 +75,18 @@ def updatePost(postInfo: schemas.CreatePostModel, post_id: int, db: Session = De
     try:
         query = db.query(models.Post).filter(models.Post.postId == post_id)
         postInfo = postInfo.dict()
-
         query.update(
             postInfo, synchronize_session=False
         )
         db.commit()
+
+        post_model = schemas.PostModel(
+            postId = post_id,
+            userId = postInfo['userId'],
+            postText = postInfo['postText'],
+            postDateTime = postInfo['postDateTime']
+        )
+        publisher.publish_message(post_model)
         return postInfo
     except:
         raise HTTPException(status_code=500, detail="Internal server error")

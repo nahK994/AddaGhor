@@ -8,7 +8,7 @@ def run_service_consumer(service_name):
     return f"gnome-terminal -e 'bash -c \"cd {service_name}; source env/bin/activate; export PYTHONPATH='{os.getcwd()}/{service_name}'; python3 app/consumer.py; bash\" '" 
 
 os.system("docker start rabbitmq")
-time.sleep(5)
+time.sleep(10)
 
 os.system(run_service('User', 8000))
 

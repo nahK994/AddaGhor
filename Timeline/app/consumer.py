@@ -14,14 +14,13 @@ channel.queue_declare(queue='react_timeline')
 def post_callback(ch, method, properties, body):
     data = json.loads(body.decode('ASCII'))
     print("create post timeline ==> ", data)
-    main.initiateReactsForPost(data['postId'])
     postInfo = schemas.PostModel(
         userId = data['userId'],
         postText = data['postText'],
         postDateTime = data['postDateTime'],
         postId = data['postId']
     )
-    main.initiatePost(postInfo)
+    main.consumePost(postInfo)
 
 def react_callback(ch, method, properties, body):
     data = json.loads(body.decode('ASCII'))
@@ -34,7 +33,7 @@ def react_callback(ch, method, properties, body):
         likeReactCount = data['likeReactCount']
     )
 
-    main.updateReactsForPost(reactInfo)
+    main.consumeReactsForPost(reactInfo)
 
 channel.basic_consume(queue='post_timeline', on_message_callback=post_callback, auto_ack=True)
 channel.basic_consume(queue='react_timeline', on_message_callback=react_callback, auto_ack=True)
