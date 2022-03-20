@@ -16,6 +16,10 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  navigateToHomePage(){
+
+  }
+
   createAccount(): void{
     const dialogRef = this.dialog.open(RegistrationComponent, {
       width: '400px',
