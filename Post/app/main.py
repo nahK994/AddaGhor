@@ -1,14 +1,16 @@
 from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException, status, Response, Depends, BackgroundTasks
 from typing import Optional, List
-from .database import SessionLocal, engine
 from sqlalchemy.orm import Session
 
-from . import schemas, models, publisher
+import app.schemas as schemas
+import app.models as models
+import app.database as database
+import app.publisher as publisher
 
 
 def get_db():
-    db = SessionLocal()
+    db = database.SessionLocal()
     try:
         yield db
     except:

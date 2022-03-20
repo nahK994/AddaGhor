@@ -1,10 +1,9 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 
-from .database import Base
+import app.database as database
 
-
-class Post(Base):
+class Post(database.Base):
     __tablename__ = "posts"
 
     postId = Column(Integer, primary_key=True, index=True)
