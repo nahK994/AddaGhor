@@ -179,3 +179,53 @@ def consumeReactsForPost(reactInfo: schemas.ReactModel):
         return reactData
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
+
+def consumeComment(commentInfo: schemas.CommentModel):
+    db = database.SessionLocal()
+    comment = db.query(models.Comment).filter(models.Comment.commentId == commentInfo.commentId).first()
+    if comment is None:
+        initiateComment(commentInfo)
+    else:
+        updateComment(commentInfo)
+
+def updateComment(commentInfo: schemas.CommentModel):
+    commentData = schemas.CreateCommentModel(
+        commentText = commentInfo.commentText,
+        commentDateTime = commentInfo.commentDateTime,
+        postId = commentInfo.postId,
+        userId = commentInfo.userId,
+        userName = commentInfo.userName
+    )
+    db = database.SessionLocal()
+
+    try:
+        commentData = commentData.dict()
+
+        query = db.query(models.Comment).filter(models.Comment.commentId == commentInfo.commentId)
+        query.update(
+            commentData,
+            synchronize_session=False
+        )
+        db.commit()
+        return commentData
+    except:
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+def initiateComment(commentInfo: schemas.CommentModel):  
+    commentData = models.Comment(
+        commentText = commentInfo.commentText,
+        commentDateTime = commentInfo.commentDateTime,
+        postId = commentInfo.postId,
+        userId = commentInfo.userId,
+        userName = commentInfo.userName,
+        commentId = commentInfo.commentId
+    )
+    db = database.SessionLocal()
+
+    try:
+        db.add(commentData)
+        db.commit()
+        db.refresh(commentData)
+        return commentData
+    except:
+        raise HTTPException(status_code=500, detail="Internal server error")

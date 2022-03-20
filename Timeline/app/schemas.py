@@ -11,7 +11,6 @@ class ResponsePostModel(BaseModel):
     userId: int
     postText: str
     postDateTime: str
-
 class CreatePostModel(BaseModel):
     userId: int
     postText: str
@@ -29,12 +28,18 @@ class CreateReactModel(BaseModel):
     loveReactCount: int
     likeReactCount: int
 
+class CommentModel(BaseModel):
+    commentId: str
+    postId: int
+    userId: int
+    userName: str
+    commentText: str
+    commentDateTime: str
 class ResponseCommentModel(BaseModel):
     postId: int
     userName: str
     commentText: str
     commentDateTime: str
-
 class CreateCommentModel(BaseModel):
     postId: int
     userId: int

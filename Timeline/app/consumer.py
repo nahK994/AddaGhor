@@ -10,6 +10,7 @@ channel = connection.channel()
 
 channel.queue_declare(queue='post_timeline')
 channel.queue_declare(queue='react_timeline')
+channel.queue_declare(queue='comment_timeline')
 
 def post_callback(ch, method, properties, body):
     data = json.loads(body.decode('ASCII'))
@@ -32,11 +33,24 @@ def react_callback(ch, method, properties, body):
         loveReactCount = data['loveReactCount'],
         likeReactCount = data['likeReactCount']
     )
-
     main.consumeReactsForPost(reactInfo)
+
+def comment_callback(ch, method, properties, body):
+    data = json.loads(body.decode('ASCII'))
+    print("update comment timeline ==> ", data)
+    commentInfo = schemas.CommentModel(
+        commentText = data['commentText'],
+        commentDateTime = data['commentDateTime'],
+        postId = data['postId'],
+        userId = data['userId'],
+        userName = data['userName'],
+        commentId = data['commentId']
+    )
+    main.consumeComment(commentInfo)
 
 channel.basic_consume(queue='post_timeline', on_message_callback=post_callback, auto_ack=True)
 channel.basic_consume(queue='react_timeline', on_message_callback=react_callback, auto_ack=True)
+channel.basic_consume(queue='comment_timeline', on_message_callback=comment_callback, auto_ack=True)
 
 print("Timeline consumer")
 print(' [*] Waiting for messages. To exit press CTRL+C')

@@ -1,15 +1,17 @@
 from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException, status, Response, Depends, BackgroundTasks
 from typing import Optional, List
-from .database import SessionLocal, engine
 from sqlalchemy.orm import Session
 
 
-from . import schemas, models
+import app.schemas as schemas
+import app.models as models
+import app.database as database
+import app.publisher as publisher
 
 
 def get_db():
-    db = SessionLocal()
+    db = database.SessionLocal()
     try:
         yield db
     except:
@@ -51,8 +53,18 @@ def createComments(commentInfo: schemas.CreateCommentModel, db: Session = Depend
         db.add(commentData)
         db.commit()
         db.refresh(commentData)
+
         comment_id = db.query(models.Comment).filter(models.Comment.commentDateTime == commentInfo.commentDateTime and models.Comment.userId == commentInfo.userId).first().commentId
-        return comment_id
+        comment_model = schemas.CommentModel(
+            commentText = commentInfo.commentText,
+            commentDateTime = commentInfo.commentDateTime,
+            postId = commentInfo.postId,
+            userId = commentInfo.userId,
+            userName = commentInfo.userName,
+            commentId = comment_id
+        )
+        publisher.publish_message(comment_model)
+        return comment_model
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
 
@@ -75,6 +87,16 @@ def updateComment(commentInfo: schemas.CreateCommentModel, comment_id: int, db: 
             commentInfo, synchronize_session=False
         )
         db.commit()
+
+        comment_model = schemas.CommentModel(
+            commentText = commentInfo['commentText'],
+            commentDateTime = commentInfo['commentDateTime'],
+            postId = commentInfo['postId'],
+            userId = commentInfo['userId'],
+            userName = commentInfo['userName'],
+            commentId = comment_id
+        )
+        publisher.publish_message(comment_model)
         return commentInfo
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
