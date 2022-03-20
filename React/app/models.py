@@ -1,10 +1,10 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
-from .database import Base
+import app.database as database
 
 
-class React(Base):
+class React(database.Base):
     __tablename__ = "reacts"
 
     reactId = Column(Integer, primary_key=True)

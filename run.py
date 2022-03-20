@@ -2,10 +2,10 @@ import os
 import time
 
 def run_service(service_name, port):
-    return f"gnome-terminal -e 'bash -c \"cd {service_name}; kill -9 `lsof -t -i:{port}`; source env/bin/activate; uvicorn app.main:app --host 0.0.0.0 --port {port} --reload; bash\" '" 
+    return f"gnome-terminal -e 'bash -c \"kill -9 `lsof -t -i:{port}`; cd {service_name}; source env/bin/activate; uvicorn app.main:app --host 0.0.0.0 --port {port} --reload; bash\" '" 
 
 def run_service_consumer(service_name):
-    return f"gnome-terminal -e 'bash -c \"source env/bin/activate; cd {service_name}/app/; python3 consumer.py; bash\" '" 
+    return f"gnome-terminal -e 'bash -c \"cd {service_name}; source env/bin/activate; export PYTHONPATH='{os.getcwd()}/{service_name}'; python3 app/consumer.py; bash\" '" 
 
 os.system("docker start rabbitmq")
 time.sleep(5)
@@ -25,8 +25,11 @@ os.system(run_service_consumer('Timeline'))
 print("done")
 
 # https://stackoverflow.com/questions/43332703/open-terminal-run-command-python
+# https://stackoverflow.com/questions/43728431/relative-imports-modulenotfounderror-no-module-named-x
 
 
 # 8000 ==> User
 # 8001 ==> Post
 # 8002 ==> React
+# 8003 ==> Comment
+# 8004 ==> Timeline

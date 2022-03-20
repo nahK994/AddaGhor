@@ -1,13 +1,14 @@
 from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException, status, Response, Depends
 from typing import Optional, List
-from .database import SessionLocal
 from sqlalchemy.orm import Session
 
-from . import schemas, models
+import app.models as models
+import app.schemas as schemas
+import app.database as database
 
 def get_db():
-    db = SessionLocal()
+    db = database.SessionLocal()
     try:
         yield db
     except:
@@ -106,5 +107,27 @@ def updateSmileReactForPost(post_id: int, db: Session = Depends(get_db)):
         )
         db.commit()
         return reactData
+    except:
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+
+
+def initiateReactsForPost(post_id: int):
+    db = database.SessionLocal()
+
+    reactData = models.React(
+        postId = post_id,
+        smileReactCount = 0,
+        loveReactCount = 0,
+        likeReactCount = 0
+    )
+
+    try:
+        db.add(reactData)
+        db.commit()
+        db.refresh(reactData)
+
+        react_id = db.query(models.React).filter(models.React.postId == post_id).first().reactId
+        return react_id
     except:
         raise HTTPException(status_code=500, detail="Internal server error")

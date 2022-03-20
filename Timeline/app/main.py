@@ -1,14 +1,16 @@
 from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException, status, Response, Depends, BackgroundTasks
 from typing import Optional, List
-from .database import SessionLocal, engine
 from sqlalchemy.orm import Session
 import json
-from . import schemas, models
+
+import app.schemas as schemas
+import app.models as models
+import app.database as database
 
 
 def get_db():
-    db = SessionLocal()
+    db = database.SessionLocal()
     try:
         yield db
     except:
@@ -30,16 +32,13 @@ def getComments(db: Session = Depends(get_db)):
 
 @app.post("/post/create/{postInfo}")
 def createPosts(postInfo: str, db: Session = Depends(get_db)):  
-    print("timeline 1 ==> ", postInfo)
     postInfo = json.loads(postInfo)
-    print("timeline 2 ==> ", postInfo)
     postData = models.Post(
         userId = int(postInfo['userId']),
         postId = int(postInfo['postId']),
         postText = postInfo['postText'],
         postDateTime = postInfo['postDateTime']
     )
-    print("timeline 3 ==> ", postData)
 
     try:
         db.add(postData)
@@ -84,5 +83,48 @@ def createComments(commentInfo: schemas.CreateCommentModel, db: Session = Depend
         db.refresh(commentData)
         comment_id = db.query(models.Comment).filter(models.Comment.commentDateTime == commentInfo.commentDateTime and models.Comment.userId == commentInfo.userId).first().commentId
         return comment_id
+    except:
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+def initiateReactsForPost(post_id: int):
+    db = database.SessionLocal()
+    reactData = models.React(
+        postId = post_id,
+        smileReactCount = 0,
+        loveReactCount = 0,
+        likeReactCount = 0
+    )
+
+    try:
+        db.add(reactData)
+        db.commit()
+        db.refresh(reactData)
+
+        react_id = db.query(models.React).filter(models.React.postId == post_id).first().reactId
+        return react_id
+    except:
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+def initiatePost(postInfo: schemas.CreatePostModel):  
+    postData = models.Post(
+        userId = postInfo.userId,
+        postText = postInfo.postText,
+        postDateTime = postInfo.postDateTime
+    )
+    db = database.SessionLocal()
+
+    try:
+        db.add(postData)
+        db.commit()
+        db.refresh(postData)
+        post = db.query(models.Post).filter(models.Post.postDateTime == postInfo.postDateTime and models.Post.userId == postInfo.userId).first()
+        post_model = schemas.PostModel(
+            postId = post.postId,
+            userId = post.userId,
+            postText = post.postText,
+            postDateTime = post.postDateTime
+        )
+        publisher.publish_message(post_model)
+        return post_model
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
