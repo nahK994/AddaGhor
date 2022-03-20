@@ -3,7 +3,6 @@ from sqlalchemy.orm import relationship
 
 import app.database as database
 
-
 class React(database.Base):
     __tablename__ = "reacts"
 

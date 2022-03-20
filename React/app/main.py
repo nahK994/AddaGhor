@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 import app.models as models
 import app.schemas as schemas
 import app.database as database
+import app.publisher as publisher
 
 def get_db():
     db = database.SessionLocal()
@@ -56,12 +57,15 @@ def updateLoveReactForPost(post_id: int, db: Session = Depends(get_db)):
             likeReactCount = reactInfo.likeReactCount
         )
         reactData = reactData.dict()
+        publisher.publish_message(post_id)
 
         query.update(
             reactData,
             synchronize_session=False
         )
         db.commit()
+
+        sendToPublisher(post_id, db)
         return reactData
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
@@ -84,6 +88,8 @@ def updateLikeReactForPost(post_id: int, db: Session = Depends(get_db)):
             synchronize_session=False
         )
         db.commit()
+
+        sendToPublisher(post_id, db)
         return reactData
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
@@ -106,6 +112,8 @@ def updateSmileReactForPost(post_id: int, db: Session = Depends(get_db)):
             synchronize_session=False
         )
         db.commit()
+
+        sendToPublisher(post_id, db)
         return reactData
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
@@ -131,3 +139,15 @@ def initiateReactsForPost(post_id: int):
         return react_id
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
+
+
+def sendToPublisher(post_id: int, db: Session):
+    react = db.query(models.React).filter(models.React.postId == post_id).first()
+    react_model = schemas.ReactModel(
+        postId = react.postId,
+        reactId = react.reactId,
+        smileReactCount = react.smileReactCount,
+        loveReactCount = react.loveReactCount,
+        likeReactCount = react.likeReactCount
+    )
+    publisher.publish_message(react_model)

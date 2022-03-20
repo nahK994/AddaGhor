@@ -17,6 +17,12 @@ class CreatePostModel(BaseModel):
     postText: str
     postDateTime: str
 
+class ReactModel(BaseModel):
+    postId: int
+    reactId: int
+    smileReactCount: int
+    loveReactCount: int
+    likeReactCount: int
 class CreateReactModel(BaseModel):
     postId: int
     smileReactCount: int

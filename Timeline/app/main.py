@@ -105,11 +105,12 @@ def initiateReactsForPost(post_id: int):
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
 
-def initiatePost(postInfo: schemas.CreatePostModel):  
+def initiatePost(postInfo: schemas.PostModel):  
     postData = models.Post(
         userId = postInfo.userId,
         postText = postInfo.postText,
-        postDateTime = postInfo.postDateTime
+        postDateTime = postInfo.postDateTime,
+        postId = postInfo.postId
     )
     db = database.SessionLocal()
 
@@ -124,7 +125,27 @@ def initiatePost(postInfo: schemas.CreatePostModel):
             postText = post.postText,
             postDateTime = post.postDateTime
         )
-        publisher.publish_message(post_model)
         return post_model
+    except:
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+def updateReactsForPost(reactInfo: schemas.ReactModel):
+    db = database.SessionLocal()
+    try:
+        reactData = schemas.CreateReactModel(
+            postId = reactInfo.postId,
+            smileReactCount = reactInfo.smileReactCount,
+            loveReactCount = reactInfo.loveReactCount,
+            likeReactCount = reactInfo.likeReactCount
+        )
+        reactData = reactData.dict()
+
+        query = db.query(models.React).filter(models.React.postId == reactInfo.postId)
+        query.update(
+            reactData,
+            synchronize_session=False
+        )
+        db.commit()
+        return reactData
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
