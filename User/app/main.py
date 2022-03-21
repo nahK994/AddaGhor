@@ -1,13 +1,15 @@
 from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException, status, Response, Depends
 from typing import Optional, List
-from .database import SessionLocal, engine
 from sqlalchemy.orm import Session
 
-from . import schemas, models
+import app.schemas as schemas
+import app.models as models
+import app.database as database
+import app.publisher as publisher
 
 def get_db():
-    db = SessionLocal()
+    db = database.SessionLocal()
     try:
         yield db
     except:
@@ -37,7 +39,9 @@ def updateUser(userInfo: schemas.CreateUserModel, user_id: int, db: Session = De
     try:
         query = db.query(models.User).filter(models.User.userId == user_id)
         
-        previousEmail = query.first().email
+        previousData = query.first()
+        previousEmail = previousData.email
+        previousUserName = previousData.userName
         userInfo = userInfo.dict()
 
         if userInfo['email'] == previousEmail:
@@ -47,6 +51,17 @@ def updateUser(userInfo: schemas.CreateUserModel, user_id: int, db: Session = De
             userInfo, synchronize_session=False
         )
         db.commit()
+
+        if previousUserName != userInfo['userName']:
+            userData = schemas.UserModel(
+                userId = user_id,
+                userName = userInfo['userName'],
+                email = previousEmail,
+                bio = userInfo['bio'],
+                password = userInfo['password'],
+                occupation = userInfo['occupation']
+            )
+            publisher.publish_message(userData)
         return userInfo
     except:
         raise HTTPException(status_code=400, detail="Email already registered")

@@ -20,9 +20,10 @@ def upgrade():
     op.create_table(
         'posts',
         sa.Column('postId', sa.Integer, primary_key=True),
-        sa.Column('userId', sa.Integer, unique=True, nullable=False),
+        sa.Column('userId', sa.Integer, nullable=False),
+        sa.Column('userName', sa.String(100)),
         sa.Column('postText', sa.String(1000)),
-        sa.Column('postDateTime', sa.String(100)),
+        sa.Column('postDateTime', sa.String(100))
     )
 
 

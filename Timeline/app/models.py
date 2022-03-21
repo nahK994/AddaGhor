@@ -8,8 +8,8 @@ class Comment(database.Base):
     __tablename__ = "comments"
 
     commentId = Column(Integer, primary_key=True, index=True)
-    postId = Column(Integer, unique=True)
-    userId = Column(Integer, unique=True)
+    postId = Column(Integer)
+    userId = Column(Integer)
     userName = Column(String)
     commentText = Column(String)
     commentDateTime = Column(String)
@@ -18,7 +18,7 @@ class Post(database.Base):
     __tablename__ = "posts"
 
     postId = Column(Integer, primary_key=True, index=True)
-    userId = Column(Integer, unique=True)
+    userId = Column(Integer)
     postText = Column(String)
     postDateTime = Column(String)
 

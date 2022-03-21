@@ -29,7 +29,7 @@ class CreateReactModel(BaseModel):
     likeReactCount: int
 
 class CommentModel(BaseModel):
-    commentId: str
+    commentId: int
     postId: int
     userId: int
     userName: str
@@ -46,3 +46,10 @@ class CreateCommentModel(BaseModel):
     userName: str
     commentText: str
     commentDateTime: str
+class UserModel(BaseModel):
+    userId: int
+    userName: str
+    bio: Optional[str] = None
+    email: str
+    password: str
+    occupation: str

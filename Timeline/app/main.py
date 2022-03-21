@@ -229,3 +229,35 @@ def initiateComment(commentInfo: schemas.CommentModel):
         return commentData
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
+
+def consumeUser(user: schemas.UserModel):
+    updateUserInPost(user)
+    updateUserInComment(user)
+
+def updateUserInPost(user: schemas.UserModel):
+    db = database.SessionLocal()
+    posts = db.query(models.Post).all()
+    for post in posts:
+        if post.userId == user.userId:
+            query = db.query(models.Post).filter(models.Post.postId == post.postId)
+            query.update(
+                {
+                    "userName": user.userName
+                },
+                synchronize_session=False
+            )
+            db.commit()
+
+def updateUserInComment(user: schemas.UserModel):
+    db = database.SessionLocal()
+    comments = db.query(models.Comment).all()
+    for comment in comments:
+        if comment.userId == user.userId:
+            query = db.query(models.Comment).filter(models.Comment.commentId == comment.commentId)
+            query.update(
+                {
+                    "userName": user.userName
+                },
+                synchronize_session=False
+            )
+            db.commit()

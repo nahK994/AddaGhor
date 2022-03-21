@@ -27,11 +27,12 @@ def getPosts(db: Session = Depends(get_db)):
 def getPost(post_id: int, db: Session = Depends(get_db)):    
     post = db.query(models.Post).filter(models.Post.postId == post_id).first()
     
-    if(post == None):
+    if(post is None):
         raise HTTPException(status_code=404, detail="Not found")
     
     response = schemas.ResponsePostModel(
         userId = post.userId,
+        userName = post.userName,
         postText = post.postText,
         postDateTime = post.postDateTime
     )
@@ -41,6 +42,7 @@ def getPost(post_id: int, db: Session = Depends(get_db)):
 def createPosts(postInfo: schemas.CreatePostModel, db: Session = Depends(get_db)):  
     postData = models.Post(
         userId = postInfo.userId,
+        userName = postInfo.userName,
         postText = postInfo.postText,
         postDateTime = postInfo.postDateTime
     )
@@ -53,6 +55,7 @@ def createPosts(postInfo: schemas.CreatePostModel, db: Session = Depends(get_db)
         post_model = schemas.PostModel(
             postId = post.postId,
             userId = post.userId,
+            userName = post.userName,
             postText = post.postText,
             postDateTime = post.postDateTime
         )
@@ -83,6 +86,7 @@ def updatePost(postInfo: schemas.CreatePostModel, post_id: int, db: Session = De
         post_model = schemas.PostModel(
             postId = post_id,
             userId = postInfo['userId'],
+            userName = postInfo['userName'],
             postText = postInfo['postText'],
             postDateTime = postInfo['postDateTime']
         )
@@ -90,3 +94,18 @@ def updatePost(postInfo: schemas.CreatePostModel, post_id: int, db: Session = De
         return postInfo
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
+
+
+def updateUserInfo(user: schemas.UserModel):
+    db = database.SessionLocal()
+    posts = db.query(models.Post).all()
+    for post in posts:
+        if post.userId == user.userId:
+            query = db.query(models.Post).filter(models.Post.postId == post.postId)
+            query.update(
+                {
+                    "userName": user.userName
+                },
+                synchronize_session=False
+            )
+            db.commit()

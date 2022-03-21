@@ -20,7 +20,7 @@ def upgrade():
     op.create_table(
         'posts',
         sa.Column('postId', sa.Integer, primary_key=True),
-        sa.Column('userId', sa.Integer, unique=True, nullable=False),
+        sa.Column('userId', sa.Integer, nullable=False),
         sa.Column('postText', sa.String(1000)),
         sa.Column('postDateTime', sa.String(100)),
     )
@@ -37,8 +37,8 @@ def upgrade():
     op.create_table(
         'comments',
         sa.Column('commentId', sa.Integer, primary_key=True),
-        sa.Column('postId', sa.Integer, unique=True, nullable=False),
-        sa.Column('userId', sa.Integer, unique=True, nullable=False),
+        sa.Column('postId', sa.Integer, nullable=False),
+        sa.Column('userId', sa.Integer, nullable=False),
         sa.Column('userName', sa.String(60)),
         sa.Column('commentText', sa.String(1000)),
         sa.Column('commentDateTime', sa.String(100)),

@@ -7,6 +7,7 @@ class Post(database.Base):
     __tablename__ = "posts"
 
     postId = Column(Integer, primary_key=True, index=True)
-    userId = Column(Integer, unique=True)
+    userId = Column(Integer)
+    userName = Column(String)
     postText = Column(String)
     postDateTime = Column(String)

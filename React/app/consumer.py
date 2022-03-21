@@ -1,7 +1,6 @@
 import pika
 import requests
 import json
-import os
 
 import app.main as main
 
@@ -10,12 +9,12 @@ channel = connection.channel()
 
 channel.queue_declare(queue='post_react')
 
-def callback(ch, method, properties, body):
+def initiateReactsForPost(ch, method, properties, body):
     data = json.loads(body.decode('ASCII'))
     print("create react ==> ", data)
     main.initiateReactsForPost(data['postId'])
 
-channel.basic_consume(queue='post_react', on_message_callback=callback, auto_ack=True)
+channel.basic_consume(queue='post_react', on_message_callback=initiateReactsForPost, auto_ack=True)
 
 print("React consumer")
 print(' [*] Waiting for messages. To exit press CTRL+C')

@@ -11,6 +11,7 @@ channel = connection.channel()
 channel.queue_declare(queue='post_timeline')
 channel.queue_declare(queue='react_timeline')
 channel.queue_declare(queue='comment_timeline')
+channel.queue_declare(queue='user_timeline')
 
 def post_callback(ch, method, properties, body):
     data = json.loads(body.decode('ASCII'))
@@ -48,9 +49,23 @@ def comment_callback(ch, method, properties, body):
     )
     main.consumeComment(commentInfo)
 
+def user_callback(ch, method, properties, body):
+    data = json.loads(body.decode('ASCII'))
+    print("Update user_name ==> ", data)
+    userInfo = schemas.UserModel(
+        userId = data['userId'],
+        userName = data['userName'],
+        email = data['email'],
+        bio = data['bio'],
+        password = data['password'],
+        occupation = data['occupation']
+    )
+    main.consumeUser(userInfo)
+
 channel.basic_consume(queue='post_timeline', on_message_callback=post_callback, auto_ack=True)
 channel.basic_consume(queue='react_timeline', on_message_callback=react_callback, auto_ack=True)
 channel.basic_consume(queue='comment_timeline', on_message_callback=comment_callback, auto_ack=True)
+channel.basic_consume(queue='user_timeline', on_message_callback=user_callback, auto_ack=True)
 
 print("Timeline consumer")
 print(' [*] Waiting for messages. To exit press CTRL+C')
