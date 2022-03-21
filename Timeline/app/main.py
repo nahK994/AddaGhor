@@ -72,8 +72,8 @@ def getAll(db: Session = Depends(get_db)):
 @app.get("/timeline/{user_id}")
 def getAll(user_id: int, db: Session = Depends(get_db)):
     posts = db.query(models.Post).filter(models.Post.userId == user_id).all()
-    comments = db.query(models.Comment).filter(models.Comment.userId == user_id).all()
-    reacts = db.query(models.React).filter(models.React.userId == user_id).all()
+    comments = db.query(models.Comment).all()
+    reacts = db.query(models.React).all()
     
     return timelineResponse(posts, comments, reacts)
 
