@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LandingPageComponent } from './landing-page/landing-page.component';
-import { HomeSectoinRoutingModule } from './home-section-routing-module';
+import { HomeRoutingModule } from './home-routing-module';
+import { HomeService } from './home.service';
 
 
 
@@ -9,7 +10,10 @@ import { HomeSectoinRoutingModule } from './home-section-routing-module';
   declarations: [LandingPageComponent],
   imports: [
     CommonModule,
-    HomeSectoinRoutingModule
+    HomeRoutingModule
+  ],
+  providers: [
+    HomeService
   ]
 })
-export class HomeSectionModule { }
+export class HomeModule { }

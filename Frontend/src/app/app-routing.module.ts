@@ -9,12 +9,16 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./login-registration-section/login-registration-section.module').then(m => m.LoginRegistrationSectionModule)
+    loadChildren: () => import('./user/user.module').then(m => m.UserModule)
   },
   {
     path: 'home',
-    loadChildren: () => import('./home-section/home-section.module').then(m => m.HomeSectionModule)
+    loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
   },
+  {
+    path: 'playground',
+    loadChildren: () => import('./playground/playground.module').then(m => m.PlaygroundModule)
+  }
 ];
 
 @NgModule({
