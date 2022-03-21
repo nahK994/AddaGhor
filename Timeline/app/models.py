@@ -19,6 +19,7 @@ class Post(database.Base):
 
     postId = Column(Integer, primary_key=True, index=True)
     userId = Column(Integer)
+    userName = Column(String)
     postText = Column(String)
     postDateTime = Column(String)
 

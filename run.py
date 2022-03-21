@@ -12,17 +12,17 @@ time.sleep(10)
 
 os.system(run_service('User', 8000))
 
-# os.system(run_service('Post', 8001))
-# os.system(run_service_consumer('Post'))
+os.system(run_service('Post', 8001))
+os.system(run_service_consumer('Post'))
 
-# os.system(run_service('React', 8002))
-# os.system(run_service_consumer('React'))
+os.system(run_service('React', 8002))
+os.system(run_service_consumer('React'))
 
 os.system(run_service('Comment', 8003))
 os.system(run_service_consumer('Comment'))
 
-# os.system(run_service('Timeline', 8004))
-# os.system(run_service_consumer('Timeline'))
+os.system(run_service('Timeline', 8004))
+os.system(run_service_consumer('Timeline'))
 
 print("done")
 

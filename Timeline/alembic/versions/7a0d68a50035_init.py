@@ -21,8 +21,9 @@ def upgrade():
         'posts',
         sa.Column('postId', sa.Integer, primary_key=True),
         sa.Column('userId', sa.Integer, nullable=False),
+        sa.Column('userName', sa.String(100)),
         sa.Column('postText', sa.String(1000)),
-        sa.Column('postDateTime', sa.String(100)),
+        sa.Column('postDateTime', sa.String(100))
     )
 
     op.create_table(

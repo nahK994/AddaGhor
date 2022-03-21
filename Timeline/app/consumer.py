@@ -18,9 +18,10 @@ def post_callback(ch, method, properties, body):
     print("create post timeline ==> ", data)
     postInfo = schemas.PostModel(
         userId = data['userId'],
+        userName = data['userName'],
+        postId = data['postId'],
         postText = data['postText'],
         postDateTime = data['postDateTime'],
-        postId = data['postId']
     )
     main.consumePost(postInfo)
 
