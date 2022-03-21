@@ -4,7 +4,6 @@ import {MatButtonModule} from '@angular/material/button';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LoginRegistrationRoutingModule } from 'src/login-registration-sectioin/login-registration-routing-module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -13,8 +12,7 @@ import { LoginRegistrationRoutingModule } from 'src/login-registration-sectioin/
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatButtonModule,
-    LoginRegistrationRoutingModule
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

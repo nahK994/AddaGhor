@@ -6,6 +6,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatIconModule} from '@angular/material/icon';
+import { LoginRegistrationRoutingModule } from './login-registration-routing.module';
 @NgModule({
   declarations: [LoginComponent, RegistrationComponent],
   imports: [
@@ -14,9 +15,10 @@ import {MatIconModule} from '@angular/material/icon';
     MatDialogModule,
     MatDividerModule,
     MatIconModule,
+    LoginRegistrationRoutingModule
   ],
   exports: [
     LoginComponent
   ]
 })
-export class LoginRegistrationSectioinModule { }
+export class LoginRegistrationSectionModule { }

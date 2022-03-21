@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RegistrationComponent } from '../registration/registration.component';
 
 @Component({
@@ -11,13 +12,21 @@ export class LoginComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
+    private _router: Router,
+    private _activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
   }
 
   navigateToHomePage(){
-
+    this._router.navigate([
+      '..',
+      'home'
+    ],
+    {
+      relativeTo: this._activatedRoute
+    })
   }
 
   createAccount(): void{
