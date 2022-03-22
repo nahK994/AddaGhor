@@ -4,14 +4,16 @@ import { PlaygroundComponent } from './playground.component';
 import { ShomiComponent } from './shomi/shomi.component';
 import { SabbirComponent } from './sabbir/sabbir.component';
 import { PlaygroundRoutingModule } from './playground-routing.module';
-
-
+import { UserModule } from '../user/user.module';
+import { HomeModule } from '../home/home.module';
 
 @NgModule({
   declarations: [PlaygroundComponent, ShomiComponent, SabbirComponent],
   imports: [
     CommonModule,
-    PlaygroundRoutingModule
+    PlaygroundRoutingModule,
+    UserModule,
+    HomeModule
   ]
 })
 export class PlaygroundModule { }

@@ -8,6 +8,8 @@ import app.models as models
 import app.database as database
 import app.publisher as publisher
 
+from fastapi.middleware.cors import CORSMiddleware
+
 def get_db():
     db = database.SessionLocal()
     try:
@@ -16,6 +18,16 @@ def get_db():
         db.close()
 
 app = FastAPI()
+origins = [
+    "http://localhost:4200",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/users/{user_id}")
 def getUser(user_id: int, db: Session = Depends(get_db)):    

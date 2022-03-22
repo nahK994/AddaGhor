@@ -9,6 +9,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { UserRoutingModule } from './user-routing.module';
 import { UserService } from './user.service';
 import { ProfileComponent } from './profile/profile.component';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [LoginComponent, RegistrationComponent, ProfileComponent],
   imports: [
@@ -17,7 +18,8 @@ import { ProfileComponent } from './profile/profile.component';
     MatDialogModule,
     MatDividerModule,
     MatIconModule,
-    UserRoutingModule
+    UserRoutingModule,
+    HttpClientModule
   ],
   exports: [
     LoginComponent

@@ -20,6 +20,5 @@ class CreateUserModel(BaseModel):
     userName: str
     bio: Optional[str] = None
     email: str
-    password: str
     occupation: str
     password: str

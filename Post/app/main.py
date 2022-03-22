@@ -8,6 +8,7 @@ import app.models as models
 import app.database as database
 import app.publisher as publisher
 
+from fastapi.middleware.cors import CORSMiddleware
 
 def get_db():
     db = database.SessionLocal()
@@ -17,7 +18,16 @@ def get_db():
         db.close()
 
 app = FastAPI()
-
+origins = [
+    "http://localhost:4200",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/posts")
 def getPosts(db: Session = Depends(get_db)):
@@ -60,7 +70,7 @@ def createPosts(postInfo: schemas.CreatePostModel, db: Session = Depends(get_db)
             postDateTime = post.postDateTime
         )
         publisher.publish_message(post_model)
-        return post_model
+        return post.postId
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
 

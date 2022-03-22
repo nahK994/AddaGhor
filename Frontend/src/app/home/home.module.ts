@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { HomeRoutingModule } from './home-routing-module';
 import { HomeService } from './home.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -10,7 +11,8 @@ import { HomeService } from './home.service';
   declarations: [LandingPageComponent],
   imports: [
     CommonModule,
-    HomeRoutingModule
+    HomeRoutingModule,
+    HttpClientModule
   ],
   providers: [
     HomeService
