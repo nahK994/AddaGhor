@@ -6,19 +6,26 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatIconModule} from '@angular/material/icon';
-import { LoginRegistrationRoutingModule } from './login-registration-routing.module';
+import { UserRoutingModule } from './user-routing.module';
+import { UserService } from './user.service';
+import { ProfileComponent } from './profile/profile.component';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
-  declarations: [LoginComponent, RegistrationComponent],
+  declarations: [LoginComponent, RegistrationComponent, ProfileComponent],
   imports: [
     CommonModule,
     MatButtonModule,
     MatDialogModule,
     MatDividerModule,
     MatIconModule,
-    LoginRegistrationRoutingModule
+    UserRoutingModule,
+    HttpClientModule
   ],
   exports: [
     LoginComponent
+  ],
+  providers: [
+    UserService
   ]
 })
-export class LoginRegistrationSectionModule { }
+export class UserModule { }

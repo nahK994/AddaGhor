@@ -8,6 +8,8 @@ import app.schemas as schemas
 import app.models as models
 import app.database as database
 
+from fastapi.middleware.cors import CORSMiddleware
+
 
 def get_db():
     db = database.SessionLocal()
@@ -17,6 +19,16 @@ def get_db():
         db.close()
 
 app = FastAPI()
+origins = [
+    "http://localhost:4200",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def timelineResponse(posts, comments, reacts):
     responses = []
@@ -48,10 +60,10 @@ def timelineResponse(posts, comments, reacts):
             for comment in comments:
                 if comment.postId == post.postId:
                     rspComment = {
-                        "commentId": comment.commentId,
                         "postId": comment.postId,
                         "userId": comment.userId,
                         "userName": comment.userName,
+                        "commentId": comment.commentId,
                         "commentText": comment.commentText,
                         "commentDateTime": comment.commentDateTime
                     }
