@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CreateUser, User } from './user.interface';
+import { log } from 'util';
+import { CreateUser, LoginCredentialModel, User } from './user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,13 @@ export class UserService {
   async getUser(userId: number) {
     let updateURL_extention = '/users/'+userId;
     let response = await this.http.get<User>(this.baseUrl_Login+updateURL_extention, this.httpOptions).toPromise();
+
+    return response;
+  }
+
+  async loginUser(loginInfo: LoginCredentialModel) {
+    let updateURL_extention = '/login/'+loginInfo.email+'/'+loginInfo.password;
+    let response = await this.http.get<number>(this.baseUrl_Login+updateURL_extention, this.httpOptions).toPromise();
 
     return response;
   }

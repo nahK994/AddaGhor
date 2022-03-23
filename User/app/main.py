@@ -38,6 +38,10 @@ def getUser(user_id: int, db: Session = Depends(get_db)):
 def getUsers(db: Session = Depends(get_db)):
     return db.query(models.User).all()
 
+@app.get("/login/{email}/{password}")
+def getUsers(email: str, password: str, db: Session = Depends(get_db)):
+    return db.query(models.User).filter(models.User.email == email and models.User.password == password).first().userId
+
 
 @app.delete("/user/delete/{user_id}")
 def deleteUser(user_id: int, db: Session = Depends(get_db)):    

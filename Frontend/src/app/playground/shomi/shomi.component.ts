@@ -17,6 +17,7 @@ export class ShomiComponent implements OnInit {
   comment: PostComment;
   timelines: Timeline[];
   myTimelines: Timeline[];
+  userId: number;
 
   constructor(
     private _userService: UserService,
@@ -24,19 +25,25 @@ export class ShomiComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
-    // let responseUser = await this._userService.getUser(1);
-    // this.user = responseUser;
+    let responseUser = await this._userService.getUser(1);
+    this.user = responseUser;
 
-    // let responsePost = await this._homeService.getPost(1);
-    // this.post = responsePost;
+    let responsePost = await this._homeService.getPost(1);
+    this.post = responsePost;
 
-    // let responseComment = await this._homeService.getComment(1);
-    // this.comment = responseComment;
+    let responseComment = await this._homeService.getComment(1);
+    this.comment = responseComment;
 
-    // let responseTimelines = await this._homeService.getTimelines();
-    // this.timelines = responseTimelines;
+    let responseTimelines = await this._homeService.getTimelines();
+    this.timelines = responseTimelines;
 
-    // let responseMyTimelines = await this._homeService.getUserTimelines(1);
-    // this.myTimelines = responseMyTimelines;
+    let responseMyTimelines = await this._homeService.getUserTimelines(1);
+    this.myTimelines = responseMyTimelines;
+
+    let loggedInUser = await this._userService.loginUser({
+      email: "haha@haha.fun.com",
+      password: "string"
+    });
+    this.userId = loggedInUser;
   }
 }
