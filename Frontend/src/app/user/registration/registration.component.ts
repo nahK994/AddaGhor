@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -8,16 +9,30 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class RegistrationComponent implements OnInit {
 
+  signUpForm: FormGroup;
+
   constructor(
-    private dialogRef: MatDialogRef<RegistrationComponent>
-  ) { }
+    private dialogRef: MatDialogRef<RegistrationComponent>,
+    private _formBuilder: FormBuilder
+  ) {
+    this.signUpForm = this._formBuilder.group({
+      firstName: '',
+      lastName: '',
+      email: '',
+      newPassword: '',
+      confirmNewPassword: ''
+    })
+  }
 
   ngOnInit(): void {
   }
 
   closeWindow() {
-    this.dialogRef.close();
-    console.log("hi");
+    this.dialogRef.close(this.signUpForm);
+  }
+
+  submitSignUpFormData() {
+    this.closeWindow();
   }
 
 }

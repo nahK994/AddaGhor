@@ -13,10 +13,10 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   constructor(
-    public dialog: MatDialog,
     private _router: Router,
+    public dialog: MatDialog,
+    private _formBuilder: FormBuilder,
     private _activatedRoute: ActivatedRoute,
-    private _formBuilder: FormBuilder
   ) {
     this.loginForm = this._formBuilder.group({
       emailOrPhone: '',
@@ -31,18 +31,14 @@ export class LoginComponent implements OnInit {
     const dialogRef = this.dialog.open(RegistrationComponent, {
       width: '400px',
       height: '450px'
-      // data: {name: this.name, animal: this.animal},
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // this.animal = result;
+      ///Call Api Using this result data to create new account
     });
   }
 
   onSubmit(){
-    console.log("form value", this.loginForm.get('emailOrPhone')?.value);
-
     if(this.userDataMatched) {
       this._router.navigate(
         ['..', 'home'],
@@ -51,6 +47,8 @@ export class LoginComponent implements OnInit {
   }
 
   get userDataMatched(): boolean {
+    ///call api with this form data to match this user for login
+
     return (this.loginForm.get('emailOrPhone')?.value == 'admin' &&
             this.loginForm.get('password')?.value == 'admin');
   }
