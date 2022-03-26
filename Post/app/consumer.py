@@ -4,11 +4,20 @@ import json
 
 import app.main as main
 import app.schemas as schemas
+import time
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
-channel = connection.channel()
 
-channel.queue_declare(queue='user_post')
+while True:
+    try:
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+        channel = connection.channel()
+
+        channel.queue_declare(queue='user_post')
+        print("post consumer online")
+        break
+    except:
+        print("post consumer failed")
+        time.sleep(3)
 
 def callback(ch, method, properties, body):
     data = json.loads(body.decode('ASCII'))
