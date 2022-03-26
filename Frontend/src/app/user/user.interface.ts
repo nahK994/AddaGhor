@@ -16,3 +16,9 @@ export interface User
   password: string,
   occupation: string
 }
+
+export interface LoginCredentialModel
+{
+  email: string,
+  password: string
+}

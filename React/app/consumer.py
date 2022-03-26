@@ -3,11 +3,20 @@ import requests
 import json
 
 import app.main as main
+import time
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
-channel = connection.channel()
 
-channel.queue_declare(queue='post_react')
+while True:
+    try:
+        connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+        channel = connection.channel()
+
+        channel.queue_declare(queue='post_react')
+        print("react consumer online")
+        break
+    except:
+        print("react consumer failed")
+        time.sleep(3)
 
 def initiateReactsForPost(ch, method, properties, body):
     data = json.loads(body.decode('ASCII'))

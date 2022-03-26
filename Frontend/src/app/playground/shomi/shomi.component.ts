@@ -17,6 +17,7 @@ export class ShomiComponent implements OnInit {
   comment: PostComment;
   timelines: Timeline[];
   myTimelines: Timeline[];
+  userId: number;
 
   constructor(
     private _userService: UserService,
@@ -38,5 +39,11 @@ export class ShomiComponent implements OnInit {
 
     // let responseMyTimelines = await this._homeService.getUserTimelines(1);
     // this.myTimelines = responseMyTimelines;
+
+    // let loggedInUser = await this._userService.loginUser({
+    //   email: "haha@haha.fun.com",
+    //   password: "string"
+    // });
+    // this.userId = loggedInUser;
   }
 }
