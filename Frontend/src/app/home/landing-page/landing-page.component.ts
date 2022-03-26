@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { PostComponent } from 'src/app/shared/post/post.component';
 
 @Component({
   selector: 'app-landing-page',
@@ -7,9 +9,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  openCreatePostDialogue() {
+    const dialogRef = this.dialog.open(PostComponent, {
+      width: '520px',
+      height: '380px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      ///Call Api Using this result data to create new account
+      console.log(result.value);
+    });
   }
 
 }

@@ -6,6 +6,8 @@ import { HomeService } from './home.service';
 import { HttpClientModule } from '@angular/common/http';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
+import { PostModule } from '../shared/post/post.module';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [LandingPageComponent],
@@ -14,7 +16,9 @@ import {MatButtonModule} from '@angular/material/button';
     HomeRoutingModule,
     HttpClientModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    PostModule,
+    MatDialogModule
   ],
   providers: [
     HomeService

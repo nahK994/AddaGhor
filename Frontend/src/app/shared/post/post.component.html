@@ -1,1 +1,20 @@
-<p>post works!</p>
+<div class="create-post">
+  <div class="header-title mb-16">
+    <span>Create a New Post</span>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="input-section mt-16">
+    <textarea
+      cols="58" rows="7"
+      [formControl]="newPost"
+      placeholder="What do you want to share ..."
+      ></textarea>
+  </div>
+  <div class="action mt-8">
+    <button mat-flat-button color="primary" (click)="onSubmitPost()">Post</button>
+  </div>
+  <div class="alert-section mt-16">
+    <div class="material-icons icon-font">error_outline</div>
+    <div class="text-font">Your post will be public and others will be able to see it.</div>
+  </div>
+</div>
