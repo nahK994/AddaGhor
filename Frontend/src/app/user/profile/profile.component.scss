@@ -1,0 +1,41 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 36px 0 36px;
+  background-color: #ffff;
+  .title {
+    font-size: 24px;
+    color: #1877f2;
+    font-weight: 700;
+  }
+}
+
+.user-profile {
+  // background-color: rgba(238, 238, 238, 0.8);
+  .header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 16px;
+    gap: 16px;
+    // background-color: #ffff;
+    .user-image {
+      height: 100px;
+      width: 100px;
+      background-color: #ccc;
+      border-radius: 100%;
+    }
+
+    .user-name {
+      font-size: 18px;
+      font-weight: bold;
+      color: #1877f2;
+    }
+  }
+
+  .user-profle-information {
+    border: 1px solid #ccc;
+  }
+
+}
