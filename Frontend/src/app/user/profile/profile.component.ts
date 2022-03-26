@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { User } from '../user.interface';
 import { UserService } from '../user.service';
 
@@ -14,7 +14,8 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private _activateRoute: ActivatedRoute,
-    private _userService: UserService
+    private _userService: UserService,
+    private _router: Router
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -22,4 +23,8 @@ export class ProfileComponent implements OnInit {
     this.user = await this._userService.getUser(userId)
   }
 
+  goToHome() {
+    console.log("HaHa")
+    this._router.navigate(['home'])
+  }
 }
