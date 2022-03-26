@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RegistrationComponent } from '../registration/registration.component';
@@ -10,11 +11,19 @@ import { RegistrationComponent } from '../registration/registration.component';
 })
 export class LoginComponent implements OnInit {
 
+  loginForm: FormGroup;
+
   constructor(
     public dialog: MatDialog,
     private _router: Router,
-    private _activatedRoute: ActivatedRoute
-  ) { }
+    private _activatedRoute: ActivatedRoute,
+    private _formBuilder: FormBuilder
+  ) {
+    this.loginForm = this._formBuilder.group({
+      emailOrPhone: '',
+      password: ''
+    })
+   }
 
   ngOnInit(): void {
   }
@@ -40,6 +49,10 @@ export class LoginComponent implements OnInit {
       console.log('The dialog was closed');
       // this.animal = result;
     });
+  }
+
+  onSubmit(){
+    console.log("form value", this.loginForm.value);
   }
 
 }
