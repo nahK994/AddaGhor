@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from 'src/app/user/user.service';
 import { RegistrationComponent } from '../registration/registration.component';
 
 @Component({
@@ -17,9 +18,10 @@ export class LoginComponent implements OnInit {
     public dialog: MatDialog,
     private _formBuilder: FormBuilder,
     private _activatedRoute: ActivatedRoute,
+    private _userService: UserService
   ) {
     this.loginForm = this._formBuilder.group({
-      emailOrPhone: '',
+      email: '',
       password: ''
     })
    }
@@ -38,12 +40,15 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onSubmit(){
-    if(this.userDataMatched) {
-      this._router.navigate(
-        ['..', 'home'],
-        { relativeTo: this._activatedRoute })
-    }
+  async onSubmit(){
+    let userId = await this._userService.loginUser({
+      email: this.loginForm.get('email').value,
+      password: this.loginForm.get('password').value
+    })
+
+    this._router.navigate(['..', 'user', 'user-profile', userId], {
+      relativeTo: this._activatedRoute
+    })
   }
 
   get userDataMatched(): boolean {
