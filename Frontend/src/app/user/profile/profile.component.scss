@@ -12,6 +12,15 @@
 }
 
 .user-profile {
+  
+  .user-profle-information{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    row-gap: 20px;
+    text-align: center;
+  }
   // background-color: rgba(238, 238, 238, 0.8);
   .header {
     display: flex;
@@ -32,10 +41,6 @@
       font-weight: bold;
       color: #1877f2;
     }
-  }
-
-  .user-profle-information {
-    border: 1px solid #ccc;
   }
 
 }

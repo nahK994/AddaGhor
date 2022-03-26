@@ -9,7 +9,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./user/user.module').then(m => m.UserModule)
+    loadChildren: () => import('./login-registration/login-registration.module').then(m => m.LoginRegistrationModule)
   },
   {
     path: 'home',
@@ -18,6 +18,10 @@ const routes: Routes = [
   {
     path: 'playground',
     loadChildren: () => import('./playground/playground.module').then(m => m.PlaygroundModule)
+  },
+  {
+    path: 'user',
+    loadChildren: () => import('./user/user.module').then(m => m.UserModule)
   }
 ];
 
