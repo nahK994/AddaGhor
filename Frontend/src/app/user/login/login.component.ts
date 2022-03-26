@@ -12,7 +12,6 @@ import { RegistrationComponent } from '../registration/registration.component';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
-
   constructor(
     public dialog: MatDialog,
     private _router: Router,
@@ -26,16 +25,6 @@ export class LoginComponent implements OnInit {
    }
 
   ngOnInit(): void {
-  }
-
-  navigateToHomePage(){
-    this._router.navigate([
-      '..',
-      'home'
-    ],
-    {
-      relativeTo: this._activatedRoute
-    })
   }
 
   createAccount(): void{
@@ -52,7 +41,18 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log("form value", this.loginForm.value);
+    console.log("form value", this.loginForm.get('emailOrPhone')?.value);
+
+    if(this.userDataMatched) {
+      this._router.navigate(
+        ['..', 'home'],
+        { relativeTo: this._activatedRoute })
+    }
+  }
+
+  get userDataMatched(): boolean {
+    return (this.loginForm.get('emailOrPhone')?.value == 'admin' &&
+            this.loginForm.get('password')?.value == 'admin');
   }
 
 }
