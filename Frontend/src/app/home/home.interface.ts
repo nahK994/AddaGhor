@@ -62,5 +62,5 @@ export interface Timeline
   smileReactCount: number,
   loveReactCount: number,
   likeReactCount: number,
-  comments: Comment[]
+  comments: PostComment[]
 }

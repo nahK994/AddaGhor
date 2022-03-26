@@ -24,7 +24,6 @@ export class ProfileComponent implements OnInit {
   }
 
   goToHome() {
-    console.log("HaHa")
-    this._router.navigate(['home'])
+    this._router.navigate(['home', this.user.userId])
   }
 }

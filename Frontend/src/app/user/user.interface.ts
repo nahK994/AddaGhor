@@ -9,7 +9,7 @@ export interface CreateUser
 
 export interface User
 {
-  userId: string,
+  userId: number,
   userName: string,
   bio?: string,
   email: string,

@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { log } from 'util';
 import { CreateUser, LoginCredentialModel, User } from './user.interface';
 
 @Injectable({

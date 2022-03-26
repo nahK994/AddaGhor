@@ -1,11 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { User } from '../user/user.interface';
 import { CreatePostComment, PostComment, CreatePost, CreateReact, Post, Timeline } from './home.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HomeService {
+
+  loggedInUserInfo: User;
 
   baseUrl_Post: string = 'http://localhost:8001';
   baseUrl_React: string = 'http://localhost:8002';

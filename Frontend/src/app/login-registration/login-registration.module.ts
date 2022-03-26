@@ -10,8 +10,6 @@ import { UserModule } from '../user/user.module';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDialogModule } from '@angular/material/dialog';
 
-
-
 @NgModule({
   declarations: [
     LoginComponent,

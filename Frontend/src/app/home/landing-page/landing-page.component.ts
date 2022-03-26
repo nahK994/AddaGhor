@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { PostComponent } from 'src/app/shared/post/post.component';
+import { User } from 'src/app/user/user.interface';
+import { UserService } from 'src/app/user/user.service';
+import { CreatePost } from '../home.interface';
+import { HomeService } from '../home.service';
 
 @Component({
   selector: 'app-landing-page',
@@ -9,11 +14,19 @@ import { PostComponent } from 'src/app/shared/post/post.component';
 })
 export class LandingPageComponent implements OnInit {
 
+  user: User;
+
   constructor(
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private _homeService: HomeService,
+    private _activateRoute: ActivatedRoute,
+    private _userService: UserService
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    let userId = this._activateRoute.snapshot.params['userId'];
+    this._homeService.loggedInUserInfo = await this._userService.getUser(userId);
+    this.user = this._homeService.loggedInUserInfo;
   }
 
   openCreatePostDialogue() {
@@ -22,8 +35,22 @@ export class LandingPageComponent implements OnInit {
       height: '380px'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(async result => {
       ///Call Api Using this result data to create new account
+      let createPostPayload: CreatePost = {
+        userId: this._homeService.loggedInUserInfo.userId,
+        userName: this._homeService.loggedInUserInfo.userName,
+        postText: result.value,
+        postDateTime: (new Date()).toDateString()
+      }
+
+      try {
+        let res = await this._homeService.createPost(createPostPayload);
+        console.log("HaHa hihi ==> ", res)
+      }
+      catch(err) {
+
+      }
       console.log(result.value);
     });
   }
