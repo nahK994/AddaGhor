@@ -1,10 +1,20 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Timeline } from 'src/app/home/home.interface';
+import { CreatePost, CreatePostComment, Timeline } from 'src/app/home/home.interface';
 
 export interface CommentEvent {
   postId: number;
   commentText: string;
+}
+
+export interface UpdatePostOutput {
+  postId: number;
+  postInfo: CreatePost;
+}
+
+export interface UpdateCommentOutput {
+  commentId: number;
+  commentInfo: CreatePostComment;
 }
 
 @Component({
@@ -21,11 +31,17 @@ export class PostCardComponent implements OnInit {
     }
     this.timeLineInfo = val;
   }
+
+  @Input('userId') userId: string;
+
   @Output() likeEvent: EventEmitter<number> = new EventEmitter();
   @Output() smileEvent: EventEmitter<number> = new EventEmitter();
   @Output() loveEvent: EventEmitter<number> = new EventEmitter();
 
   @Output() commentEvent: EventEmitter<CommentEvent> = new EventEmitter();
+
+  @Output() updatePost: EventEmitter<CreatePost> = new EventEmitter();
+  @Output() updateComment: EventEmitter<CreatePostComment> = new EventEmitter();
 
   newComment = new FormControl();
 
@@ -51,6 +67,14 @@ export class PostCardComponent implements OnInit {
       postId: this.timeLineInfo.postId,
       commentText: this.newComment.value
     })
+  }
+
+  editPost() {
+
+  }
+
+  editComment() {
+
   }
 
 }

@@ -6,8 +6,16 @@
     .post{
         display: flex;
         flex-direction: column;
-        .title{
-            font-weight: bold;
+        .header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .edit{
+
+            }
+            .title{
+                font-weight: bold;
+            }
         }
         .text{
 
@@ -37,8 +45,18 @@
         flex-direction: column;
         .comment-item{
             display: flex;
-            .commet-user-name{
-                width: 200px;
+            flex-direction: column;
+            .header{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .edit{
+    
+                }
+                .commet-user-name{
+                    width: 200px;
+                    font-weight: bold;
+                }
             }
             .comment-text{
                 width: calc(100%-200px);

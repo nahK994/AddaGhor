@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { CommentEvent } from 'src/app/shared/post-card/post-card.component';
+import { CommentEvent, UpdateCommentOutput, UpdatePostOutput } from 'src/app/shared/post-card/post-card.component';
 import { PostComponent } from 'src/app/shared/post/post.component';
 import { User } from 'src/app/user/user.interface';
 import { UserService } from 'src/app/user/user.service';
@@ -177,6 +177,41 @@ export class LandingPageComponent implements OnInit {
       this.updateTimelines();
 
       this.timelines = timelines;
+      this.updateTimelines();
+    }
+    catch(error) {
+      console.log(error)
+    }
+  }
+
+  async updatePost(post: UpdatePostOutput) {
+    try {
+      let res = await this._homeService.updatePost(post.postId, post.postInfo);
+      for(let item of this.timelines) {
+        if(item.postId === post.postId) {
+          item.postText = post.postInfo.postText;
+          item.postDateTime = post.postInfo.postDateTime;
+          break;
+        }
+      }
+      this.updateTimelines();
+    }
+    catch(error) {
+      console.log(error)
+    }
+  }
+
+  async updateComment(comment: UpdateCommentOutput) {
+    try {
+      let res = await this._homeService.updateComment(comment.commentId, comment.commentInfo);
+      for(let item of this.timelines) {
+        for(let itemComment of item.comments) {
+          if(itemComment.commentId === comment.commentId) {
+            itemComment.commentDateTime = comment.commentInfo.commentDateTime;
+            itemComment.commentText = comment.commentInfo.commentText;
+          }
+        }
+      }
       this.updateTimelines();
     }
     catch(error) {

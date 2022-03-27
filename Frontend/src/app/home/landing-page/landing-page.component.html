@@ -24,8 +24,9 @@
 
 </div>
 <div class="timeline">
-  <ng-container *ngFor="let timeline of timelines">
-    <post-card [timeLineInfo]="timeline" (likeEvent)="like($event)" 
-    (smileEvent)="smile($event)" (loveEvent)="love($event)" (commentEvent)="comment($event)"></post-card>
+  <ng-container *ngFor="let timeline of timelinesToDisplay">
+    <post-card [timeLineInfo]="timeline" [userId]="user?.userId" (likeEvent)="like($event)" 
+    (smileEvent)="smile($event)" (loveEvent)="love($event)" (commentEvent)="comment($event)" 
+    (updatePost)="updatePost($event)" (updateComment)="updateComment($event)"></post-card>
   </ng-container>
 </div>
