@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommentEvent, UpdateCommentOutput, UpdatePostOutput } from 'src/app/shared/post-card/post-card.component';
 import { PostComponent } from 'src/app/shared/post/post.component';
 import { User } from 'src/app/user/user.interface';
@@ -24,7 +24,8 @@ export class LandingPageComponent implements OnInit {
     public dialog: MatDialog,
     private _homeService: HomeService,
     private _activateRoute: ActivatedRoute,
-    private _userService: UserService
+    private _userService: UserService,
+    private _router: Router
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -217,5 +218,11 @@ export class LandingPageComponent implements OnInit {
     catch(error) {
       console.log(error)
     }
+  }
+
+  logout() {
+    this._router.navigate([''], {
+      relativeTo: this._activateRoute
+    })
   }
 }
