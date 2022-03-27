@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
 @NgModule({
   declarations: [ProfileComponent, EditUserComponent],
   imports: [
@@ -22,7 +23,8 @@ import { MatCardModule } from '@angular/material/card';
     UserRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    MatCardModule
+    MatCardModule,
+    MatInputModule
   ],
   providers: [
     UserService

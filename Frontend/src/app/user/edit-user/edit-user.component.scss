@@ -1,0 +1,31 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    padding: 0 36px 0 36px;
+    background-color: #ffff;
+    .title {
+      font-size: 24px;
+      color: #1877f2;
+      font-weight: 700;
+      cursor: pointer;
+    }
+  }
+  
+  .profile{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .card-info{
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+  
+    .title{
+      font-weight: bold;
+    }
+  }
