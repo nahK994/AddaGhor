@@ -14,6 +14,7 @@
             }
             .title{
                 font-weight: bold;
+                font-size: 20px;
             }
         }
         .text{
@@ -52,11 +53,12 @@
             .header{
                 display: flex;
                 align-items: center;
+                height: 40px;
                 .edit{
     
                 }
                 .commet-user-name{
-                    width: 200px;
+                    width: 100%;
                     font-weight: bold;
                 }
             }
@@ -68,9 +70,9 @@
             display: flex;
             align-items: center;
             column-gap: 8px;
+            margin-top: 8px;
             .comment-action{
                 width: 50px;
-                padding-bottom: 1.34375em;
             }
             .input-comment-text{
                 
@@ -78,4 +80,25 @@
         }
     }
 
+}
+
+::ng-deep .post-card {
+    .comment {
+        .new-comment{
+            .input-comment-text{
+                .mat-form-field-wrapper {
+                    padding-bottom: 0px !important;
+                }
+            }
+        }
+    }
+}
+
+::ng-deep .post-card {
+    .mat-icon-button{
+        width: 20px !important;
+    }
+    .mat-icon{
+        font-size: 20px !important;
+    }
 }
