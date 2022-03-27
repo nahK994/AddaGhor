@@ -75,6 +75,7 @@ export class PostCardComponent implements OnInit {
       postId: this.timeLineInfo.postId,
       commentText: this.newComment.value
     })
+    this.newComment.setValue('');
   }
 
   editPost() {

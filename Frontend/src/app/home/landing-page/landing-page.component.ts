@@ -174,6 +174,7 @@ export class LandingPageComponent implements OnInit {
         }
         break;
       }
+      this.timelines = timelines;
       this.updateTimelines();
 
       this.timelines = timelines;

@@ -1,8 +1,7 @@
 .post-card{
     display: flex;
     flex-direction: column;
-    width: 50%;
-    border-radius: 50px;
+    width: 300px;
     .post{
         display: flex;
         flex-direction: column;
@@ -52,7 +51,6 @@
             flex-direction: column;
             .header{
                 display: flex;
-                justify-content: space-between;
                 align-items: center;
                 .edit{
     
@@ -69,11 +67,13 @@
         .new-comment{
             display: flex;
             align-items: center;
+            column-gap: 8px;
             .comment-action{
-                width: 100px;
+                width: 50px;
+                padding-bottom: 1.34375em;
             }
             .input-comment-text{
-                width: calc(100%-100px);
+                
             }
         }
     }

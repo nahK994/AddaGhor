@@ -1,100 +1,98 @@
-<mat-card>
-    <div class="post-card">
-        <div class="post">
+<mat-card class="post-card">
+    <div class="post">
+        <div class="header">
+            <div class="title">
+                {{timeLineInfo?.userName}}
+            </div>
+            <div class="edit-action" *ngIf="timeLineInfo?.userId === userId">
+                <button mat-icon-button color="primary" (click)="editPost()" *ngIf="!isPostEditMode">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="text" *ngIf="!isPostEditMode">
+            {{timeLineInfo?.postText}}
+        </div>
+        <div class="edit" *ngIf="isPostEditMode">
+            <div>
+                <mat-form-field appearance="outline" style="width: 100%;">
+                    <mat-label>Update post</mat-label>
+                    <textarea 
+                        matInput
+                        maxlength="1000" [formControl]="post"
+                        rows="8"
+                        placeholder="Update post">
+                    </textarea>
+                </mat-form-field>
+            </div>
+            <div>
+                <button mat-raised-button color="primary" (click)="submitPost()">Update</button>
+            </div>
+        </div>
+    </div>
+    <div class="react">
+        <div class="react-item">
+            <div class="react-count">
+                {{timeLineInfo?.smileReactCount}}
+            </div>
+            <div class="react-action" (click)="smileReact()">
+                <angular-emojis [name]="'smiley'" size="20"></angular-emojis>
+            </div>
+        </div>
+        <div class="react-item">
+            <div class="react-count">
+                {{timeLineInfo?.loveReactCount}}
+            </div>
+            <div class="react-action" (click)="loveReact()">
+                <angular-emojis [name]="'heartpulse'" size="20"></angular-emojis>
+            </div>
+        </div>
+        <div class="react-item">
+            <div class="react-count">
+                {{timeLineInfo?.likeReactCount}}
+            </div>
+            <div class="react-action" (click)="likeReact()">
+                <angular-emojis [name]="'thumbsup'" size="20"></angular-emojis>
+            </div>
+        </div>
+    </div>
+    <div class="comment">
+        <div class="comment-item" *ngFor="let comment of timeLineInfo?.comments">
             <div class="header">
-                <div class="title">
-                    {{timeLineInfo?.userName}}
-                </div>
-                <div class="edit-action" *ngIf="timeLineInfo?.userId === userId">
-                    <button mat-icon-button color="primary" (click)="editPost()" *ngIf="!isPostEditMode">
+                <div class="commet-user-name">{{comment?.userName}}</div>
+                <div class="edit" *ngIf="comment?.userId === userId">
+                    <button mat-icon-button color="primary" (click)="editComment(comment)">
                         <mat-icon>edit</mat-icon>
                     </button>
                 </div>
             </div>
-            <div class="text" *ngIf="!isPostEditMode">
-                {{timeLineInfo?.postText}}
-            </div>
-            <div class="edit" *ngIf="isPostEditMode">
-                <div>
+            <div class="comment-text">{{comment?.commentText}}</div>
+        </div>
+        <ng-container *ngIf="!isCommentEditMode; else updateCommentBody">
+            <div class="new-comment">
+                <div class="input-comment-text">
                     <mat-form-field appearance="outline">
-                        <mat-label>Update post</mat-label>
-                        <textarea 
-                            matInput
-                            maxlength="1000" [formControl]="post"
-                            rows="8"
-                            placeholder="Update post">
-                        </textarea>
+                        <mat-label>Write comment</mat-label>
+                        <input [formControl]="newComment" matInput placeholder="Wite comment">
                     </mat-form-field>
                 </div>
-                <div>
-                    <button mat-raised-button (click)="submitPost()">Update</button>
+                <div class="comment-action">
+                    <button mat-raised-button color="primary" (click)="commentPost()">Comment</button>
                 </div>
             </div>
-        </div>
-        <div class="react">
-            <div class="react-item">
-                <div class="react-count">
-                    {{timeLineInfo?.smileReactCount}}
+        </ng-container>
+        <ng-template #updateCommentBody>
+            <div class="new-comment">
+                <div class="input-comment-text">
+                    <mat-form-field appearance="outline" style="height: 100%;">
+                        <mat-label>Update post</mat-label>
+                        <input [formControl]="comment" matInput placeholder="Update comment">
+                    </mat-form-field>
                 </div>
-                <div class="react-action" (click)="smileReact()">
-                    <angular-emojis [name]="'smiley'" size="20"></angular-emojis>
-                </div>
-            </div>
-            <div class="react-item">
-                <div class="react-count">
-                    {{timeLineInfo?.loveReactCount}}
-                </div>
-                <div class="react-action" (click)="loveReact()">
-                    <angular-emojis [name]="'heartpulse'" size="20"></angular-emojis>
+                <div class="comment-action">
+                    <button mat-raised-button color="primary" (click)="submitComment()">Update</button>
                 </div>
             </div>
-            <div class="react-item">
-                <div class="react-count">
-                    {{timeLineInfo?.likeReactCount}}
-                </div>
-                <div class="react-action" (click)="likeReact()">
-                    <angular-emojis [name]="'thumbsup'" size="20"></angular-emojis>
-                </div>
-            </div>
-        </div>
-        <div class="comment">
-            <div class="comment-item" *ngFor="let comment of timeLineInfo?.comments">
-                <div class="header">
-                    <div class="commet-user-name">{{comment?.userName}}</div>
-                    <div class="edit" *ngIf="comment?.userId === userId">
-                        <button mat-icon-button color="primary" (click)="editComment(comment)">
-                            <mat-icon>edit</mat-icon>
-                        </button>
-                    </div>
-                </div>
-                <div class="comment-text">{{comment?.commentText}}</div>
-            </div>
-            <ng-container *ngIf="!isCommentEditMode; else updateCommentBody">
-                <div class="new-comment">
-                    <div class="input-comment-text">
-                        <mat-form-field appearance="outline">
-                            <mat-label>Write comment</mat-label>
-                            <input [formControl]="newComment" matInput placeholder="Wite comment">
-                        </mat-form-field>
-                    </div>
-                    <div class="comment-action">
-                        <button mat-raised-button (click)="commentPost()">Comment</button>
-                    </div>
-                </div>
-            </ng-container>
-            <ng-template #updateCommentBody>
-                <div class="new-comment">
-                    <div class="input-comment-text">
-                        <mat-form-field appearance="outline">
-                            <mat-label>Update post</mat-label>
-                            <input [formControl]="comment" matInput placeholder="Update comment">
-                        </mat-form-field>
-                    </div>
-                    <div class="comment-action">
-                        <button mat-raised-button (click)="submitComment()">Update</button>
-                    </div>
-                </div>
-            </ng-template>
-        </div>
+        </ng-template>
     </div>
 </mat-card>
