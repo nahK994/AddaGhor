@@ -41,7 +41,7 @@ export class LandingPageComponent implements OnInit {
         userId: this._homeService.loggedInUserInfo.userId,
         userName: this._homeService.loggedInUserInfo.userName,
         postText: result.value,
-        postDateTime: (new Date()).toDateString()
+        postDateTime: (new Date()).toUTCString()
       }
 
       try {

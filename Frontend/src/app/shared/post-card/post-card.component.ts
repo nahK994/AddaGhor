@@ -47,7 +47,7 @@ export class PostCardComponent implements OnInit {
       userId: this.timeLineInfo.userId,
       userName: this.timeLineInfo.userName,
       commentText: this.newComment.value,
-      commentDateTime: (new Date()).toDateString()
+      commentDateTime: (new Date()).toUTCString()
     })
   }
 
