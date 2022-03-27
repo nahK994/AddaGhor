@@ -194,9 +194,10 @@ export class LandingPageComponent implements OnInit {
 
     try {
       let res = await this._homeService.createComment(payload);
+
       let timelines = [...this.timelines]
-      for(let item of this.timelines) {
-        if(item.postId === payload.postId) {
+      for(let item of timelines) {
+        if(item.postId === res.postId) {
           item.comments.push({
             userId: this._homeService.loggedInUserInfo.userId,
             commentDateTime: res.commentDateTime,
@@ -205,11 +206,9 @@ export class LandingPageComponent implements OnInit {
             postId: res.postId,
             userName: res.userName
           });
+          break;
         }
-        break;
       }
-      this.timelines = timelines;
-      this.updateTimelines();
 
       this.timelines = timelines;
       this.updateTimelines();
