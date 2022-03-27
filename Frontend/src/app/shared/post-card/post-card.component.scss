@@ -10,7 +10,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            .edit{
+            .edit-action{
 
             }
             .title{
@@ -19,6 +19,10 @@
         }
         .text{
 
+        }
+        .edit{
+            display: flex;
+            flex-direction: column;
         }
     }
     .react{
