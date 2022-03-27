@@ -3,7 +3,6 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommentEvent, UpdateCommentOutput, UpdatePostOutput } from 'src/app/shared/post-card/post-card.component';
-import { PostComponent } from 'src/app/shared/post/post.component';
 import { User } from 'src/app/user/user.interface';
 import { UserService } from 'src/app/user/user.service';
 import { CreatePost, CreatePostComment, Timeline } from '../home.interface';
