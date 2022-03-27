@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
       password: this.loginForm.get('password').value
     })
 
-    this._router.navigate(['..', 'user', 'user-profile', userId], {
+    this._router.navigate(['..', 'home', userId], {
       relativeTo: this._activatedRoute
     })
   }

@@ -78,7 +78,6 @@ export class LandingPageComponent implements OnInit {
 
       try {
         let res = await this._homeService.createPost(createPostPayload);
-        console.log("HaHa hihi ==> ", res)
         let timelines = [...this.timelines]
         timelines.push({
           comments: [],
@@ -218,6 +217,10 @@ export class LandingPageComponent implements OnInit {
     catch(error) {
       console.log(error)
     }
+  }
+
+  goToProfile() {
+    this._router.navigate(['user-profile', this.user.userId])
   }
 
   logout() {

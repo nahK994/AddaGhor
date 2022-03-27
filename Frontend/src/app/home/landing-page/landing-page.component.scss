@@ -55,10 +55,8 @@
       }
       .name {
         margin-right: 16px;
-        a{
-          color: #1877f2;
-          text-decoration: none;
-        }
+        color: #1877f2;
+        cursor: pointer;
       }
       .create-action {
         mat-icon{
