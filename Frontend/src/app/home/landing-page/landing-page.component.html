@@ -12,7 +12,7 @@
       <button *ngIf="!seeAllTimelines" mat-raised-button (click)="allPosts()">See all posts</button>
     </div>
     <div class="profile-and-create-post">
-      <div class="image"></div>
+      <!-- <div class="image"></div> -->
       <div class="name" (click)="goToProfile()">{{user?.userName}}</div>
       <div class="create-action">
         <!-- <button mat-stroked-button (click)="openCreatePostDialogue()">
@@ -21,14 +21,29 @@
         </button> -->
         <button mat-stroked-button (click)="logout()">
           <span>Logout</span>
-          <mat-icon>logout</mat-icon>
+          <mat-icon style="margin-left: 8px;">logout</mat-icon>
         </button>
-    </div>
+      </div>
   </div>
 </div>
 
-<div>
-  
+<div class="create-post">
+  <mat-card class="card-style">
+    <div>
+      <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Create post</mat-label>
+          <textarea 
+              matInput
+              maxlength="1000" [formControl]="post"
+              rows="8"
+              placeholder="Create post">
+          </textarea>
+      </mat-form-field>
+    </div>
+    <div>
+        <button mat-raised-button color="primary" (click)="submitPost()">Submit</button>
+    </div>
+  </mat-card>
 </div>
 
 <div class="timeline">

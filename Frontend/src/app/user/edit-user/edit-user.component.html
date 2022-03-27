@@ -7,41 +7,31 @@
   <div class="profile">
     <mat-card>
       <div class="card-info" [formGroup]="formGroup">
-        <div>
-            <mat-form-field appearance="outline">
-                <mat-label>User Name</mat-label>
-                <input formControlName="userName" matInput placeholder="User Name">
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field appearance="outline">
-                <mat-label>Email</mat-label>
-                <input formControlName="email" matInput placeholder="Email">
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field appearance="outline">
-                <mat-label>Occupation</mat-label>
-                <input formControlName="occupation" matInput placeholder="occupation">
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field appearance="outline">
-                <mat-label>Bio</mat-label>
-                <textarea 
-                    matInput
-                    maxlength="1000" formControlName="bio"
-                    rows="8"
-                    placeholder="Bio">
-                </textarea>
-            </mat-form-field>
-        </div>
-        <div>
-            <mat-form-field appearance="outline">
-                <mat-label>Password</mat-label>
-                <input formControlName="password" matInput placeholder="Password">
-            </mat-form-field>
-        </div>
+        <mat-form-field appearance="outline">
+            <mat-label>User Name</mat-label>
+            <input formControlName="userName" matInput placeholder="User Name">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input formControlName="email" matInput placeholder="Email">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Occupation</mat-label>
+            <input formControlName="occupation" matInput placeholder="occupation">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Bio</mat-label>
+            <textarea 
+                matInput
+                maxlength="1000" formControlName="bio"
+                rows="8"
+                placeholder="Bio">
+            </textarea>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input formControlName="password" matInput placeholder="Password">
+        </mat-form-field>
       </div>
     </mat-card>
   

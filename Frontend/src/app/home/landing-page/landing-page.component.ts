@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommentEvent, UpdateCommentOutput, UpdatePostOutput } from 'src/app/shared/post-card/post-card.component';
@@ -19,6 +20,8 @@ export class LandingPageComponent implements OnInit {
   timelines: Timeline[];
   seeAllTimelines: boolean = true;
   timelinesToDisplay: Timeline[];
+
+  post: FormControl = new FormControl();
 
   constructor(
     public dialog: MatDialog,
@@ -61,45 +64,76 @@ export class LandingPageComponent implements OnInit {
     }
   }
 
-  openCreatePostDialogue() {
-    const dialogRef = this.dialog.open(PostComponent, {
-      width: '520px',
-      height: '380px'
-    });
+  async submitPost() {
+    let createPostPayload: CreatePost = {
+      userId: this._homeService.loggedInUserInfo.userId,
+      userName: this._homeService.loggedInUserInfo.userName,
+      postText: this.post.value,
+      postDateTime: (new Date()).toUTCString()
+    }
 
-    dialogRef.afterClosed().subscribe(async result => {
-      ///Call Api Using this result data to create new account
-      let createPostPayload: CreatePost = {
-        userId: this._homeService.loggedInUserInfo.userId,
-        userName: this._homeService.loggedInUserInfo.userName,
-        postText: result.value,
-        postDateTime: (new Date()).toUTCString()
-      }
+    try {
+      let res = await this._homeService.createPost(createPostPayload);
+      let timelines = [...this.timelines]
+      timelines.push({
+        comments: [],
+        likeReactCount: 0,
+        loveReactCount: 0,
+        smileReactCount: 0,
+        postDateTime: res.postDateTime,
+        postText: res.postText,
+        postId: res.postId,
+        userId: res.userId,
+        userName: res.userName
+      })
 
-      try {
-        let res = await this._homeService.createPost(createPostPayload);
-        let timelines = [...this.timelines]
-        timelines.push({
-          comments: [],
-          likeReactCount: 0,
-          loveReactCount: 0,
-          smileReactCount: 0,
-          postDateTime: res.postDateTime,
-          postText: res.postText,
-          postId: res.postId,
-          userId: res.userId,
-          userName: res.userName
-        })
+      this.timelines = timelines;
+      this.updateTimelines();
+      this.post.setValue('');
+    }
+    catch(err) {
 
-        this.timelines = timelines;
-        this.updateTimelines();
-      }
-      catch(err) {
-
-      }
-      console.log(result.value);
-    });
+    }
   }
+
+  // openCreatePostDialogue() {
+  //   const dialogRef = this.dialog.open(PostComponent, {
+  //     width: '520px',
+  //     height: '380px'
+  //   });
+
+  //   dialogRef.afterClosed().subscribe(async result => {
+  //     ///Call Api Using this result data to create new account
+  //     let createPostPayload: CreatePost = {
+  //       userId: this._homeService.loggedInUserInfo.userId,
+  //       userName: this._homeService.loggedInUserInfo.userName,
+  //       postText: result.value,
+  //       postDateTime: (new Date()).toUTCString()
+  //     }
+
+  //     try {
+  //       let res = await this._homeService.createPost(createPostPayload);
+  //       let timelines = [...this.timelines]
+  //       timelines.push({
+  //         comments: [],
+  //         likeReactCount: 0,
+  //         loveReactCount: 0,
+  //         smileReactCount: 0,
+  //         postDateTime: res.postDateTime,
+  //         postText: res.postText,
+  //         postId: res.postId,
+  //         userId: res.userId,
+  //         userName: res.userName
+  //       })
+
+  //       this.timelines = timelines;
+  //       this.updateTimelines();
+  //     }
+  //     catch(err) {
+
+  //     }
+  //   });
+  // }
 
   async love(postId: number) {
     try {

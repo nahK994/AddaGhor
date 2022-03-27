@@ -59,11 +59,11 @@
         cursor: pointer;
       }
       .create-action {
-        mat-icon{
-          margin-left: 12px;
-          color: #1877f2;
-          font-size: 22px;
-        }
+        color: #1877f2;
+        // mat-icon{
+        //   margin-left: 12px;
+        //   font-size: 22px;
+        // }
       }
     }
 
@@ -75,4 +75,16 @@
   flex-direction: column;
   align-items: center;
   row-gap: 20px;
+}
+
+.create-post{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 12px;
+  .card-style{
+    width: 350px;
+  }
 }
