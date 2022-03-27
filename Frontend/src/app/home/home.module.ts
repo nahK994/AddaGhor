@@ -11,6 +11,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { UserModule } from '../user/user.module';
 import { PostCardModule } from '../shared/post-card/post-card.module';
 import {MatMenuModule} from '@angular/material/menu';
+import { MatInputModule } from '@angular/material/input';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -25,7 +27,9 @@ import {MatMenuModule} from '@angular/material/menu';
     MatDialogModule,
     UserModule,
     PostCardModule,
-    MatMenuModule
+    MatMenuModule,
+    MatInputModule,
+    ReactiveFormsModule
   ],
   providers: [
     HomeService

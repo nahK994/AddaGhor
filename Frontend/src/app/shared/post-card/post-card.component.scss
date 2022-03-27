@@ -92,6 +92,14 @@
             }
         }
     }
+    .post {
+        .edit {
+            .mat-form-field-wrapper {
+                padding-top: 10px !important;
+                padding-bottom: 8px !important;
+            }
+        }
+    }
 }
 
 ::ng-deep .post-card {
