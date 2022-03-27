@@ -10,6 +10,8 @@ import { PostModule } from '../shared/post/post.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { UserModule } from '../user/user.module';
 import { PostCardModule } from '../shared/post-card/post-card.module';
+import {MatMenuModule} from '@angular/material/menu';
+
 
 @NgModule({
   declarations: [LandingPageComponent],
@@ -22,7 +24,8 @@ import { PostCardModule } from '../shared/post-card/post-card.module';
     PostModule,
     MatDialogModule,
     UserModule,
-    PostCardModule
+    PostCardModule,
+    MatMenuModule
   ],
   providers: [
     HomeService

@@ -12,36 +12,21 @@
   }
 }
 
-.user-profile {
-  
-  .user-profle-information{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    row-gap: 20px;
-    text-align: center;
-  }
-  // background-color: rgba(238, 238, 238, 0.8);
-  .header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 16px;
-    gap: 16px;
-    // background-color: #ffff;
-    .user-image {
-      height: 100px;
-      width: 100px;
-      background-color: #ccc;
-      border-radius: 100%;
-    }
+.profile{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
 
-    .user-name {
-      font-size: 18px;
-      font-weight: bold;
-      color: #1877f2;
-    }
-  }
+.card-info{
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  width: 200px;
 
+  .title{
+    font-weight: bold;
+  }
 }

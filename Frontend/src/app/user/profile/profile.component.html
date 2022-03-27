@@ -3,29 +3,16 @@
     <span>Adda Ghor</span>
   </div>
 </div>
-<mat-divider></mat-divider>
-<div class="user-profile">
-  <div class="header">
-    <div class="user-image">
-      <span class="image"></span>
-    </div>
-    <div class="text">
-      <div class="user-name">
-        <span>{{user?.userName}}</span>
-      </div>
-    </div>
-  </div>
 
-  <div class="user-profle-information mt-8">
-    <div>
-      <b>Email: </b>{{user?.email}}
+<div class="profile">
+  <mat-card>
+    <div class="card-info">
+      <div class="title">{{user?.userName}}</div>
+      <div>{{user?.email}}</div>
+      <div>{{user?.occupation}}</div>
+      <div>{{user?.bio}}</div>
     </div>
-    <div>
-      <b>Occupation: </b>{{user?.occupation}}
-    </div>
-    <div>
-      <b>About Me: </b>{{user?.bio}}
-    </div>
-  </div>
+  </mat-card>
 
+  <button style="margin-top: 20px;" color="primary" mat-raised-button (click)="edit()">edit</button>
 </div>

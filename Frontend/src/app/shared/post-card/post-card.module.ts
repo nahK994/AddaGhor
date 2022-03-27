@@ -4,9 +4,10 @@ import { PostCardComponent } from './post-card.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AngularEmojisModule } from 'angular-emojis';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-
+import { ReactiveFormsModule } from '@angular/forms';
+import {MatCardModule} from '@angular/material/card';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   declarations: [PostCardComponent],
@@ -16,7 +17,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatIconModule,
     AngularEmojisModule,
     ReactiveFormsModule,
-    FormsModule
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   exports: [
     PostCardComponent

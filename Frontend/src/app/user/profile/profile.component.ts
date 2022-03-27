@@ -26,4 +26,10 @@ export class ProfileComponent implements OnInit {
   goToHome() {
     this._router.navigate(['home', this.user.userId])
   }
+
+  edit() {
+    this._router.navigate(['edit'], {
+      relativeTo: this._activateRoute
+    })
+  }
 }

@@ -64,3 +64,17 @@ export interface Timeline
   likeReactCount: number,
   comments: PostComment[]
 }
+
+// interface Post1{
+//   autherId: number,
+//   authorName: number,
+//   id: number,
+//   content: string,
+//   reacts: Array<PostReact>,
+//   comments: PostComment[]
+// }
+
+// interface PostReact{
+//   type: 'smile' | 'love' | 'like',
+//   count: number
+// }

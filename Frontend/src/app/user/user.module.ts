@@ -9,8 +9,10 @@ import { UserService } from './user.service';
 import { ProfileComponent } from './profile/profile.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { EditUserComponent } from './edit-user/edit-user.component';
+import { MatCardModule } from '@angular/material/card';
 @NgModule({
-  declarations: [ProfileComponent],
+  declarations: [ProfileComponent, EditUserComponent],
   imports: [
     CommonModule,
     MatButtonModule,
@@ -20,7 +22,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     UserRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    MatIconModule
+    MatCardModule
   ],
   providers: [
     UserService
