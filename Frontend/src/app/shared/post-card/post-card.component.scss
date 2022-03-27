@@ -1,0 +1,53 @@
+.post-card{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    border-radius: 50px;
+    .post{
+        display: flex;
+        flex-direction: column;
+        .title{
+            font-weight: bold;
+        }
+        .text{
+
+        }
+    }
+    .react{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .react-item{
+            display: flex;
+            flex-direction: column;
+            .react-count{
+
+            }
+            .react-action{
+                cursor: pointer;
+            }
+        }
+    }
+    .comment{
+        display: flex;
+        flex-direction: column;
+        .comment-item{
+            display: flex;
+            .commet-user-name{
+                width: 200px;
+            }
+            .comment-text{
+                width: calc(100%-200px);
+            }
+        }
+        .new-comment{
+            .comment-action{
+                width: 100px;
+            }
+            .input-comment-text{
+                width: calc(100%-100px);
+            }
+        }
+    }
+
+}
