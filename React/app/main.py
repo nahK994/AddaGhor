@@ -68,8 +68,6 @@ def updateLoveReactForPost(post_id: int, db: Session = Depends(get_db)):
             likeReactCount = reactInfo.likeReactCount
         )
         reactData = reactData.dict()
-        publisher.publish_message(post_id)
-
         query.update(
             reactData,
             synchronize_session=False

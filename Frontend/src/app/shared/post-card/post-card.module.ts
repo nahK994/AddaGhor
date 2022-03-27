@@ -17,6 +17,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AngularEmojisModule,
     ReactiveFormsModule,
     FormsModule
+  ],
+  exports: [
+    PostCardComponent
   ]
 })
 export class PostCardModule { }

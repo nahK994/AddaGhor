@@ -97,7 +97,7 @@ def createUsers(userInfo: schemas.CreateUserModel, db: Session = Depends(get_db)
         db.add(userData)
         db.commit()
         db.refresh(userData)
-        user_id = db.query(models.User).filter(models.User.email == userData.email).first().userId
-        return user_id
+        user = db.query(models.User).filter(models.User.email == userData.email).first()
+        return user
     except:
         raise HTTPException(status_code=400, detail="Email already registered")

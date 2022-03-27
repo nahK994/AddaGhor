@@ -17,7 +17,7 @@ export class UserService {
   ) { }
 
   async createUser(payload: CreateUser) {
-    let response = await this.http.post<number>(this.baseUrl_Login+'/user/create', payload, this.httpOptions).toPromise();
+    let response = await this.http.post<User>(this.baseUrl_Login+'/user/create', payload, this.httpOptions).toPromise();
 
     return response;
   }

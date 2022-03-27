@@ -9,6 +9,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { PostModule } from '../shared/post/post.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { UserModule } from '../user/user.module';
+import { PostCardModule } from '../shared/post-card/post-card.module';
 
 @NgModule({
   declarations: [LandingPageComponent],
@@ -20,7 +21,8 @@ import { UserModule } from '../user/user.module';
     MatButtonModule,
     PostModule,
     MatDialogModule,
-    UserModule
+    UserModule,
+    PostCardModule
   ],
   providers: [
     HomeService

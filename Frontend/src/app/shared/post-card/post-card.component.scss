@@ -14,12 +14,15 @@
         }
     }
     .react{
+        margin-top: 4px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         .react-item{
             display: flex;
             flex-direction: column;
+            align-items: center;
+            row-gap: 8px;
             .react-count{
 
             }
@@ -29,6 +32,7 @@
         }
     }
     .comment{
+        margin-top: 4px;
         display: flex;
         flex-direction: column;
         .comment-item{
@@ -41,6 +45,8 @@
             }
         }
         .new-comment{
+            display: flex;
+            align-items: center;
             .comment-action{
                 width: 100px;
             }

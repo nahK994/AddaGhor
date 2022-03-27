@@ -8,7 +8,8 @@
         <mat-icon>search</mat-icon>
         <input type="search" placeholder="Search your post">
       </div> -->
-      <button mat-raised-button>Filter your posts</button>
+      <button *ngIf="seeAllTimelines" mat-raised-button (click)="filterPosts()">Filter my posts</button>
+      <button *ngIf="!seeAllTimelines" mat-raised-button (click)="allPosts()">See all posts</button>
     </div>
     <div class="profile-and-create-post">
       <div class="image"></div>
@@ -20,4 +21,11 @@
         </button>
     </div>
   </div>
+
+</div>
+<div class="timeline">
+  <ng-container *ngFor="let timeline of timelines">
+    <post-card [timeLineInfo]="timeline" (likeEvent)="like($event)" 
+    (smileEvent)="smile($event)" (loveEvent)="love($event)" (commentEvent)="comment($event)"></post-card>
+  </ng-container>
 </div>

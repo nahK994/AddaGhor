@@ -24,7 +24,7 @@ export class HomeService {
   ) { }
 
   async createPost(payload: CreatePost) {
-    let response = await this.http.post<number>(this.baseUrl_Post+'/post/create', payload, this.httpOptions).toPromise();
+    let response = await this.http.post<Post>(this.baseUrl_Post+'/post/create', payload, this.httpOptions).toPromise();
 
     return response;
   }
@@ -45,7 +45,7 @@ export class HomeService {
 
 
   async createComment(payload: CreatePostComment) {
-    let response = await this.http.post<number>(this.baseUrl_Comment+'/comment/create', payload, this.httpOptions).toPromise();
+    let response = await this.http.post<PostComment>(this.baseUrl_Comment+'/comment/create', payload, this.httpOptions).toPromise();
 
     return response;
   }

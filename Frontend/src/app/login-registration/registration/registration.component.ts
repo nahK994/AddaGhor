@@ -44,7 +44,7 @@ export class RegistrationComponent implements OnInit {
     
    try {
     let response = await this._userService.createUser(payload);
-    this._router.navigate(['user', 'user-profile', response])
+    this._router.navigate(['user', 'user-profile', response.userId])
 
    }
    catch(error) {
