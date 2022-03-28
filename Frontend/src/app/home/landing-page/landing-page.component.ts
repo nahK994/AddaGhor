@@ -35,6 +35,15 @@ export class LandingPageComponent implements OnInit {
     this._homeService.loggedInUserInfo = await this._userService.getUser(userId);
     this.user = this._homeService.loggedInUserInfo;
     this.timelines = await this._homeService.getTimelines();
+    this.timelines.sort((timeline1: Timeline, timeline2: Timeline) => {
+      if (new Date(timeline1.postDateTime) > new Date(timeline2.postDateTime)) {
+          return -1;
+      }
+      else if (new Date(timeline1.postDateTime) < new Date(timeline2.postDateTime)) {
+          return 1;
+      }
+      return 0;
+    });
     this.updateTimelines();
   }
 
