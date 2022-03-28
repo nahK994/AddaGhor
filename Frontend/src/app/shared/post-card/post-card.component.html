@@ -4,13 +4,11 @@
             <div class="title">
                 {{timeLineInfo?.userName}}
             </div>
-            <div class="edit-action" *ngIf="timeLineInfo?.userId === userId">
-                <button mat-icon-button color="primary" (click)="editPost()" *ngIf="!isPostEditMode">
-                    <mat-icon>edit</mat-icon>
-                </button>
-            </div>
+            <button mat-icon-button color="primary" (click)="editPost()" *ngIf="timeLineInfo?.userId === userId && !isPostEditMode">
+                <mat-icon>edit</mat-icon>
+            </button>
         </div>
-        <div class="text" *ngIf="!isPostEditMode">
+        <div *ngIf="!isPostEditMode">
             {{timeLineInfo?.postText}}
         </div>
         <div class="edit" *ngIf="isPostEditMode">
@@ -32,7 +30,7 @@
     </div>
     <div class="react">
         <div class="react-item">
-            <div class="react-count">
+            <div>
                 {{timeLineInfo?.smileReactCount}}
             </div>
             <div class="react-action" (click)="smileReact()">
@@ -60,38 +58,28 @@
         <div class="comment-item" *ngFor="let comment of timeLineInfo?.comments">
             <div class="header">
                 <div class="commet-user-name">{{comment?.userName}}</div>
-                <div class="edit" *ngIf="comment?.userId === userId">
-                    <button mat-icon-button color="primary" (click)="editComment(comment)">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                </div>
+                <button mat-icon-button *ngIf="comment?.userId === userId" color="primary" (click)="editComment(comment)">
+                    <mat-icon>edit</mat-icon>
+                </button>
             </div>
             <div class="comment-text">{{comment?.commentText}}</div>
         </div>
         <ng-container *ngIf="!isCommentEditMode; else updateCommentBody">
             <div class="new-comment">
-                <div class="input-comment-text">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Write comment</mat-label>
-                        <input [formControl]="newComment" matInput placeholder="Wite comment">
-                    </mat-form-field>
-                </div>
-                <div class="comment-action">
-                    <button mat-raised-button color="primary" (click)="commentPost()">Comment</button>
-                </div>
+                <mat-form-field appearance="outline" class="input-style">
+                    <mat-label>Write comment</mat-label>
+                    <input [formControl]="newComment" matInput placeholder="Wite comment">
+                </mat-form-field>
+                <button class="action-btn" mat-raised-button color="primary" (click)="commentPost()">Comment</button>
             </div>
         </ng-container>
         <ng-template #updateCommentBody>
             <div class="new-comment">
-                <div class="input-comment-text">
-                    <mat-form-field appearance="outline" style="height: 100%; width: 100%;">
-                        <mat-label>Update post</mat-label>
-                        <input [formControl]="comment" matInput placeholder="Update comment">
-                    </mat-form-field>
-                </div>
-                <div class="comment-action">
-                    <button mat-raised-button color="primary" (click)="submitComment()">Update</button>
-                </div>
+                <mat-form-field appearance="outline" class="input-style">
+                    <mat-label>Update post</mat-label>
+                    <input [formControl]="comment" matInput placeholder="Update comment">
+                </mat-form-field>
+                <button class="action-btn" mat-raised-button color="primary" (click)="submitComment()">Update</button>
             </div>
         </ng-template>
     </div>
