@@ -83,7 +83,7 @@ export class LandingPageComponent implements OnInit {
     try {
       let res = await this._homeService.createPost(createPostPayload);
       let timelines = [...this.timelines]
-      timelines.push({
+      timelines.unshift({
         comments: [],
         likeReactCount: 0,
         loveReactCount: 0,
