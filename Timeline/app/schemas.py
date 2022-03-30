@@ -4,10 +4,9 @@ from pydantic import BaseModel
 
 class PostModel(BaseModel):
     postId: int
-    userId: int
-    userName: str
     postText: str
     postDateTime: str
+    userId: int
 
 class ResponsePostModel(BaseModel):
     userId: int
@@ -17,7 +16,6 @@ class ResponsePostModel(BaseModel):
 
 class CreatePostModel(BaseModel):
     userId: int
-    userName: str
     postText: str
     postDateTime: str
 
@@ -27,6 +25,7 @@ class ReactModel(BaseModel):
     smileReactCount: int
     loveReactCount: int
     likeReactCount: int
+
 class CreateReactModel(BaseModel):
     postId: int
     smileReactCount: int
@@ -35,20 +34,21 @@ class CreateReactModel(BaseModel):
 
 class CommentModel(BaseModel):
     commentId: int
+    commentText: str
+    commentDateTime: str
+    postId: int
+    userId: int
+
+class ResponseCommentModel(BaseModel):
     postId: int
     userId: int
     userName: str
-    commentText: str
-    commentDateTime: str
-class ResponseCommentModel(BaseModel):
-    postId: int
-    userName: str
+    commentId: int
     commentText: str
     commentDateTime: str
 class CreateCommentModel(BaseModel):
     postId: int
     userId: int
-    userName: str
     commentText: str
     commentDateTime: str
 class UserModel(BaseModel):

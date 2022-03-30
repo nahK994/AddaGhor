@@ -29,30 +29,44 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+def processResponse(users, posts):
+    response = []
+    userData = {}
+    for user in users:
+        userData[user.userId] = user
+
+    for post in posts:
+        res = schemas.ResponsePostModel(
+            postId = post.postId,
+            postText = post.postText,
+            postDateTime = post.postDateTime,
+            userId = post.userId,
+            userName = userData[post.userId].userName
+        )
+        response.append(res)
+    return response
+
 @app.get("/posts")
 def getPosts(db: Session = Depends(get_db)):
-    return db.query(models.Post).all()
+    users = db.query(models.User).all()
+    posts = db.query(models.Post).all()
+    return processResponse(users, posts)
 
-@app.get("/posts/{post_id}")
-def getPost(post_id: int, db: Session = Depends(get_db)):    
-    post = db.query(models.Post).filter(models.Post.postId == post_id).first()
-    
-    if(post is None):
-        raise HTTPException(status_code=404, detail="Not found")
-    
-    response = schemas.ResponsePostModel(
-        userId = post.userId,
-        userName = post.userName,
-        postText = post.postText,
-        postDateTime = post.postDateTime
-    )
-    return response
+@app.get("/posts/{user_id}")
+def getPosts(user_id: int, db: Session = Depends(get_db)):
+    users = db.query(models.User).filter(models.User.userId == user_id).all()
+    posts = db.query(models.Post).filter(models.Post.userId == user_id).all()
+    return processResponse(users, posts)
+
+@app.get("/users")
+def getPosts(db: Session = Depends(get_db)):
+    users = db.query(models.User).all()
+    return users
 
 @app.post("/post/create")
 def createPosts(postInfo: schemas.CreatePostModel, db: Session = Depends(get_db)):  
     postData = models.Post(
         userId = postInfo.userId,
-        userName = postInfo.userName,
         postText = postInfo.postText,
         postDateTime = postInfo.postDateTime
     )
@@ -64,9 +78,8 @@ def createPosts(postInfo: schemas.CreatePostModel, db: Session = Depends(get_db)
         post = db.query(models.Post).filter(models.Post.postDateTime == postInfo.postDateTime and models.Post.userId == postInfo.userId).first()
         post_model = schemas.PostModel(
             postId = post.postId,
-            userId = post.userId,
-            userName = post.userName,
             postText = post.postText,
+            userId = post.userId,
             postDateTime = post.postDateTime
         )
         publisher.publish_message(post_model)
@@ -96,7 +109,6 @@ def updatePost(postInfo: schemas.CreatePostModel, post_id: int, db: Session = De
         post_model = schemas.PostModel(
             postId = post_id,
             userId = postInfo['userId'],
-            userName = postInfo['userName'],
             postText = postInfo['postText'],
             postDateTime = postInfo['postDateTime']
         )
@@ -106,13 +118,44 @@ def updatePost(postInfo: schemas.CreatePostModel, post_id: int, db: Session = De
         raise HTTPException(status_code=500, detail="Internal server error")
 
 
-def updateUserInfo(user: schemas.UserModel):
+def consumeUser(userInfo: schemas.UserModel):
     db = database.SessionLocal()
-    query = db.query(models.Post).filter(models.Post.userId == user.userId)
-    query.update(
-        {
-            "userName": user.userName
-        },
-        synchronize_session=False
+    user = db.query(models.User).filter(models.User.userId == userInfo.userId).first()
+    if user is None:
+        initiateUser(userInfo)
+    else:
+        updateUser(userInfo)
+
+def updateUser(userInfo: schemas.UserModel):
+    db = database.SessionLocal()
+
+    try:
+        query = db.query(models.User).filter(models.User.userId == userInfo.userId)
+        
+        userData = userInfo.dict()
+        query.update(
+            userData,
+            synchronize_session=False
+        )
+        db.commit()
+        return userData
+    except:
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+def initiateUser(userInfo: schemas.UserModel):  
+    db = database.SessionLocal()
+    userData = models.User(
+        userId = userInfo.userId,
+        userName = userInfo.userName,
+        email = userInfo.email,
+        bio = userInfo.bio,
+        password = userInfo.password,
+        occupation = userInfo.occupation
     )
-    db.commit()
+    try:
+        db.add(userData)
+        db.commit()
+        db.refresh(userData)
+        return userData
+    except:
+        raise HTTPException(status_code=500, detail="Internal server error")

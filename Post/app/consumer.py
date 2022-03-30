@@ -32,7 +32,7 @@ def callback(ch, method, properties, body):
         password = data['password'],
         occupation = data['occupation']
     )
-    main.updateUserInfo(userInfo)
+    main.consumeUser(userInfo)
 
 channel.basic_consume(queue='user_post', on_message_callback=callback, auto_ack=True)
 

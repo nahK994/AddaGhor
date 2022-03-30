@@ -2,7 +2,6 @@ export interface Post
 {
   postId: number,
   userId: number,
-  userName: string,
   postText: string,
   postDateTime: string
 }
@@ -10,7 +9,6 @@ export interface Post
 export interface CreatePost
 {
   userId: number,
-  userName: string,
   postText: string,
   postDateTime: string
 }
@@ -29,7 +27,6 @@ export interface CreatePostComment
 {
   postId: number,
   userId: number,
-  userName: string,
   commentText: string,
   commentDateTime: string
 }

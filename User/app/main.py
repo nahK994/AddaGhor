@@ -54,30 +54,22 @@ def deleteUser(user_id: int, db: Session = Depends(get_db)):
 def updateUser(userInfo: schemas.CreateUserModel, user_id: int, db: Session = Depends(get_db)):
     try:
         query = db.query(models.User).filter(models.User.userId == user_id)
-        
-        previousData = query.first()
-        previousEmail = previousData.email
-        previousUserName = previousData.userName
+
         userInfo = userInfo.dict()
-
-        if userInfo['email'] == previousEmail:
-            del userInfo['email']
-
         query.update(
             userInfo, synchronize_session=False
         )
         db.commit()
 
-        if previousUserName != userInfo['userName']:
-            userData = schemas.UserModel(
-                userId = user_id,
-                userName = userInfo['userName'],
-                email = previousEmail,
-                bio = userInfo['bio'],
-                password = userInfo['password'],
-                occupation = userInfo['occupation']
-            )
-            publisher.publish_message(userData)
+        userData = schemas.UserModel(
+            userId = user_id,
+            userName = userInfo['userName'],
+            email = userInfo['email'],
+            bio = userInfo['bio'],
+            password = userInfo['password'],
+            occupation = userInfo['occupation']
+        )
+        publisher.publish_message(userData)
         return userInfo
     except:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -98,6 +90,16 @@ def createUsers(userInfo: schemas.CreateUserModel, db: Session = Depends(get_db)
         db.commit()
         db.refresh(userData)
         user = db.query(models.User).filter(models.User.email == userData.email).first()
+
+        userInfo = schemas.UserModel(
+            userId = user.userId,
+            userName = user.userName,
+            email = user.email,
+            bio = user.bio,
+            password = user.password,
+            occupation = user.occupation
+        )
+        publisher.publish_message(userInfo)
         return user
     except:
         raise HTTPException(status_code=400, detail="Email already registered")

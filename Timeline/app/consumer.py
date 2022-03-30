@@ -33,7 +33,6 @@ def post_callback(ch, method, properties, body):
     print("create post timeline ==> ", data)
     postInfo = schemas.PostModel(
         userId = data['userId'],
-        userName = data['userName'],
         postId = data['postId'],
         postText = data['postText'],
         postDateTime = data['postDateTime'],
@@ -56,12 +55,11 @@ def comment_callback(ch, method, properties, body):
     data = json.loads(body.decode('ASCII'))
     print("update comment timeline ==> ", data)
     commentInfo = schemas.CommentModel(
+        commentId = data['commentId'],
         commentText = data['commentText'],
         commentDateTime = data['commentDateTime'],
         postId = data['postId'],
-        userId = data['userId'],
-        userName = data['userName'],
-        commentId = data['commentId']
+        userId = data['userId']
     )
     main.consumeComment(commentInfo)
 

@@ -30,24 +30,40 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+def processResponse(users, comments):
+    response = []
+    userData = {}
+    for user in users:
+        userData[user.userId] = user
+
+    for comment in comments:
+        res = schemas.ResponseCommentModel(
+            postId = comment.commentId,
+            userId = comment.userId,
+            userName = comment.userName,
+            commentId = comment.commentId,
+            commentText = comment.commentText,
+            commentDateTime = userData[post.userId].userName
+        )
+        response.append(res)
+    return response
+
+@app.get("/users")
+def getPosts(db: Session = Depends(get_db)):
+    users = db.query(models.User).all()
+    return users
+
 @app.get("/comments")
 def getComments(db: Session = Depends(get_db)):
-    return db.query(models.Comment).all()
+    users = db.query(models.User).all()
+    comments = db.query(models.Comment).all()
+    return processResponse(users, comments)
 
 @app.get("/comments/{comment_id}")
 def getComment(comment_id: int, db: Session = Depends(get_db)):    
-    comment = db.query(models.Comment).filter(models.Comment.commentId == comment_id).first()
-    
-    if(comment == None):
-        raise HTTPException(status_code=404, detail="Not found")
-    
-    response = schemas.ResponseCommentModel(
-        postId = comment.postId,
-        userName = comment.userName,
-        commentText = comment.commentText,
-        commentDateTime = comment.commentDateTime
-    )
-    return response
+    users = db.query(models.User).filter(models.User.userId == user_id).all()
+    comments = db.query(models.Comment).filter(models.Comment.userId == user_id).all()
+    return processResponse(users, comments)
 
 @app.post("/comment/create")
 def createComments(commentInfo: schemas.CreateCommentModel, db: Session = Depends(get_db)):  
@@ -55,8 +71,7 @@ def createComments(commentInfo: schemas.CreateCommentModel, db: Session = Depend
         commentText = commentInfo.commentText,
         commentDateTime = commentInfo.commentDateTime,
         postId = commentInfo.postId,
-        userId = commentInfo.userId,
-        userName = commentInfo.userName
+        userId = commentInfo.userId
     )
 
     try:
@@ -66,12 +81,11 @@ def createComments(commentInfo: schemas.CreateCommentModel, db: Session = Depend
 
         comment_id = db.query(models.Comment).filter(models.Comment.commentDateTime == commentInfo.commentDateTime and models.Comment.userId == commentInfo.userId).first().commentId
         comment_model = schemas.CommentModel(
+            commentId = comment_id,
             commentText = commentInfo.commentText,
             commentDateTime = commentInfo.commentDateTime,
             postId = commentInfo.postId,
-            userId = commentInfo.userId,
-            userName = commentInfo.userName,
-            commentId = comment_id
+            userId = commentInfo.userId
         )
         publisher.publish_message(comment_model)
         return comment_model
@@ -81,9 +95,9 @@ def createComments(commentInfo: schemas.CreateCommentModel, db: Session = Depend
 @app.delete("/comment/delete/{comment_id}")
 def deleteComment(comment_id: int, db: Session = Depends(get_db)):    
     try:
-        db.query(models.Comment).filter(models.Comment.commentId == post_id).delete(synchronize_session=False)
+        db.query(models.Comment).filter(models.Comment.commentId == comment_id).delete(synchronize_session=False)
         db.commit()
-        return post_id
+        return comment_id
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
 
@@ -91,20 +105,19 @@ def deleteComment(comment_id: int, db: Session = Depends(get_db)):
 def updateComment(commentInfo: schemas.CreateCommentModel, comment_id: int, db: Session = Depends(get_db)):
     try:
         query = db.query(models.Comment).filter(models.Comment.commentId == comment_id)
-        commentInfo = commentInfo.dict()
 
+        commentInfo = commentInfo.dict()
         query.update(
             commentInfo, synchronize_session=False
         )
         db.commit()
 
         comment_model = schemas.CommentModel(
+            commentId = comment_id,
             commentText = commentInfo['commentText'],
             commentDateTime = commentInfo['commentDateTime'],
             postId = commentInfo['postId'],
-            userId = commentInfo['userId'],
-            userName = commentInfo['userName'],
-            commentId = comment_id
+            userId = commentInfo['userId']
         )
         publisher.publish_message(comment_model)
         return commentInfo
@@ -112,13 +125,44 @@ def updateComment(commentInfo: schemas.CreateCommentModel, comment_id: int, db: 
         raise HTTPException(status_code=500, detail="Internal server error")
 
 
-def updateUserInfo(user: schemas.UserModel):
+def consumeUser(userInfo: schemas.UserModel):
     db = database.SessionLocal()
-    query = db.query(models.Comment).filter(models.Comment.userId == user.userId)
-    query.update(
-        {
-            "userName": user.userName
-        },
-        synchronize_session=False
+    user = db.query(models.User).filter(models.User.userId == userInfo.userId).first()
+    if user is None:
+        initiateUser(userInfo)
+    else:
+        updateUser(userInfo)
+
+def updateUser(userInfo: schemas.UserModel):
+    db = database.SessionLocal()
+
+    try:
+        query = db.query(models.User).filter(models.User.userId == userInfo.userId)
+        
+        userData = userInfo.dict()
+        query.update(
+            userData,
+            synchronize_session=False
+        )
+        db.commit()
+        return userData
+    except:
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+def initiateUser(userInfo: schemas.UserModel):  
+    db = database.SessionLocal()
+    userData = models.User(
+        userId = userInfo.userId,
+        userName = userInfo.userName,
+        email = userInfo.email,
+        bio = userInfo.bio,
+        password = userInfo.password,
+        occupation = userInfo.occupation
     )
-    db.commit()
+    try:
+        db.add(userData)
+        db.commit()
+        db.refresh(userData)
+        return userData
+    except:
+        raise HTTPException(status_code=500, detail="Internal server error")

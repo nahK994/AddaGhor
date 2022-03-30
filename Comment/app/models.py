@@ -7,9 +7,18 @@ from .database import Base
 class Comment(Base):
     __tablename__ = "comments"
 
-    commentId = Column(Integer, primary_key=True, index=True)
     postId = Column(Integer)
     userId = Column(Integer)
-    userName = Column(String)
+    commentId = Column(Integer, primary_key=True, index=True)
     commentText = Column(String)
     commentDateTime = Column(String)
+
+class User(Base):
+    __tablename__ = "users"
+
+    userId = Column(Integer, primary_key=True, index=True)
+    userName = Column(String)
+    email = Column(String, unique=True, index=True)
+    bio = Column(String)
+    occupation = Column(String)
+    password = Column(String)

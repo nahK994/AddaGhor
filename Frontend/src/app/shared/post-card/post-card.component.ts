@@ -1,4 +1,3 @@
-import { ThrowStmt } from '@angular/compiler';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { CreatePost, CreatePostComment, PostComment, Timeline } from 'src/app/home/home.interface';
@@ -89,7 +88,6 @@ export class PostCardComponent implements OnInit {
       postId: this.timeLineInfo.postId,
       postInfo: {
         userId: this.userId,
-        userName: this.timeLineInfo.userName,
         postText: this.post.value,
         postDateTime: this.timeLineInfo.postDateTime
       }
@@ -110,8 +108,7 @@ export class PostCardComponent implements OnInit {
         postId: this.timeLineInfo.postId,
         userId: this.userId,
         commentDateTime: this.commentInfoToUpdate.commentDateTime,
-        commentText: this.comment.value,
-        userName: this.commentInfoToUpdate.userName
+        commentText: this.comment.value
       }
     })
   }
@@ -121,7 +118,6 @@ export class PostCardComponent implements OnInit {
       postId: this.timeLineInfo.postId,
       postInfo: {
         userId: this.timeLineInfo.userId,
-        userName: this.timeLineInfo.userName,
         postText: post,
         postDateTime: (new Date()).toUTCString()
       }

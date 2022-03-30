@@ -30,16 +30,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-def timelineResponse(posts, comments, reacts):
+def timelineResponse(posts, comments, reacts, users):
     responses = []
 
     if posts is None:
         return responses
+    
+    userData = {}
+    for user in users:
+        userData[user.userId] = user
 
     for post in posts:
         rspPost = {
             "userId": post.userId,
-            "userName": post.userName,
+            "userName": userData[post.userId].userName,
             "postId": post.postId,
             "postText": post.postText,
             "postDateTime": post.postDateTime,
@@ -62,7 +66,7 @@ def timelineResponse(posts, comments, reacts):
                     rspComment = {
                         "postId": comment.postId,
                         "userId": comment.userId,
-                        "userName": comment.userName,
+                        "userName": userData[comment.userId].userName,
                         "commentId": comment.commentId,
                         "commentText": comment.commentText,
                         "commentDateTime": comment.commentDateTime
@@ -78,16 +82,23 @@ def getAll(db: Session = Depends(get_db)):
     posts = db.query(models.Post).all()
     comments = db.query(models.Comment).all()
     reacts = db.query(models.React).all()
+    users = db.query(models.User).all()
     
-    return timelineResponse(posts, comments, reacts)
+    return timelineResponse(posts, comments, reacts, users)
 
 @app.get("/timeline/{user_id}")
 def getAll(user_id: int, db: Session = Depends(get_db)):
     posts = db.query(models.Post).filter(models.Post.userId == user_id).all()
     comments = db.query(models.Comment).all()
     reacts = db.query(models.React).all()
+    users = db.query(models.User).filter(models.User.userId == user_id).all()
     
-    return timelineResponse(posts, comments, reacts)
+    return timelineResponse(posts, comments, reacts, users)
+
+@app.get("/users")
+def getPosts(db: Session = Depends(get_db)):
+    users = db.query(models.User).all()
+    return users
 
 @app.get("/posts")
 def getPosts(db: Session = Depends(get_db)):
@@ -126,8 +137,7 @@ def createComments(commentInfo: schemas.CreateCommentModel, db: Session = Depend
         commentText = commentInfo.commentText,
         commentDateTime = commentInfo.commentDateTime,
         postId = commentInfo.postId,
-        userId = commentInfo.userId,
-        userName = commentInfo.userName
+        userId = commentInfo.userId
     )
 
     try:
@@ -170,7 +180,6 @@ def consumePost(postInfo: schemas.PostModel):
 def updatePost(postInfo: schemas.PostModel):
     postData = schemas.CreatePostModel(
         userId = postInfo.userId,
-        userName = postInfo.userName,
         postText = postInfo.postText,
         postDateTime = postInfo.postDateTime
     )
@@ -192,7 +201,6 @@ def updatePost(postInfo: schemas.PostModel):
 def initiatePost(postInfo: schemas.PostModel):  
     postData = models.Post(
         userId = postInfo.userId,
-        userName = postInfo.userName,
         postId = postInfo.postId,
         postText = postInfo.postText,
         postDateTime = postInfo.postDateTime
@@ -206,7 +214,6 @@ def initiatePost(postInfo: schemas.PostModel):
         post = db.query(models.Post).filter(models.Post.postDateTime == postInfo.postDateTime and models.Post.userId == postInfo.userId).first()
         post_model = schemas.PostModel(
             userId = post.userId,
-            userName = post.userName,
             postId = post.postId,
             postText = post.postText,
             postDateTime = post.postDateTime
@@ -249,14 +256,12 @@ def updateComment(commentInfo: schemas.CommentModel):
         commentText = commentInfo.commentText,
         commentDateTime = commentInfo.commentDateTime,
         postId = commentInfo.postId,
-        userId = commentInfo.userId,
-        userName = commentInfo.userName
+        userId = commentInfo.userId
     )
     db = database.SessionLocal()
 
     try:
         commentData = commentData.dict()
-
         query = db.query(models.Comment).filter(models.Comment.commentId == commentInfo.commentId)
         query.update(
             commentData,
@@ -269,12 +274,11 @@ def updateComment(commentInfo: schemas.CommentModel):
 
 def initiateComment(commentInfo: schemas.CommentModel):  
     commentData = models.Comment(
+        commentId = commentInfo.commentId,
         commentText = commentInfo.commentText,
         commentDateTime = commentInfo.commentDateTime,
         postId = commentInfo.postId,
-        userId = commentInfo.userId,
-        userName = commentInfo.userName,
-        commentId = commentInfo.commentId
+        userId = commentInfo.userId
     )
     db = database.SessionLocal()
 
@@ -286,40 +290,45 @@ def initiateComment(commentInfo: schemas.CommentModel):
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
 
-def consumeUser(user: schemas.UserModel):
-    updateUserInPost(user)
-    updateUserInComment(user)
 
-def updateUserInPost(user: schemas.UserModel):
+def consumeUser(userInfo: schemas.UserModel):
     db = database.SessionLocal()
-    posts = db.query(models.Post).all()
-    for post in posts:
-        if post.userId == user.userId:
-            query = db.query(models.Post).filter(models.Post.postId == post.postId)
-            query.update(
-                {
-                    "userName": user.userName
-                },
-                synchronize_session=False
-            )
-            db.commit()
+    user = db.query(models.User).filter(models.User.userId == userInfo.userId).first()
+    if user is None:
+        initiateUser(userInfo)
+    else:
+        updateUser(userInfo)
 
-def updateUserInComment(user: schemas.UserModel):
+def updateUser(userInfo: schemas.UserModel):
     db = database.SessionLocal()
-    query = db.query(models.Post).filter(models.Post.userId == user.userId)
-    query.update(
-        {
-            "userName": user.userName
-        },
-        synchronize_session=False
-    )
-    db.commit()
 
-    query = db.query(models.Comment).filter(models.Comment.userId == user.userId)
-    query.update(
-        {
-            "userName": user.userName
-        },
-        synchronize_session=False
+    try:
+        query = db.query(models.User).filter(models.User.userId == userInfo.userId)
+        
+        userData = userInfo.dict()
+        query.update(
+            userData,
+            synchronize_session=False
+        )
+        db.commit()
+        return userData
+    except:
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+def initiateUser(userInfo: schemas.UserModel):  
+    db = database.SessionLocal()
+    userData = models.User(
+        userId = userInfo.userId,
+        userName = userInfo.userName,
+        email = userInfo.email,
+        bio = userInfo.bio,
+        password = userInfo.password,
+        occupation = userInfo.occupation
     )
-    db.commit()
+    try:
+        db.add(userData)
+        db.commit()
+        db.refresh(userData)
+        return userData
+    except:
+        raise HTTPException(status_code=500, detail="Internal server error")

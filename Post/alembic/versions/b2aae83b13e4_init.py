@@ -21,11 +21,21 @@ def upgrade():
         'posts',
         sa.Column('postId', sa.Integer, primary_key=True),
         sa.Column('userId', sa.Integer, nullable=False),
-        sa.Column('userName', sa.String(100)),
         sa.Column('postText', sa.String(1000)),
         sa.Column('postDateTime', sa.String(100))
+    )
+
+    op.create_table(
+        'users',
+        sa.Column('userId', sa.Integer, primary_key=True),
+        sa.Column('userName', sa.String(50)),
+        sa.Column('email', sa.String(50), unique=True, nullable=False),
+        sa.Column('bio', sa.String(200)),
+        sa.Column('occupation', sa.String(100)),
+        sa.Column('password', sa.String(100))
     )
 
 
 def downgrade():
     op.drop_table('posts')
+    op.drop_table('users')

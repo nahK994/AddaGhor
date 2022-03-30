@@ -8,18 +8,16 @@ class Comment(database.Base):
     __tablename__ = "comments"
 
     commentId = Column(Integer, primary_key=True, index=True)
-    postId = Column(Integer)
-    userId = Column(Integer)
-    userName = Column(String)
     commentText = Column(String)
     commentDateTime = Column(String)
+    postId = Column(Integer)
+    userId = Column(Integer)
 
 class Post(database.Base):
     __tablename__ = "posts"
 
     postId = Column(Integer, primary_key=True, index=True)
     userId = Column(Integer)
-    userName = Column(String)
     postText = Column(String)
     postDateTime = Column(String)
 
@@ -31,3 +29,13 @@ class React(database.Base):
     smileReactCount = Column(Integer)
     loveReactCount = Column(Integer)
     likeReactCount = Column(Integer)
+
+class User(database.Base):
+    __tablename__ = "users"
+
+    userId = Column(Integer, primary_key=True, index=True)
+    userName = Column(String)
+    email = Column(String, unique=True, index=True)
+    bio = Column(String)
+    occupation = Column(String)
+    password = Column(String)

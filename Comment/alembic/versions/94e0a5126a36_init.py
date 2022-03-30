@@ -19,14 +19,24 @@ depends_on = None
 def upgrade():
     op.create_table(
         'comments',
-        sa.Column('commentId', sa.Integer, primary_key=True),
         sa.Column('postId', sa.Integer, nullable=False),
         sa.Column('userId', sa.Integer, nullable=False),
-        sa.Column('userName', sa.String(60)),
+        sa.Column('commentId', sa.Integer, primary_key=True),
         sa.Column('commentText', sa.String(1000)),
         sa.Column('commentDateTime', sa.String(100)),
+    )
+
+    op.create_table(
+        'users',
+        sa.Column('userId', sa.Integer, primary_key=True),
+        sa.Column('userName', sa.String(50)),
+        sa.Column('email', sa.String(50), unique=True, nullable=False),
+        sa.Column('bio', sa.String(200)),
+        sa.Column('occupation', sa.String(100)),
+        sa.Column('password', sa.String(100))
     )
 
 
 def downgrade():
     op.drop_table('comments')
+    op.drop_table('users')

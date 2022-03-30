@@ -73,7 +73,6 @@ export class LandingPageComponent implements OnInit {
   async submitPost(post: string) {
     let createPostPayload: CreatePost = {
       userId: this._homeService.loggedInUserInfo.userId,
-      userName: this._homeService.loggedInUserInfo.userName,
       postText: post,
       postDateTime: (new Date()).toUTCString()
     }
@@ -90,7 +89,7 @@ export class LandingPageComponent implements OnInit {
         postText: res.postText,
         postId: res.postId,
         userId: res.userId,
-        userName: res.userName
+        userName: this._homeService.loggedInUserInfo.userName
       })
 
       this.timelines = timelines;
@@ -154,8 +153,7 @@ export class LandingPageComponent implements OnInit {
       postId: commentOutput.postId,
       commentText: commentOutput.commentText,
       commentDateTime: (new Date()).toUTCString(),
-      userId: this._homeService.loggedInUserInfo.userId,
-      userName: this._homeService.loggedInUserInfo.userName
+      userId: this._homeService.loggedInUserInfo.userId
     }
 
     try {
@@ -170,7 +168,7 @@ export class LandingPageComponent implements OnInit {
             commentId: res.commentId,
             commentText: res.commentText,
             postId: res.postId,
-            userName: res.userName
+            userName: this._homeService.loggedInUserInfo.userName
           });
           break;
         }
