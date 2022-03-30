@@ -20,3 +20,4 @@ class User(database.Base):
     bio = Column(String)
     occupation = Column(String)
     password = Column(String)
+    avatar = Column(String)

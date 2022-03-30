@@ -58,3 +58,4 @@ class UserModel(BaseModel):
     email: str
     password: str
     occupation: str
+    avatar: str

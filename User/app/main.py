@@ -40,7 +40,10 @@ def getUsers(db: Session = Depends(get_db)):
 
 @app.get("/login/{email}/{password}")
 def getUsers(email: str, password: str, db: Session = Depends(get_db)):
-    return db.query(models.User).filter(models.User.email == email and models.User.password == password).first().userId
+    try:
+        return db.query(models.User).filter(models.User.email == email and models.User.password == password).first().userId
+    except:
+        raise HTTPException(status_code=404, detail="User not found")
 
 
 @app.delete("/user/delete/{user_id}")
@@ -67,7 +70,8 @@ def updateUser(userInfo: schemas.CreateUserModel, user_id: int, db: Session = De
             email = userInfo['email'],
             bio = userInfo['bio'],
             password = userInfo['password'],
-            occupation = userInfo['occupation']
+            occupation = userInfo['occupation'],
+            avatar = userInfo['avatar']
         )
         publisher.publish_message(userData)
         return userInfo
@@ -82,7 +86,8 @@ def createUsers(userInfo: schemas.CreateUserModel, db: Session = Depends(get_db)
         email = userInfo.email,
         bio = userInfo.bio,
         password = userInfo.password,
-        occupation = userInfo.occupation
+        occupation = userInfo.occupation,
+        avatar = userInfo.avatar
     )
 
     try:
@@ -97,7 +102,8 @@ def createUsers(userInfo: schemas.CreateUserModel, db: Session = Depends(get_db)
             email = user.email,
             bio = user.bio,
             password = user.password,
-            occupation = user.occupation
+            occupation = user.occupation,
+            avatar = user.avatar
         )
         publisher.publish_message(userInfo)
         return user

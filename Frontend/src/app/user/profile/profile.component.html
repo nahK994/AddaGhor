@@ -7,6 +7,9 @@
 <div class="profile">
   <mat-card>
     <div class="card-info">
+      <div *ngIf="user?.avatar">
+        <img class="image" src="assets/{{user?.avatar}}" />
+      </div>
       <div class="title">{{user?.userName}}</div>
       <div>{{user?.email}}</div>
       <div>{{user?.occupation}}</div>

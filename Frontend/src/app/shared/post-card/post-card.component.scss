@@ -10,8 +10,13 @@
             justify-content: space-between;
             align-items: center;
             .title{
-                font-weight: bold;
-                font-size: 20px;
+                display: flex;
+                align-items: center;
+
+                .text{
+                    font-weight: bold;
+                    font-size: 20px;
+                }
             }
         }
         .edit{
@@ -48,10 +53,16 @@
                 display: flex;
                 align-items: center;
                 height: 40px;
-                .commet-user-name{
-                    width: 100%;
-                    font-weight: bold;
+                justify-content: space-between;
+                .commet-user-info{
+                    display: flex;
+                    align-items: center;
+                    .text{
+                        width: 100%;
+                        font-weight: bold;
+                    }
                 }
+
             }
             .comment-text{
                 width: calc(100%-200px);
@@ -89,6 +100,20 @@
             }
         }
     }
+}
+
+.post-image{
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    margin-right: 8px;
+}
+
+.comment-image{
+    width: 24px;
+    height: 24px;
+    border-radius: 100%;
+    margin-right: 8px;
 }
 
 ::ng-deep .post-card {

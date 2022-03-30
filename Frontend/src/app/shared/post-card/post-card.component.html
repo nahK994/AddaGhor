@@ -2,7 +2,10 @@
     <div class="post">
         <div class="header">
             <div class="title">
-                {{timeLineInfo?.userName}}
+                <div>
+                    <img class="post-image" src="assets/{{timeLineInfo?.avatar}}" />
+                </div>
+                <div class="text">{{timeLineInfo?.userName}}</div>
             </div>
             <button mat-icon-button color="primary" (click)="editPost()" *ngIf="timeLineInfo?.userId === userId && !isPostEditMode">
                 <mat-icon>edit</mat-icon>
@@ -44,7 +47,12 @@
     <div class="comment">
         <div class="comment-item" *ngFor="let comment of timeLineInfo?.comments">
             <div class="header">
-                <div class="commet-user-name">{{comment?.userName}}</div>
+                <div class="commet-user-info">
+                    <div>
+                        <img class="comment-image" src="assets/{{comment?.avatar}}" />
+                    </div>
+                    <div class="text">{{comment?.userName}}</div>
+                </div>
                 <button mat-icon-button *ngIf="comment?.userId === userId" color="primary" (click)="editComment(comment)">
                     <mat-icon>edit</mat-icon>
                 </button>

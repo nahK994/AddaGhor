@@ -42,10 +42,11 @@ def processResponse(users, comments):
         res = schemas.ResponseCommentModel(
             postId = comment.commentId,
             userId = comment.userId,
-            userName = comment.userName,
+            userName = userData[post.userId].userName,
             commentId = comment.commentId,
             commentText = comment.commentText,
-            commentDateTime = userData[post.userId].userName
+            commentDateTime = comment.commentDateTime,
+            avatar = userData[post.userId].avatar
         )
         response.append(res)
     return response
@@ -159,7 +160,8 @@ def initiateUser(userInfo: schemas.UserModel):
         email = userInfo.email,
         bio = userInfo.bio,
         password = userInfo.password,
-        occupation = userInfo.occupation
+        occupation = userInfo.occupation,
+        avatar = userInfo.avatar
     )
     try:
         db.add(userData)

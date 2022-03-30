@@ -43,7 +43,8 @@ def processResponse(users, posts):
             postText = post.postText,
             postDateTime = post.postDateTime,
             userId = post.userId,
-            userName = userData[post.userId].userName
+            userName = userData[post.userId].userName,
+            avatar = userData[post.userId].avatar
         )
         response.append(res)
     return response
@@ -152,7 +153,8 @@ def initiateUser(userInfo: schemas.UserModel):
         email = userInfo.email,
         bio = userInfo.bio,
         password = userInfo.password,
-        occupation = userInfo.occupation
+        occupation = userInfo.occupation,
+        avatar = userInfo.avatar
     )
     try:
         db.add(userData)

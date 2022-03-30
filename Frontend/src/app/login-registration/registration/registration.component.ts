@@ -26,7 +26,8 @@ export class RegistrationComponent implements OnInit {
       email: [''],
       password: [''],
       occupation: [''],
-      bio: ['']
+      bio: [''],
+      avatar: ['']
     })
   }
 
@@ -39,7 +40,8 @@ export class RegistrationComponent implements OnInit {
       email: this.signUpForm.get('email').value,
       occupation: this.signUpForm.get('occupation').value,
       bio: this.signUpForm.get('bio').value,
-      password: this.signUpForm.get('password').value
+      password: this.signUpForm.get('password').value,
+      avatar: this.signUpForm.get('avatar').value
     }
     
    try {

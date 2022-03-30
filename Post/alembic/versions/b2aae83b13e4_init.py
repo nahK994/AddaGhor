@@ -32,7 +32,8 @@ def upgrade():
         sa.Column('email', sa.String(50), unique=True, nullable=False),
         sa.Column('bio', sa.String(200)),
         sa.Column('occupation', sa.String(100)),
-        sa.Column('password', sa.String(100))
+        sa.Column('password', sa.String(100)),
+        sa.Column('avatar', sa.String(50)),
     )
 
 

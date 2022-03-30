@@ -24,7 +24,8 @@ export class EditUserComponent implements OnInit {
       bio: [''],
       occupation: [''],
       email: [''],
-      password: ['']
+      password: [''],
+      avatar: ['']
     })
   }
 
@@ -36,6 +37,7 @@ export class EditUserComponent implements OnInit {
     this.formGroup.get('occupation').setValue(res.occupation);
     this.formGroup.get('email').setValue(res.email);
     this.formGroup.get('password').setValue(res.password);
+    this.formGroup.get('avatar').setValue(res.avatar);
   }
 
   goToHome() {

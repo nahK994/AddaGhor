@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 @NgModule({
   declarations: [ProfileComponent, EditUserComponent],
   imports: [
@@ -24,7 +25,8 @@ import { MatInputModule } from '@angular/material/input';
     HttpClientModule,
     ReactiveFormsModule,
     MatCardModule,
-    MatInputModule
+    MatInputModule,
+    MatSelectModule
   ],
   providers: [
     UserService

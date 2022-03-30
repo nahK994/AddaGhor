@@ -12,6 +12,7 @@ class CommentModel(BaseModel):
 class ResponseCommentModel(BaseModel):
     postId: int
     userId: int
+    avatar: str
     userName: str
     commentId: int
     commentText: str
@@ -29,3 +30,4 @@ class UserModel(BaseModel):
     email: str
     password: str
     occupation: str
+    avatar: str

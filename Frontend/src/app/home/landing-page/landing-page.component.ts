@@ -88,7 +88,8 @@ export class LandingPageComponent implements OnInit {
         postText: res.postText,
         postId: res.postId,
         userId: res.userId,
-        userName: this._homeService.loggedInUserInfo.userName
+        userName: this._homeService.loggedInUserInfo.userName,
+        avatar: this._homeService.loggedInUserInfo.avatar
       })
 
       this.timelines = timelines;
@@ -159,14 +160,14 @@ export class LandingPageComponent implements OnInit {
 
       let timelines = [...this.timelines]
       for(let item of timelines) {
-        if(item.postId === res.postId) {
+        if(item.postId === payload.postId) {
           item.comments.push({
             userId: this._homeService.loggedInUserInfo.userId,
             commentDateTime: res.commentDateTime,
             commentId: res.commentId,
             commentText: res.commentText,
-            postId: res.postId,
-            userName: this._homeService.loggedInUserInfo.userName
+            userName: this._homeService.loggedInUserInfo.userName,
+            avatar: res.avatar
           });
           break;
         }

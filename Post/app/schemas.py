@@ -14,6 +14,7 @@ class ResponsePostModel(BaseModel):
     postId: int
     postText: str
     postDateTime: str
+    avatar: str
 
 class CreatePostModel(BaseModel):
     userId: int
@@ -27,3 +28,4 @@ class UserModel(BaseModel):
     email: str
     password: str
     occupation: str
+    avatar: str

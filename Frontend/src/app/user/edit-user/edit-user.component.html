@@ -7,6 +7,14 @@
   <div class="profile">
     <mat-card>
       <div class="card-info" [formGroup]="formGroup">
+        <mat-form-field appearance="fill">
+          <mat-label>Choose an avatar</mat-label>
+          <mat-select formControlName="avatar">
+            <mat-option value="surveyCorp.png">Survey Corp</mat-option>
+            <mat-option value="meliteryPolice.png">Melitery Police</mat-option>
+            <mat-option value="gerrison.png">Gerrison</mat-option>
+          </mat-select>
+        </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>User Name</mat-label>
             <input formControlName="userName" matInput placeholder="User Name">

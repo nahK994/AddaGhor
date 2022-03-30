@@ -9,6 +9,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserModule } from '../user/user.module';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatSelectModule} from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatIconModule,
     UserModule,
     FormsModule,
-    LoginRegistrationRoutingModule
+    LoginRegistrationRoutingModule,
+    MatSelectModule,
+    MatFormFieldModule
   ]
 })
 export class LoginRegistrationModule { }

@@ -12,16 +12,6 @@ export interface CreatePost
   postText: string
 }
 
-export interface PostComment
-{
-  commentId: number,
-  postId: number,
-  userId: number,
-  userName: string,
-  commentText: string,
-  commentDateTime: string
-}
-
 export interface CreatePostComment
 {
   postId: number,
@@ -50,6 +40,7 @@ export interface Timeline
 {
   userId: number,
   userName: string,
+  avatar: string,
   postId: number,
   postText: string,
   postDateTime: string
@@ -57,7 +48,14 @@ export interface Timeline
   smileReactCount: number,
   loveReactCount: number,
   likeReactCount: number,
-  comments: PostComment[]
+  comments: {
+    commentId: number,
+    userId: number,
+    userName: string,
+    commentText: string,
+    commentDateTime: string,
+    avatar: string
+  }[]
 }
 
 // interface Post1{

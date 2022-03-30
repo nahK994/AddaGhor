@@ -14,6 +14,14 @@
   
     <form [formGroup]="signUpForm" (ngSubmit)="submitSignUpFormData()">
       <div class="sign-up-form mt-8">
+        <mat-form-field appearance="fill">
+          <mat-label>Choose an avatar</mat-label>
+          <mat-select formControlName="avatar">
+            <mat-option value="surveyCorp.png">Survey Corp</mat-option>
+            <mat-option value="meliteryPolice.png">Melitery Police</mat-option>
+            <mat-option value="gerrison.png">Gerrison</mat-option>
+          </mat-select>
+        </mat-form-field>
         <div class="name">
           <div class="first-name">
             <input formControlName="firstName" type="text" placeholder="First Name">

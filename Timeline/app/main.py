@@ -44,6 +44,7 @@ def timelineResponse(posts, comments, reacts, users):
         rspPost = {
             "userId": post.userId,
             "userName": userData[post.userId].userName,
+            "avatar": userData[post.userId].avatar,
             "postId": post.postId,
             "postText": post.postText,
             "postDateTime": post.postDateTime,
@@ -64,9 +65,9 @@ def timelineResponse(posts, comments, reacts, users):
             for comment in comments:
                 if comment.postId == post.postId:
                     rspComment = {
-                        "postId": comment.postId,
                         "userId": comment.userId,
                         "userName": userData[comment.userId].userName,
+                        "avatar": userData[comment.userId].avatar,
                         "commentId": comment.commentId,
                         "commentText": comment.commentText,
                         "commentDateTime": comment.commentDateTime
@@ -323,7 +324,8 @@ def initiateUser(userInfo: schemas.UserModel):
         email = userInfo.email,
         bio = userInfo.bio,
         password = userInfo.password,
-        occupation = userInfo.occupation
+        occupation = userInfo.occupation,
+        avatar = userInfo.avatar
     )
     try:
         db.add(userData)

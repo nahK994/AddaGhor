@@ -30,7 +30,8 @@ def callback(ch, method, properties, body):
         email = data['email'],
         bio = data['bio'],
         password = data['password'],
-        occupation = data['occupation']
+        occupation = data['occupation'],
+        avatar = data['avatar']
     )
     main.consumeUser(userInfo)
 

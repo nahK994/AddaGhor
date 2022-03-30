@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Post, PostComment, Timeline } from "src/app/home/home.interface";
+import { Post, Timeline } from "src/app/home/home.interface";
 import { HomeService } from "src/app/home/home.service";
 import { User } from "src/app/user/user.interface";
 import { UserService } from "src/app/user/user.service";
@@ -14,7 +14,6 @@ export class ShomiComponent implements OnInit {
 
   user: User;
   post: Post;
-  comment: PostComment;
   timelines: Timeline[];
   myTimelines: Timeline[];
   userId: number;

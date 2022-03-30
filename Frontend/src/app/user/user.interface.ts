@@ -4,7 +4,8 @@ export interface CreateUser
   bio?: string,
   email: string,
   password: string,
-  occupation: string
+  occupation: string,
+  avatar: string
 }
 
 export interface User
@@ -14,7 +15,8 @@ export interface User
   bio?: string,
   email: string,
   password: string,
-  occupation: string
+  occupation: string,
+  avatar: string
 }
 
 export interface LoginCredentialModel
