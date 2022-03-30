@@ -11,6 +11,8 @@ import app.publisher as publisher
 
 from fastapi.middleware.cors import CORSMiddleware
 
+from datetime import datetime
+
 def get_db():
     db = database.SessionLocal()
     try:
@@ -69,7 +71,7 @@ def getComment(comment_id: int, db: Session = Depends(get_db)):
 def createComments(commentInfo: schemas.CreateCommentModel, db: Session = Depends(get_db)):  
     commentData = models.Comment(
         commentText = commentInfo.commentText,
-        commentDateTime = commentInfo.commentDateTime,
+        commentDateTime = str(datetime.utcnow()),
         postId = commentInfo.postId,
         userId = commentInfo.userId
     )
@@ -79,13 +81,13 @@ def createComments(commentInfo: schemas.CreateCommentModel, db: Session = Depend
         db.commit()
         db.refresh(commentData)
 
-        comment_id = db.query(models.Comment).filter(models.Comment.commentDateTime == commentInfo.commentDateTime and models.Comment.userId == commentInfo.userId).first().commentId
+        comment = db.query(models.Comment).filter(models.Comment.commentDateTime == commentData.commentDateTime and models.Comment.userId == commentData.userId and models.Comment.postId == commentData.postId).first()
         comment_model = schemas.CommentModel(
-            commentId = comment_id,
-            commentText = commentInfo.commentText,
-            commentDateTime = commentInfo.commentDateTime,
-            postId = commentInfo.postId,
-            userId = commentInfo.userId
+            commentId = comment.commentId,
+            commentText = comment.commentText,
+            commentDateTime = comment.commentDateTime,
+            postId = comment.postId,
+            userId = comment.userId
         )
         publisher.publish_message(comment_model)
         return comment_model
@@ -115,7 +117,7 @@ def updateComment(commentInfo: schemas.CreateCommentModel, comment_id: int, db: 
         comment_model = schemas.CommentModel(
             commentId = comment_id,
             commentText = commentInfo['commentText'],
-            commentDateTime = commentInfo['commentDateTime'],
+            commentDateTime = str(datetime.utcnow()),
             postId = commentInfo['postId'],
             userId = commentInfo['userId']
         )

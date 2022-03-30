@@ -10,6 +10,8 @@ import app.publisher as publisher
 
 from fastapi.middleware.cors import CORSMiddleware
 
+from datetime import datetime
+
 def get_db():
     db = database.SessionLocal()
     try:
@@ -68,14 +70,14 @@ def createPosts(postInfo: schemas.CreatePostModel, db: Session = Depends(get_db)
     postData = models.Post(
         userId = postInfo.userId,
         postText = postInfo.postText,
-        postDateTime = postInfo.postDateTime
+        postDateTime = str(datetime.utcnow())
     )
 
     try:
         db.add(postData)
         db.commit()
         db.refresh(postData)
-        post = db.query(models.Post).filter(models.Post.postDateTime == postInfo.postDateTime and models.Post.userId == postInfo.userId).first()
+        post = db.query(models.Post).filter(models.Post.postDateTime == postData.postDateTime and models.Post.userId == postData.userId).first()
         post_model = schemas.PostModel(
             postId = post.postId,
             postText = post.postText,
@@ -110,7 +112,7 @@ def updatePost(postInfo: schemas.CreatePostModel, post_id: int, db: Session = De
             postId = post_id,
             userId = postInfo['userId'],
             postText = postInfo['postText'],
-            postDateTime = postInfo['postDateTime']
+            postDateTime = str(datetime.utcnow())
         )
         publisher.publish_message(post_model)
         return postInfo

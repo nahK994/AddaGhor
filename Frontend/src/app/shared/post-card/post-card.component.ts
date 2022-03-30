@@ -88,8 +88,7 @@ export class PostCardComponent implements OnInit {
       postId: this.timeLineInfo.postId,
       postInfo: {
         userId: this.userId,
-        postText: this.post.value,
-        postDateTime: this.timeLineInfo.postDateTime
+        postText: this.post.value
       }
     })
   }
@@ -107,7 +106,6 @@ export class PostCardComponent implements OnInit {
       commentInfo: {
         postId: this.timeLineInfo.postId,
         userId: this.userId,
-        commentDateTime: this.commentInfoToUpdate.commentDateTime,
         commentText: this.comment.value
       }
     })
@@ -118,8 +116,7 @@ export class PostCardComponent implements OnInit {
       postId: this.timeLineInfo.postId,
       postInfo: {
         userId: this.timeLineInfo.userId,
-        postText: post,
-        postDateTime: (new Date()).toUTCString()
+        postText: post
       }
     })
     this.isPostEditMode = false;

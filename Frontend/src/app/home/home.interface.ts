@@ -9,8 +9,7 @@ export interface Post
 export interface CreatePost
 {
   userId: number,
-  postText: string,
-  postDateTime: string
+  postText: string
 }
 
 export interface PostComment
@@ -27,8 +26,7 @@ export interface CreatePostComment
 {
   postId: number,
   userId: number,
-  commentText: string,
-  commentDateTime: string
+  commentText: string
 }
 
 export interface React

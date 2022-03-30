@@ -18,7 +18,6 @@ class ResponsePostModel(BaseModel):
 class CreatePostModel(BaseModel):
     userId: int
     postText: str
-    postDateTime: str
 
 
 class UserModel(BaseModel):

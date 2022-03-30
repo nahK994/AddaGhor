@@ -21,7 +21,6 @@ class CreateCommentModel(BaseModel):
     postId: int
     userId: int
     commentText: str
-    commentDateTime: str
 
 class UserModel(BaseModel):
     userId: int
