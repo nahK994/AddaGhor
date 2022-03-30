@@ -1,44 +1,4 @@
-.create-post {
-  .header-title {
-    font-size: 24px;
-    font-weight: bold;
-  }
-
-  .input-section {
-    textarea {
-      font-size: 16px;
-      max-width: 455px;
-      background-color: rgb(250, 247, 247);
-
-      border: none;
-      outline: none;
-      overflow: auto;
-      border-radius: 8px;
-      padding: 8px;
-
-      -webkit-box-shadow: none;
-      -moz-box-shadow: none;
-      box-shadow: none;
-      resize: none; /*remove the resize handle on the bottom right*/
-    }
-  }
-
-  .action {
-    display: flex;
-    justify-content: end;
-  }
-
-  .alert-section {
-    display: flex;
-    align-items: center;
-    background: #EAF1FC;
-    padding: 12px 8px 12px 8px;
-    .icon-font {
-        color: #73759B;
-    }
-    .text-font {
-        margin-left: 8px;
-        font-size: 16px;
-    }
-  }
+.post{
+  display: flex;
+  flex-direction: column;
 }

@@ -104,45 +104,6 @@ export class LandingPageComponent implements OnInit {
     }
   }
 
-  // openCreatePostDialogue() {
-  //   const dialogRef = this.dialog.open(PostComponent, {
-  //     width: '520px',
-  //     height: '380px'
-  //   });
-
-  //   dialogRef.afterClosed().subscribe(async result => {
-  //     ///Call Api Using this result data to create new account
-  //     let createPostPayload: CreatePost = {
-  //       userId: this._homeService.loggedInUserInfo.userId,
-  //       userName: this._homeService.loggedInUserInfo.userName,
-  //       postText: result.value,
-  //       postDateTime: (new Date()).toUTCString()
-  //     }
-
-  //     try {
-  //       let res = await this._homeService.createPost(createPostPayload);
-  //       let timelines = [...this.timelines]
-  //       timelines.push({
-  //         comments: [],
-  //         likeReactCount: 0,
-  //         loveReactCount: 0,
-  //         smileReactCount: 0,
-  //         postDateTime: res.postDateTime,
-  //         postText: res.postText,
-  //         postId: res.postId,
-  //         userId: res.userId,
-  //         userName: res.userName
-  //       })
-
-  //       this.timelines = timelines;
-  //       this.updateTimelines();
-  //     }
-  //     catch(err) {
-
-  //     }
-  //   });
-  // }
-
   async love(postId: number) {
     try {
       await this._homeService.reactPost(postId, 'love');

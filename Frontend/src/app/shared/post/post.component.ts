@@ -1,26 +1,30 @@
-import { Component} from '@angular/core';
+import { Component, EventEmitter, Input, Output} from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-post',
+  selector: 'post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss']
 })
-export class PostComponent{
+export class PostComponent {
 
-  constructor(
-    private dialogRef: MatDialogRef<PostComponent>
-  ) {}
-
-  newPost = new FormControl();
-
-  closeDialogue(){
-    this.dialogRef.close(this.newPost);
+  isCreateMode: boolean = true;
+  @Input("mode") set setMode(val: "create" | "edit") {
+    if(!val) {
+      return;
+    }
+    if(val !== "create") {
+      this.isCreateMode = false;
+    }
   }
+  @Output() post: EventEmitter<string> = new EventEmitter<string>();
+
+  constructor() {}
+
+  postControl = new FormControl();
 
   onSubmitPost() {
-    this.closeDialogue();
+    this.post.emit(this.postControl.value)
   }
 
 }

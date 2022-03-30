@@ -13,8 +13,10 @@ import { MatDialogModule } from '@angular/material/dialog';
     CommonModule,
     MatDividerModule,
     MatButtonModule,
-    ReactiveFormsModule,
-    MatDialogModule
+    ReactiveFormsModule
+  ],
+  exports: [
+    PostComponent
   ]
 })
 export class PostModule { }
