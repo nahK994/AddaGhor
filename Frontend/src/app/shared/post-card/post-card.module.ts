@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import { PostModule } from '../post/post.module';
 
 @NgModule({
   declarations: [PostCardComponent],
@@ -19,7 +20,8 @@ import {MatInputModule} from '@angular/material/input';
     ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    PostModule
   ],
   exports: [
     PostCardComponent

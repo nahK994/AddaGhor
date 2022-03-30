@@ -17,6 +17,14 @@ export class PostComponent {
       this.isCreateMode = false;
     }
   }
+
+  @Input("value") set setPostText(val: string) {
+    if(!val) {
+      return;
+    }
+    this.postControl.setValue(val);
+  }
+
   @Output() post: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() {}

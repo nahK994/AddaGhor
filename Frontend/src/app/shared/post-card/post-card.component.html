@@ -12,20 +12,7 @@
             {{timeLineInfo?.postText}}
         </div>
         <div class="edit" *ngIf="isPostEditMode">
-            <div>
-                <mat-form-field appearance="outline" style="width: 100%;">
-                    <mat-label>Update post</mat-label>
-                    <textarea 
-                        matInput
-                        maxlength="1000" [formControl]="post"
-                        rows="8"
-                        placeholder="Update post">
-                    </textarea>
-                </mat-form-field>
-            </div>
-            <div>
-                <button mat-raised-button color="primary" (click)="submitPost()">Update</button>
-            </div>
+            <post [mode]="'update'" [value]="timeLineInfo?.postText" (post)="onUpdatePost($event)"></post>
         </div>
     </div>
     <div class="react">

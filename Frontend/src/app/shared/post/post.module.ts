@@ -4,7 +4,8 @@ import { PostComponent } from './post.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
@@ -13,7 +14,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     CommonModule,
     MatDividerModule,
     MatButtonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   exports: [
     PostComponent

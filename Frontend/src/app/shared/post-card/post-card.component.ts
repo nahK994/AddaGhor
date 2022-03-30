@@ -116,4 +116,17 @@ export class PostCardComponent implements OnInit {
     })
   }
 
+  onUpdatePost(post: string) {
+    this.updatePost.emit({
+      postId: this.timeLineInfo.postId,
+      postInfo: {
+        userId: this.timeLineInfo.userId,
+        userName: this.timeLineInfo.userName,
+        postText: post,
+        postDateTime: (new Date()).toUTCString()
+      }
+    })
+    this.isPostEditMode = false;
+  }
+
 }

@@ -1,8 +1,8 @@
 <div class="post">
   <mat-form-field appearance="outline" style="width: 100%;">
-    <mat-label *ngIf="!isCreateMode">
+    <mat-label>
       <span *ngIf="isCreateMode">Write post</span>
-      <span *ngIf="isCreateMode">Update post</span>
+      <span *ngIf="!isCreateMode">Update post</span>
     </mat-label>
     <textarea 
         matInput
@@ -11,8 +11,8 @@
         [placeholder]="isCreateMode? 'Write post':'Update post'">
     </textarea>
   </mat-form-field>
-  <button mat-raised-button color="primary" (click)="submitPost()">
+  <button style="width: fit-content;" mat-raised-button color="primary" (click)="onSubmitPost()">
     <span *ngIf="isCreateMode">Post</span>
-    <span *ngIf="isCreateMode">Update post</span>
+    <span *ngIf="!isCreateMode">Update post</span>
   </button>
 </div>
