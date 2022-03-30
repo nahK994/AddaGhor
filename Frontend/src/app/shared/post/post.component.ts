@@ -33,6 +33,7 @@ export class PostComponent {
 
   onSubmitPost() {
     this.post.emit(this.postControl.value)
+    this.postControl.setValue('');
   }
 
 }

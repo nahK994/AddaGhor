@@ -20,8 +20,6 @@ export class LandingPageComponent implements OnInit {
   seeAllTimelines: boolean = true;
   timelinesToDisplay: Timeline[];
 
-  post: FormControl = new FormControl();
-
   constructor(
     public dialog: MatDialog,
     private _homeService: HomeService,
@@ -72,11 +70,11 @@ export class LandingPageComponent implements OnInit {
     }
   }
 
-  async submitPost() {
+  async submitPost(post: string) {
     let createPostPayload: CreatePost = {
       userId: this._homeService.loggedInUserInfo.userId,
       userName: this._homeService.loggedInUserInfo.userName,
-      postText: this.post.value,
+      postText: post,
       postDateTime: (new Date()).toUTCString()
     }
 
@@ -97,7 +95,6 @@ export class LandingPageComponent implements OnInit {
 
       this.timelines = timelines;
       this.updateTimelines();
-      this.post.setValue('');
     }
     catch(err) {
 

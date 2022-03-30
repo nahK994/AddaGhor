@@ -29,20 +29,7 @@
 
 <div class="create-post">
   <mat-card class="card-style">
-    <div>
-      <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>Create post</mat-label>
-          <textarea 
-              matInput
-              maxlength="1000" [formControl]="post"
-              rows="8"
-              placeholder="Create post">
-          </textarea>
-      </mat-form-field>
-    </div>
-    <div>
-        <button mat-raised-button color="primary" (click)="submitPost()">Submit</button>
-    </div>
+    <post (post)="submitPost($event)"></post>
   </mat-card>
 </div>
 
