@@ -101,24 +101,6 @@ def getReacts(db: Session = Depends(get_db)):
 def getComments(db: Session = Depends(get_db)):
     return db.query(models.Comment).all()
 
-# @app.post("/post/create/{postInfo}")
-# def createPosts(postInfo: str, db: Session = Depends(get_db)):  
-#     postInfo = json.loads(postInfo)
-#     postData = models.Post(
-#         userId = int(postInfo['userId']),
-#         postId = int(postInfo['postId']),
-#         postText = postInfo['postText'],
-#         postDateTime = postInfo['postDateTime']
-#     )
-
-#     try:
-#         db.add(postData)
-#         db.commit()
-#         db.refresh(postData)
-#         return postInfo.postId
-#     except:
-#         raise HTTPException(status_code=500, detail="Internal server error")
-
 @app.post("/react/create/{post_id}")
 def createReactsForPost(post_id: int, db: Session = Depends(get_db)):
     reactData = models.React(
@@ -324,14 +306,20 @@ def updateUserInPost(user: schemas.UserModel):
 
 def updateUserInComment(user: schemas.UserModel):
     db = database.SessionLocal()
-    comments = db.query(models.Comment).all()
-    for comment in comments:
-        if comment.userId == user.userId:
-            query = db.query(models.Comment).filter(models.Comment.commentId == comment.commentId)
-            query.update(
-                {
-                    "userName": user.userName
-                },
-                synchronize_session=False
-            )
-            db.commit()
+    query = db.query(models.Post).filter(models.Post.userId == user.userId)
+    query.update(
+        {
+            "userName": user.userName
+        },
+        synchronize_session=False
+    )
+    db.commit()
+
+    query = db.query(models.Comment).filter(models.Comment.userId == user.userId)
+    query.update(
+        {
+            "userName": user.userName
+        },
+        synchronize_session=False
+    )
+    db.commit()

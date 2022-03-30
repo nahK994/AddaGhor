@@ -108,14 +108,11 @@ def updatePost(postInfo: schemas.CreatePostModel, post_id: int, db: Session = De
 
 def updateUserInfo(user: schemas.UserModel):
     db = database.SessionLocal()
-    posts = db.query(models.Post).all()
-    for post in posts:
-        if post.userId == user.userId:
-            query = db.query(models.Post).filter(models.Post.postId == post.postId)
-            query.update(
-                {
-                    "userName": user.userName
-                },
-                synchronize_session=False
-            )
-            db.commit()
+    query = db.query(models.Post).filter(models.Post.userId == user.userId)
+    query.update(
+        {
+            "userName": user.userName
+        },
+        synchronize_session=False
+    )
+    db.commit()

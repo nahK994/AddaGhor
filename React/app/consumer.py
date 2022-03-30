@@ -11,7 +11,10 @@ while True:
         connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
         channel = connection.channel()
 
-        channel.queue_declare(queue='post_react')
+        channel.exchange_declare(exchange='post', exchange_type='fanout')
+        channel.queue_declare(queue='post_react', exclusive=True)
+        channel.queue_bind(exchange='post', queue='post_react')
+
         print("react consumer online")
         break
     except:

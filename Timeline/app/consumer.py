@@ -11,10 +11,16 @@ while True:
         connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
         channel = connection.channel()
 
-        channel.queue_declare(queue='post_timeline')
+        channel.exchange_declare(exchange='user', exchange_type='fanout')
+        channel.queue_declare(queue='user_timeline', exclusive=True)
+        channel.queue_bind(exchange='user', queue='user_timeline')
+
+        channel.exchange_declare(exchange='post', exchange_type='fanout')
+        channel.queue_declare(queue='post_timeline', exclusive=True)
+        channel.queue_bind(exchange='post', queue='post_timeline')
+
         channel.queue_declare(queue='react_timeline')
         channel.queue_declare(queue='comment_timeline')
-        channel.queue_declare(queue='user_timeline')
         print("timeline consumer online")
         break
     except:

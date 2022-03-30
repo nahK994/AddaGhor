@@ -12,7 +12,9 @@ while True:
         connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
         channel = connection.channel()
 
-        channel.queue_declare(queue='user_comment')
+        channel.exchange_declare(exchange='user', exchange_type='fanout')
+        channel.queue_declare(queue='user_comment', exclusive=True)
+        channel.queue_bind(exchange='user', queue='user_comment')
         print("comment consumer online")
         break
     except:

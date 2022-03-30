@@ -114,14 +114,11 @@ def updateComment(commentInfo: schemas.CreateCommentModel, comment_id: int, db: 
 
 def updateUserInfo(user: schemas.UserModel):
     db = database.SessionLocal()
-    comments = db.query(models.Comment).all()
-    for comment in comments:
-        if comment.userId == user.userId:
-            query = db.query(models.Comment).filter(models.Comment.commentId == comment.commentId)
-            query.update(
-                {
-                    "userName": user.userName
-                },
-                synchronize_session=False
-            )
-            db.commit()
+    query = db.query(models.Comment).filter(models.Comment.userId == user.userId)
+    query.update(
+        {
+            "userName": user.userName
+        },
+        synchronize_session=False
+    )
+    db.commit()

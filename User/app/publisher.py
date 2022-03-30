@@ -8,12 +8,6 @@ def publish_message(user: schemas.UserModel):
     pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
 
-    channel.queue_declare(queue='user_post')
-    channel.basic_publish(exchange='', routing_key='user_post', body=data)
-
-    channel.queue_declare(queue='user_comment')
-    channel.basic_publish(exchange='', routing_key='user_comment', body=data)
-
-    channel.queue_declare(queue='user_timeline')
-    channel.basic_publish(exchange='', routing_key='user_timeline', body=data)
+    channel.exchange_declare(exchange='user', exchange_type='fanout')
+    channel.basic_publish(exchange='user', routing_key='', body=data)
     connection.close()

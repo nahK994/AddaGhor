@@ -7,9 +7,7 @@ def publish_message(post: schemas.PostModel):
     connection = pika.BlockingConnection(
     pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
-    channel.queue_declare(queue='post_react')
-    channel.basic_publish(exchange='', routing_key='post_react', body=data)
 
-    channel.queue_declare(queue='post_timeline')
-    channel.basic_publish(exchange='', routing_key='post_timeline', body=data)
+    channel.exchange_declare(exchange='post', exchange_type='fanout')
+    channel.basic_publish(exchange='post', routing_key='', body=data)
     connection.close()
