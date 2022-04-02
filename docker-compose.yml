@@ -1,0 +1,9 @@
+version: '3'
+services:
+  api:
+    build: User
+    ports:
+      - 8000:8000
+    command:
+      - export PYTHONPATH='/usr/src/app'
+      - uvicorn app.main:app --host 0.0.0.0 --port 8000
