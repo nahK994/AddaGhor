@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommentEvent, UpdateCommentOutput, UpdatePostOutput } from 'src/app/shared/post-card/post-card.component';
+import { CommentEvent, UpdateCommentOutput, UpdatePostOutput } from 'src/app/shared/components/post-card/post-card.component';
 import { User } from 'src/app/user/user.interface';
 import { UserService } from 'src/app/user/user.service';
 import { CreatePost, CreatePostComment, Timeline } from '../home.interface';
@@ -215,7 +214,7 @@ export class LandingPageComponent implements OnInit {
   }
 
   goToProfile() {
-    this._router.navigate(['user-profile', this.user.userId])
+    this._router.navigate(['user','user-profile', this.user.userId])
   }
 
   logout() {

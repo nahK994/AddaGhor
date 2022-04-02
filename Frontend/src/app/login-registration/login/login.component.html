@@ -1,31 +1,24 @@
 <div class="login-page">
-    <div class="content">
-      <div class="header mt-8">
-        <span class="title">Adda Ghor</span>
-        <p class="subtitle">Connect, Share, Enjoy ...</p>
-      </div>
-      <form [formGroup]="loginForm">
-        <div class="login-form mt-16">
-          <div class="email-phone">
-            <input  formControlName = "email" placeholder="Email">
-          </div>
-          <div class="password mt-16">
-            <input formControlName = "password" type="password" placeholder="Password">
-          </div>
-        </div>
-        <div class="actions mt-16">
-          <div class="login-button">
-            <button mat-button color="primary" (click)="onSubmit()">Log In</button>
-          </div>
-          <!-- <div class="forget-passowrd mt-16 mb-16">
-            <span>Forget password ?</span>
-          </div> -->
-          <mat-divider></mat-divider>
-          <div class="create-account mt-16">
-            <button mat-stroked-button (click)="createAccount()">Create New Account</button>
-          </div>
-        </div>
-    </form>
+  <div class="content">
+    <div class="header mt-8">
+      <span class="title">Adda Ghor</span>
+      <p class="subtitle">Connect, Share, Enjoy ...</p>
     </div>
-  
+    <form [formGroup]="loginForm">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Email</mat-label>
+        <input formControlName="email" matInput placeholder="Email">
+      </mat-form-field>
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Password</mat-label>
+        <input formControlName="password" matInput type="password" placeholder="Password">
+      </mat-form-field>
+
+      <div class="actions">
+        <button mat-raised-button color="primary" (click)="onSubmit()">Log In</button>
+        <button mat-raised-button (click)="createAccount()">Create New Account</button>
+      </div>
+    </form>
   </div>
+
+</div>

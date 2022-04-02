@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CreateUser, User } from '../user.interface';
 import { UserService } from '../user.service';
 
 @Component({
@@ -11,42 +12,27 @@ import { UserService } from '../user.service';
 export class EditUserComponent implements OnInit {
 
   userId: number;
-  formGroup: FormGroup;
+  user: User;
 
   constructor(
     private _activateRoute: ActivatedRoute,
     private _userService: UserService,
     private _router: Router,
     private _fb: FormBuilder
-  ) {
-    this.formGroup = this._fb.group({
-      userName: [''],
-      bio: [''],
-      occupation: [''],
-      email: [''],
-      password: [''],
-      avatar: ['']
-    })
-  }
+  ) { }
 
   async ngOnInit(): Promise<void> {
     this.userId = this._activateRoute.snapshot.params['userId'];
-    let res = await this._userService.getUser(this.userId);
-    this.formGroup.get('userName').setValue(res.userName);
-    this.formGroup.get('bio').setValue(res.bio);
-    this.formGroup.get('occupation').setValue(res.occupation);
-    this.formGroup.get('email').setValue(res.email);
-    this.formGroup.get('password').setValue(res.password);
-    this.formGroup.get('avatar').setValue(res.avatar);
+    this.user = await this._userService.getUser(this.userId);
   }
 
   goToHome() {
     this._router.navigate(['home', this.userId])
   }
 
-  submit() {
+  submit(userInfo: CreateUser) {
     try {
-      this._userService.updateUser(this.userId, this.formGroup.value)
+      this._userService.updateUser(this.userId, userInfo)
       this._router.navigate(['..'], {
         relativeTo: this._activateRoute
       })

@@ -1,47 +1,8 @@
-<div class="navbar">
+<div class="user">
+  <div class="navbar">
     <div class="title" (click)="goToHome()">
       <span>Adda Ghor</span>
     </div>
   </div>
-  
-  <div class="profile">
-    <mat-card>
-      <div class="card-info" [formGroup]="formGroup">
-        <mat-form-field appearance="fill">
-          <mat-label>Choose an avatar</mat-label>
-          <mat-select formControlName="avatar">
-            <mat-option value="surveyCorp.png">Survey Corp</mat-option>
-            <mat-option value="meliteryPolice.png">Melitery Police</mat-option>
-            <mat-option value="gerrison.png">Gerrison</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>User Name</mat-label>
-            <input formControlName="userName" matInput placeholder="User Name">
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Email</mat-label>
-            <input formControlName="email" matInput placeholder="Email">
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Occupation</mat-label>
-            <input formControlName="occupation" matInput placeholder="occupation">
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Bio</mat-label>
-            <textarea 
-                matInput
-                maxlength="1000" formControlName="bio"
-                rows="8"
-                placeholder="Bio">
-            </textarea>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Password</mat-label>
-            <input formControlName="password" matInput placeholder="Password">
-        </mat-form-field>
-      </div>
-    </mat-card>
-  
-    <button style="margin-top: 20px;" color="primary" mat-raised-button (click)="submit()">submit</button>
+  <user-info-action mode="edit" [data]="user" (userInfo)="submit($event)"></user-info-action>
 </div>

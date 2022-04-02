@@ -1,21 +1,11 @@
-<div class="navbar">
-  <div class="title" (click)="goToHome()">
-    <span>Adda Ghor</span>
-  </div>
-</div>
-
-<div class="profile">
-  <mat-card>
-    <div class="card-info">
-      <div *ngIf="user?.avatar">
-        <img class="image" src="assets/{{user?.avatar}}" />
-      </div>
-      <div class="title">{{user?.userName}}</div>
-      <div>{{user?.email}}</div>
-      <div>{{user?.occupation}}</div>
-      <div>{{user?.bio}}</div>
+<div class="user">
+  <div class="navbar">
+    <div class="title" (click)="goToHome()">
+      <span>Adda Ghor</span>
     </div>
-  </mat-card>
-
-  <button style="margin-top: 20px;" color="primary" mat-raised-button (click)="edit()">edit</button>
+  </div>
+  <div class="profile">
+    <user-info-action mode="view" [data]="user"></user-info-action>
+    <button style="margin-top: 20px;" color="primary" mat-raised-button (click)="edit()">Edit</button>
+  </div>
 </div>
