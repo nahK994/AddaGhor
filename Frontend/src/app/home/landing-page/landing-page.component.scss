@@ -9,7 +9,8 @@
     background-color: #ffff;
     height: 60px;
     align-items: center;
-    .title-and-search {
+
+    .title-and-action {
       display: flex;
       align-items: center;
       gap: 16px;
@@ -18,15 +19,6 @@
         font-size: 34px;
         color: #1877f2;
         font-weight: 700;
-      }
-
-      .search {
-        display: flex;
-        align-items: center;
-        border-radius: 30px;
-        padding: 4px;
-        padding-left: 16px;
-        background-color: rgb(224, 222, 222);
       }
     }
     .profile-and-create-post {
@@ -49,7 +41,6 @@
         cursor: pointer;
       }
     }
-
   }
 }
 .timeline{
