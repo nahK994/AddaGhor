@@ -2,6 +2,7 @@ from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 
 import app.database as database
+# import database
 
 class Post(database.Base):
     __tablename__ = "posts"

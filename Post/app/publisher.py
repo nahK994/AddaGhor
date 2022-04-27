@@ -1,5 +1,6 @@
 import pika
 import app.schemas as schemas
+# import schemas
 import json
 
 def publish_message(post: schemas.PostModel):

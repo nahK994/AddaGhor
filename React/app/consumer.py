@@ -2,6 +2,7 @@ import pika
 import requests
 import json
 
+# import main
 import app.main as main
 import time
 
@@ -31,3 +32,4 @@ channel.basic_consume(queue='post_react', on_message_callback=initiateReactsForP
 print("React consumer")
 print(' [*] Waiting for messages. To exit press CTRL+C')
 channel.start_consuming()
+channel.close()

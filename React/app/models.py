@@ -2,6 +2,7 @@ from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 import app.database as database
+# import database
 
 class React(database.Base):
     __tablename__ = "reacts"

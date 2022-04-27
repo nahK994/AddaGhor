@@ -8,6 +8,11 @@ import app.models as models
 import app.database as database
 import app.publisher as publisher
 
+# import models
+# import schemas
+# import database
+# import publisher
+
 from fastapi.middleware.cors import CORSMiddleware
 
 from datetime import datetime
@@ -67,7 +72,7 @@ def getPosts(db: Session = Depends(get_db)):
     return users
 
 @app.post("/post/create")
-def createPosts(postInfo: schemas.CreatePostModel, db: Session = Depends(get_db)):  
+def createPosts(postInfo: schemas.CreatePostModel, db: Session = Depends(get_db)):
     postData = models.Post(
         userId = postInfo.userId,
         postText = postInfo.postText,
