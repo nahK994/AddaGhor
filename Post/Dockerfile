@@ -2,15 +2,17 @@ FROM python:3.8.10
 
 WORKDIR /post
 
+ENV PYTHONPATH=/post
+
 # RUN cd /usr/src/app
 
 COPY ./ ./
 
-RUN pip install virtualenv
+# RUN pip install virtualenv
 
-RUN virtualenv env
+# RUN virtualenv env
 
-RUN . env/bin/activate
+# RUN . env/bin/activate
 
 RUN pip install -r requirments.txt
 

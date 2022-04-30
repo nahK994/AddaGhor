@@ -26,9 +26,10 @@ import time
 #         time.sleep(3)
 
 params = pika.URLParameters('amqps://eykbbnzj:nytVuZcErKh3WFkY5DawOnZGKrHl9fF4@shrimp.rmq.cloudamqp.com/eykbbnzj')
-
 connection = pika.BlockingConnection(params)
 channel = connection.channel()
+# params = pika.URLParameters('localhost')
+# connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 
 channel.exchange_declare(exchange='post', exchange_type='fanout')
 channel.queue_declare(queue='post_react', exclusive=True)
