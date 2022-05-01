@@ -1,14 +1,20 @@
 version: '3'
 services:
-  rabbitmq:
-    image: rabbitmq:3-management
-    ports:
-      - 15672:15672
-      - 5672:5672
-  
+  # rabbitmq:
+  #   image: rabbitmq:3-management
+  #   ports:
+  #     - 15672:15672
+  #     - 5672:5672
+
+  consumer:
+    build: React
+    command: 'python3 app/consumer.py'
+    # depends_on:
+    #   - rabbitmq
+
   react:
-    depends_on:
-      - rabbitmq
+    # depends_on:
+    #   - rabbitmq
     build: React
     ports:
       - 8002:8002
@@ -18,16 +24,9 @@ services:
   #   ports:
   #     - 8000:8000
   post:
-    depends_on:
-      - rabbitmq
+    # depends_on:
+    #   - rabbitmq
     build: Post
     ports:
       - 8001:8001
     command: uvicorn app.main:app --host 0.0.0.0 --port 8001
-
-  consumer:
-    build: React
-    command: 'python3 app/consumer.py'
-    depends_on:
-      - react
-  

@@ -90,7 +90,12 @@ def createPosts(postInfo: schemas.CreatePostModel, db: Session = Depends(get_db)
             userId = post.userId,
             postDateTime = post.postDateTime
         )
-        publisher.publish_message(post_model)
+
+        try:
+            publisher.publish_message(post_model)
+        except Exception as e:
+            print(e)
+
         return post
     except:
         raise HTTPException(status_code=500, detail="Internal server error")
