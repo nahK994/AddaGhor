@@ -12,6 +12,11 @@ while True:
         print("connecting....")
         connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 
+        channel = connection.channel()
+        channel.exchange_declare(exchange='post', exchange_type='fanout')
+        channel.queue_declare(queue='post_react', exclusive=True)
+        channel.queue_bind(exchange='post', queue='post_react')
+
         print("react consumer online")
         break
     except:
@@ -26,12 +31,12 @@ while True:
 # connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 # channel = connection.channel()
 
-channel = connection.channel()
-channel.exchange_declare(exchange='post', exchange_type='fanout')
-channel.queue_declare(queue='post_react', exclusive=True)
-channel.queue_bind(exchange='post', queue='post_react')
+# channel = connection.channel()
+# channel.exchange_declare(exchange='post', exchange_type='fanout')
+# channel.queue_declare(queue='post_react', exclusive=True)
+# channel.queue_bind(exchange='post', queue='post_react')
 
-print("react consumer online")
+# print("react consumer online")
 
 def initiateReactsForPost(ch, method, properties, body):
     data = json.loads(body.decode('ASCII'))
