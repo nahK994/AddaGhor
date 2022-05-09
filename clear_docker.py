@@ -9,7 +9,6 @@ def delete_container(container_name):
 os.system(delete_container('addaghor_react_1'))
 os.system(delete_container('addaghor_post_1'))
 os.system(delete_container('addaghor_consumer_1'))
-os.system(delete_container('addaghor_rabbitmq_1'))
 
 os.system(delete_image('addaghor_react:latest'))
 os.system(delete_image('addaghor_post:latest'))
