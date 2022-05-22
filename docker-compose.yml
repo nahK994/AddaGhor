@@ -1,22 +1,51 @@
 version: '3'
 services:
 
-  consumer:
-    build: React
-    command: 'python3 -u app/consumer.py'
-    depends_on:
-      - react
-  react:
-    build: React
+  # consumer:
+  #   build: React
+  #   command: 'python3 -u app/consumer.py'
+  #   depends_on:
+  #     - react
+  # react:
+  #   build: React
+  #   ports:
+  #     - 8002:8002
+  #   command: uvicorn app.main:app --host 0.0.0.0 --port 8002
+  # post:
+  #   build: Post
+  #   ports:
+  #     - 8001:8001
+  #   command: uvicorn app.main:app --host 0.0.0.0 --port 8001
+
+  user_db:
+    container_name: user_db
+    image: postgres
+    restart: always
     ports:
-      - 8002:8002
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8002
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=user_db
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=nkskl6@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - 5050:80
+    depends_on:
+      - user_db
+    
   # user:
   #   build: User
   #   ports:
   #     - 8000:8000
-  post:
-    build: Post
-    ports:
-      - 8001:8001
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8001
+  #   volumes:
+  #     - .:/User
+  #   command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+  #   depends_on:
+  #     - user_db

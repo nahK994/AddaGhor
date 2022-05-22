@@ -1,4 +1,4 @@
-FROM python:3.8.10
+FROM python:3.6.9
 
 WORKDIR /User
 
@@ -6,11 +6,9 @@ WORKDIR /User
 
 COPY ./ ./
 
+RUN pip install --upgrade pip
+
 RUN pip install -r requirments.txt
-
-RUN alembic init alembic
-
-RUN alembic revision -m "init"
 
 RUN alembic upgrade head
 
