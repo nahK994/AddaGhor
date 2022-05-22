@@ -10,6 +10,8 @@ import app.publisher as publisher
 
 from fastapi.middleware.cors import CORSMiddleware
 
+models.Base.metadata.create_all(bind=database.engine)
+
 def get_db():
     db = database.SessionLocal()
     try:
@@ -105,7 +107,7 @@ def createUsers(userInfo: schemas.CreateUserModel, db: Session = Depends(get_db)
             occupation = user.occupation,
             avatar = user.avatar
         )
-        publisher.publish_message(userInfo)
+        # publisher.publish_message(userInfo)
         return user
     except:
         raise HTTPException(status_code=400, detail="Email already registered")
