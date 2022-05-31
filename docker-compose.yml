@@ -40,12 +40,13 @@ services:
     depends_on:
       - user_db
     
-  # user:
-  #   build: User
-  #   ports:
-  #     - 8000:8000
-  #   volumes:
-  #     - .:/User
-  #   command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-  #   depends_on:
-  #     - user_db
+  user:
+    container_name: User
+    build: User
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/User
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    depends_on:
+      - user_db
