@@ -2,9 +2,7 @@ FROM python:3.8.10
 
 WORKDIR /User
 
-# RUN cd /usr/src/app
-
-COPY ./ ./
+COPY /User /User
 
 ENV PYTHONPATH=/User
 
@@ -17,7 +15,3 @@ RUN pip install SQLAlchemy
 RUN pip install alembic
 RUN pip install psycopg2-binary
 RUN pip install pika
-
-RUN alembic upgrade head
-
-# CMD [ "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000" ]

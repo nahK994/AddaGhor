@@ -47,6 +47,6 @@ services:
       - 8000:8000
     volumes:
       - .:/User
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    command: bash -c "alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
     depends_on:
       - user_db
