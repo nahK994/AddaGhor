@@ -43,10 +43,11 @@ services:
   user:
     container_name: User
     build: User
+    restart: always
     ports:
       - 8000:8000
     volumes:
       - .:/User
-    command: bash -c "alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+    command: bash -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     depends_on:
       - user_db
