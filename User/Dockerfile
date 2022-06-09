@@ -8,7 +8,6 @@ ENV PYTHONPATH=/user
 
 RUN pip install --upgrade pip
 
-# RUN pip install -r requirments.txt
 RUN pip install "uvicorn[standard]"
 RUN pip install "fastapi[all]"
 RUN pip install SQLAlchemy

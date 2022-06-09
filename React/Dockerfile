@@ -2,25 +2,15 @@ FROM python:3.8.10
 
 WORKDIR /react
 
-ENV PYTHONPATH=/react
-
-# RUN cd /usr/src/app
-
 COPY ./ ./
 
-# RUN pip install virtualenv
+ENV PYTHONPATH=/react
 
-# RUN virtualenv env
+RUN pip install --upgrade pip
 
-# RUN . env/bin/activate
-
-RUN pip install -r requirments.txt
-
-RUN alembic upgrade head
-
-# RUN export PYTHONPATH='/react'
-
-# ENV PYTHONPATH="${PYTHONPATH}:/react"
-# RUN python3 app/consumer.py
-
-# CMD [ "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8002" ]
+RUN pip install "uvicorn[standard]"
+RUN pip install "fastapi[all]"
+RUN pip install SQLAlchemy
+RUN pip install alembic
+RUN pip install psycopg2-binary
+RUN pip install pika

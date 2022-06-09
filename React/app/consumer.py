@@ -6,7 +6,7 @@ import app.main as main
 import time
 
 print("connecting....")
-# # connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+# connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 params = pika.URLParameters('amqps://eykbbnzj:nytVuZcErKh3WFkY5DawOnZGKrHl9fF4@shrimp.rmq.cloudamqp.com/eykbbnzj')
 connection = pika.BlockingConnection(params)
 
