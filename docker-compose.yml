@@ -12,11 +12,11 @@ services:
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=react_db
 
-  react-consumer:
+  react_consumer:
     build: React
     restart: always
     volumes:
-      - .:/react
+      - .:/React
     command: 'python3 -u app/consumer.py'
     depends_on:
       - react_db
@@ -27,7 +27,7 @@ services:
     depends_on:
       - react_db
     volumes:
-      - .:/react
+      - .:/React
     ports:
       - 8002:8002
     command: bash -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8002 --reload"
@@ -39,17 +39,17 @@ services:
     image: postgres
     restart: always
     ports:
-      - 5432:5432
+      - 5431:5431
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=post_db
     
-  post-consumer:
+  post_consumer:
     build: Post
     restart: always
     volumes:
-      - .:/post
+      - .:/Post
     command: 'python3 -u app/consumer.py'
     depends_on:
       - post_db
@@ -60,7 +60,7 @@ services:
     depends_on:
       - post_db
     volumes:
-      - .:/post
+      - .:/Post
     ports:
       - 8001:8001
     command: bash -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8001 --reload"
@@ -72,7 +72,7 @@ services:
     image: postgres
     restart: always
     ports:
-      - 5432:5432
+      - 5430:5430
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
@@ -85,7 +85,7 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - .:/user
+      - .:/User
     command: bash -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     depends_on:
       - user_db
