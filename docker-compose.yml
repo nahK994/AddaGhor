@@ -159,3 +159,20 @@ services:
       - post_db
       - react_db
       - comment_db
+
+
+  # frontend:
+  #   container_name: Frontend
+  #   build: Frontend
+  #   restart: always
+  #   ports:
+  #     - 4200:4200
+  #   volumes:
+  #     - ./Frontend:/Frontend
+  #   command: bash -c "ng serve"
+    # depends_on:
+    #   - user
+    #   - post
+    #   - react
+    #   - comment
+    #   - timeline
