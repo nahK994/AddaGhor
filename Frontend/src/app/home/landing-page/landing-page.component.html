@@ -1,29 +1,19 @@
 <div class="lading-page">
   <div class="navbar">
-    <div class="title-and-search">
+    <div class="title-and-action">
       <div class="title">
-        <span>Adda Ghor</span>
+        Adda Ghor
       </div>
-      <!-- <div class="search">
-        <mat-icon>search</mat-icon>
-        <input type="search" placeholder="Search your post">
-      </div> -->
       <button *ngIf="seeAllTimelines" mat-raised-button (click)="filterPosts()">Filter my posts</button>
       <button *ngIf="!seeAllTimelines" mat-raised-button (click)="allPosts()">See all posts</button>
     </div>
     <div class="profile-and-create-post">
-      <!-- <div class="image"></div> -->
+      <img *ngIf="user?.avatar" class="image" src="assets/{{user?.avatar}}"/>
       <div class="name" (click)="goToProfile()">{{user?.userName}}</div>
-      <div class="create-action">
-        <!-- <button mat-stroked-button (click)="openCreatePostDialogue()">
-          <span>Post</span>
-          <mat-icon>create</mat-icon>
-        </button> -->
-        <button mat-stroked-button (click)="logout()">
-          <span>Logout</span>
-          <mat-icon style="margin-left: 8px;">logout</mat-icon>
-        </button>
-      </div>
+      <button mat-stroked-button (click)="logout()">
+        <span>Logout</span>
+        <mat-icon style="margin-left: 8px;">logout</mat-icon>
+      </button>
   </div>
 </div>
 

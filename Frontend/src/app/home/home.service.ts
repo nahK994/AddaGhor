@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../user/user.interface';
-import { CreatePostComment, CreatePost, CreateReact, Post, Timeline } from './home.interface';
+import { CreatePostComment, CreatePost, CreateReact, Post, Timeline, PostComment } from './home.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -45,14 +45,7 @@ export class HomeService {
 
 
   async createComment(payload: CreatePostComment) {
-    let response = await this.http.post<{
-      commentId: number,
-      userId: number,
-      userName: string,
-      commentText: string,
-      commentDateTime: string,
-      avatar: string
-    }>(this.baseUrl_Comment+'/comment/create', payload, this.httpOptions).toPromise();
+    let response = await this.http.post<PostComment>(this.baseUrl_Comment+'/comment/create', payload, this.httpOptions).toPromise();
 
     return response;
   }
@@ -63,13 +56,6 @@ export class HomeService {
 
     return response;
   }
-
-  // async getComment(commentId: number) {
-  //   let URL_extention = '/comments/'+commentId;
-  //   let response = await this.http.get<PostComment>(this.baseUrl_Comment+URL_extention, this.httpOptions).toPromise();
-
-  //   return response;
-  // }
 
   async reactPost(postId: number, reactType: 'like'|'smile'|'love') {
     let URL_extention = '/react/'+postId+'/'+reactType;

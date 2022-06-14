@@ -6,14 +6,12 @@ import { HomeService } from './home.service';
 import { HttpClientModule } from '@angular/common/http';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
-import { PostModule } from '../shared/post/post.module';
-import { MatDialogModule } from '@angular/material/dialog';
 import { UserModule } from '../user/user.module';
-import { PostCardModule } from '../shared/post-card/post-card.module';
-import {MatMenuModule} from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { PostModule } from '../shared/components/post/post.module';
+import { PostCardModule } from '../shared/components/post-card/post-card.module';
 
 
 @NgModule({
@@ -25,10 +23,8 @@ import { MatCardModule } from '@angular/material/card';
     MatIconModule,
     MatButtonModule,
     PostModule,
-    MatDialogModule,
     UserModule,
     PostCardModule,
-    MatMenuModule,
     MatInputModule,
     ReactiveFormsModule,
     MatCardModule

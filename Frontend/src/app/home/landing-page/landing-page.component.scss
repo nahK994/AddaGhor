@@ -1,6 +1,7 @@
 .lading-page {
-  background-color: #cccc;
+  background-color: rgba(234, 234, 235, 0.8);
   padding-bottom: 20px;
+
   .navbar {
     display: flex;
     justify-content: space-between;
@@ -8,7 +9,8 @@
     background-color: #ffff;
     height: 60px;
     align-items: center;
-    .title-and-search {
+
+    .title-and-action {
       display: flex;
       align-items: center;
       gap: 16px;
@@ -17,26 +19,6 @@
         font-size: 34px;
         color: #1877f2;
         font-weight: 700;
-      }
-
-      .search {
-        display: flex;
-        align-items: center;
-        border-radius: 30px;
-        padding: 4px;
-        padding-left: 16px;
-        background-color: rgb(224, 222, 222);
-
-        input {
-          border: none;
-          height: 34px;
-          border-radius: 30px;
-          font-size: 14px;
-          background-color: rgb(224, 222, 222);
-        }
-        input:focus{
-          outline: none;
-        }
       }
     }
     .profile-and-create-post {
@@ -58,15 +40,7 @@
         color: #1877f2;
         cursor: pointer;
       }
-      .create-action {
-        color: #1877f2;
-        // mat-icon{
-        //   margin-left: 12px;
-        //   font-size: 22px;
-        // }
-      }
     }
-
   }
 }
 .timeline{
