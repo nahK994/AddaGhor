@@ -16,9 +16,16 @@ branch_labels = None
 depends_on = None
 
 
-def upgrade() -> None:
-    pass
+def upgrade():
+    op.create_table(
+        'reacts',
+        sa.Column('reactId', sa.Integer, primary_key=True, unique=True),
+        sa.Column('postId', sa.Integer, unique=True),
+        sa.Column('smileReactCount', sa.Integer),
+        sa.Column('loveReactCount', sa.Integer),
+        sa.Column('likeReactCount', sa.Integer)
+    )
 
 
-def downgrade() -> None:
-    pass
+def downgrade():
+    op.drop_table('reacts')
