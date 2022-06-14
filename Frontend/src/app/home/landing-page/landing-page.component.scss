@@ -1,7 +1,9 @@
 .lading-page {
   background-color: rgba(234, 234, 235, 0.8);
   padding-bottom: 20px;
-  height: -webkit-fill-available;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   .navbar {
     display: flex;
