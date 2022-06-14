@@ -39,7 +39,7 @@ services:
     image: postgres
     restart: always
     ports:
-      - 5431:5431
+      - 5431:5432
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
@@ -72,7 +72,7 @@ services:
     image: postgres
     restart: always
     ports:
-      - 5430:5430
+      - 5430:5432
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
@@ -85,7 +85,7 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - .:/User
+      - ./User:/User
     command: bash -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     depends_on:
       - user_db

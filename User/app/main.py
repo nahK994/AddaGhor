@@ -107,7 +107,7 @@ def createUsers(userInfo: schemas.CreateUserModel, db: Session = Depends(get_db)
             occupation = user.occupation,
             avatar = user.avatar
         )
-        # publisher.publish_message(userInfo)
+        publisher.publish_message(userInfo)
         return user
     except:
         raise HTTPException(status_code=400, detail="Email already registered")
