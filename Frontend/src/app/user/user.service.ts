@@ -7,7 +7,7 @@ import { CreateUser, LoginCredentialModel, User } from './user.interface';
 })
 export class UserService {
 
-  baseUrl_Login: string = 'http://user:8000';
+  baseUrl_Login: string = 'http://localhost:8010';
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };

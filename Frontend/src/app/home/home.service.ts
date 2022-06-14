@@ -10,10 +10,10 @@ export class HomeService {
 
   loggedInUserInfo: User;
 
-  baseUrl_Post: string = 'http://post:8001';
-  baseUrl_React: string = 'http://react:8002';
-  baseUrl_Comment: string = 'http://comment:8003';
-  baseUrl_Timeline: string = 'http://timeline:8004';
+  baseUrl_Post: string = 'http://localhost:8001';
+  baseUrl_React: string = 'http://localhost:8002';
+  baseUrl_Comment: string = 'http://localhost:8003';
+  baseUrl_Timeline: string = 'http://localhost:8004';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
