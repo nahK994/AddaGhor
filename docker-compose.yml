@@ -16,7 +16,7 @@ services:
     build: React
     restart: always
     volumes:
-      - .:/React
+      - ./React:/React
     command: 'python3 -u app/consumer.py'
     depends_on:
       - react_db
@@ -27,7 +27,7 @@ services:
     depends_on:
       - react_db
     volumes:
-      - .:/React
+      - ./React:/React
     ports:
       - 8002:8002
     command: bash -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8002 --reload"
@@ -49,7 +49,7 @@ services:
     build: Post
     restart: always
     volumes:
-      - .:/Post
+      - ./Post:/Post
     command: 'python3 -u app/consumer.py'
     depends_on:
       - post_db
@@ -60,7 +60,7 @@ services:
     depends_on:
       - post_db
     volumes:
-      - .:/Post
+      - ./Post:/Post
     ports:
       - 8001:8001
     command: bash -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8001 --reload"

@@ -1,10 +1,10 @@
 FROM python:3.8.10
 
-WORKDIR /post
+WORKDIR /Post
 
 COPY ./ ./
 
-ENV PYTHONPATH=/post
+ENV PYTHONPATH=/Post
 
 RUN pip install --upgrade pip
 

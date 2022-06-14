@@ -1,10 +1,10 @@
 FROM python:3.8.10
 
-WORKDIR /react
+WORKDIR /React
 
 COPY ./ ./
 
-ENV PYTHONPATH=/react
+ENV PYTHONPATH=/React
 
 RUN pip install --upgrade pip
 
