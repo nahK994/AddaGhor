@@ -8,7 +8,8 @@ import time
 
 while True:
     try:
-        connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+        params = pika.URLParameters('amqps://eykbbnzj:nytVuZcErKh3WFkY5DawOnZGKrHl9fF4@shrimp.rmq.cloudamqp.com/eykbbnzj')
+        connection = pika.BlockingConnection(params)
         channel = connection.channel()
 
         channel.exchange_declare(exchange='user', exchange_type='fanout')

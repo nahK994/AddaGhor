@@ -5,8 +5,6 @@ services:
     container_name: react_db
     image: postgres
     restart: always
-    ports:
-      - 5432:5432
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
@@ -38,8 +36,6 @@ services:
     container_name: post_db
     image: postgres
     restart: always
-    ports:
-      - 5431:5432
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
@@ -66,13 +62,70 @@ services:
     command: bash -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8001 --reload"
 
 
+  comment_db:
+    container_name: comment_db
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=comment_db
+    
+  comment_consumer:
+    build: Comment
+    restart: always
+    volumes:
+      - ./Comment:/Comment
+    command: 'python3 -u app/consumer.py'
+    depends_on:
+      - comment_db
+
+  comment:
+    build: Comment
+    restart: always
+    depends_on:
+      - comment_db
+    volumes:
+      - ./Comment:/Comment
+    ports:
+      - 8003:8003
+    command: bash -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8003 --reload"
+
+  
+  timeline_db:
+    container_name: timeline_db
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=timeline_db
+    
+  timeline_consumer:
+    build: Timeline
+    restart: always
+    volumes:
+      - ./Timeline:/Timeline
+    command: 'python3 -u app/consumer.py'
+    depends_on:
+      - timeline_db
+
+  timeline:
+    build: Timeline
+    restart: always
+    depends_on:
+      - timeline_db
+    volumes:
+      - ./Timeline:/Timeline
+    ports:
+      - 8004:8004
+    command: bash -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8004 --reload"
+
 
   user_db:
     container_name: user_db
     image: postgres
     restart: always
-    ports:
-      - 5430:5432
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
@@ -105,3 +158,4 @@ services:
       - user_db
       - post_db
       - react_db
+      - comment_db
