@@ -1,15 +1,21 @@
-.user{
-    .navbar {
-      display: flex;
-      align-items: center;
-      height: 40px;
-      padding: 0 36px 0 36px;
-      .title {
-        font-size: 24px;
-        color: #1877f2;
-        font-weight: 700;
-        cursor: pointer;
-      }
+.user {
+  display: flex;
+  flex-direction: column;
+  height: -webkit-fill-available;
+
+  .navbar {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    padding: 0 36px 0 36px;
+
+    .title {
+      font-size: 24px;
+      color: #1877f2;
+      font-weight: 700;
+      cursor: pointer;
     }
-    background-color: rgba(234, 234, 235, 0.8);
+  }
+
+  background-color: rgba(234, 234, 235, 0.8);
 }
