@@ -26,7 +26,7 @@ def get_db():
 
 app = FastAPI()
 origins = [
-    "http://localhost:4200",
+    "http://localhost:8080",
 ]
 app.add_middleware(
     CORSMiddleware,
