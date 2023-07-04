@@ -1,1 +1,6 @@
 env
+db.sqlite3
+uploads
+__pycache__
+migrations/
+!migrations/__init__.py

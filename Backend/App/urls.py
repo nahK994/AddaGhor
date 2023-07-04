@@ -15,7 +15,31 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rest_framework import routers
+from rest_framework_swagger.views import get_swagger_view
+from user.views import UserViewset, UserLoginViewset, UserRegistrationViewset
+from rest_framework_simplejwt.views import TokenRefreshView
+from django.conf import settings
+from django.conf.urls.static import static
+
+
+
+class OptionalSlashRouter(routers.SimpleRouter):
+    def __init__(self):
+        super().__init__()
+        self.trailing_slash = '/?'
+
+
+router = OptionalSlashRouter()
+
+router.register("users", UserViewset, basename="users")
+router.register("registration", UserRegistrationViewset, basename="registration")
+router.register("login", UserLoginViewset, basename="user-login")
+
+schema_view = get_swagger_view(title='AddaGhor', patterns=router.urls)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-]
+        path('admin/', admin.site.urls),
+        path('users/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+        path('api/docs', schema_view)
+    ] + router.urls + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
