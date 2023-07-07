@@ -4,11 +4,11 @@
       <div class="title">
         Adda Ghor
       </div>
-      <button *ngIf="seeAllTimelines" mat-raised-button (click)="filterPosts()">Filter my posts</button>
+      <button *ngIf="seeAllTimelines" mat-raised-button (click)="filterMyPosts()">Filter my posts</button>
       <button *ngIf="!seeAllTimelines" mat-raised-button (click)="allPosts()">See all posts</button>
     </div>
     <div class="profile-and-create-post">
-      <img *ngIf="user?.avatar" class="image" src="assets/{{user?.avatar}}" />
+      <img *ngIf="user?.profilePicture" class="image" src="assets/{{user?.avatar}}" />
       <div class="name" (click)="goToProfile()">{{user?.userName}}</div>
       <button mat-stroked-button (click)="logout()">
         <span>Logout</span>

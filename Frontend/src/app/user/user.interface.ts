@@ -14,7 +14,5 @@ export interface User
   userName: string,
   bio?: string,
   email: string,
-  password: string,
-  occupation: string,
-  avatar: string
+  profilePicture: string
 }

@@ -29,22 +29,24 @@ export class LandingPageComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     let userId = this._activateRoute.snapshot.params['userId'];
-    this._homeService.loggedInUserInfo = await this._userService.getUser(userId);
-    this.user = this._homeService.loggedInUserInfo;
-    this.timelines = await this._homeService.getTimelines();
-    this.timelines.sort((timeline1: Timeline, timeline2: Timeline) => {
-      if (new Date(timeline1.postDateTime) > new Date(timeline2.postDateTime)) {
-        return -1;
-      }
-      else if (new Date(timeline1.postDateTime) < new Date(timeline2.postDateTime)) {
-        return 1;
-      }
-      return 0;
-    });
-    this.updateTimelines();
+    // this.user = await this._userService.getUser(userId);
+    // this.timelines = await this._homeService.getTimelines();
+
+    this.user = {
+      email: "asd",
+      profilePicture: "sdf",
+      userId: 1,
+      userName: "asd",
+      bio: "sdf"
+    }
+    this.timelines = [
+
+    ]
+
+    this.timelinesToDisplay = this.timelines;
   }
 
-  async filterPosts() {
+  async filterMyPosts() {
     this.seeAllTimelines = false;
     this.updateTimelines();
   }
@@ -88,7 +90,7 @@ export class LandingPageComponent implements OnInit {
         postId: res.postId,
         userId: res.userId,
         userName: this._homeService.loggedInUserInfo.userName,
-        avatar: this._homeService.loggedInUserInfo.avatar
+        avatar: this._homeService.loggedInUserInfo.profilePicture
       })
 
       this.timelines = timelines;
