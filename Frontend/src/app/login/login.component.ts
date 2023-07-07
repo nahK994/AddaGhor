@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from 'src/app/user/user.service';
+import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +15,7 @@ export class LoginComponent {
     private _router: Router,
     private _formBuilder: FormBuilder,
     private _activatedRoute: ActivatedRoute,
-    private _userService: UserService
+    private _appService: AppService
   ) {
     this.loginForm = this._formBuilder.group({
       email: [''],
@@ -29,7 +29,7 @@ export class LoginComponent {
 
   async onSubmit(){
     try {
-      let userId = await this._userService.loginUser({
+      let userId = await this._appService.loginUser({
         email: this.loginForm.get('email').value,
         password: this.loginForm.get('password').value
       })

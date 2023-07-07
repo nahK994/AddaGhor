@@ -18,9 +18,3 @@ export interface User
   occupation: string,
   avatar: string
 }
-
-export interface LoginCredentialModel
-{
-  email: string,
-  password: string
-}
