@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommentEvent, UpdateCommentOutput, UpdatePostOutput } from 'src/app/shared/components/post-card/post-card.component';
 import { User } from 'src/app/user/user.interface';
 import { UserService } from 'src/app/user/user.service';
-import { CreatePost, CreatePostComment, Timeline } from '../home.interface';
+import { ActivityFeed, CreatePost, CreatePostComment, Timeline } from '../home.interface';
 import { HomeService } from '../home.service';
 
 @Component({
@@ -15,9 +15,9 @@ import { HomeService } from '../home.service';
 export class LandingPageComponent implements OnInit {
 
   user: User;
-  timelines: Timeline[];
-  seeAllTimelines: boolean = true;
-  timelinesToDisplay: Timeline[];
+  activityFeed: ActivityFeed[];
+  // seeAllTimelines: boolean = true;
+  // timelinesToDisplay: Timeline[];
 
   constructor(
     public dialog: MatDialog,
@@ -30,7 +30,7 @@ export class LandingPageComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     let userId = this._activateRoute.snapshot.params['userId'];
     // this.user = await this._userService.getUser(userId);
-    // this.timelines = await this._homeService.getTimelines();
+    // this.activityFeed = await this._homeService.getActivityFeed();
 
     this.user = {
       email: "asd",
@@ -39,175 +39,191 @@ export class LandingPageComponent implements OnInit {
       userName: "asd",
       bio: "sdf"
     }
-    this.timelines = [
 
-    ]
-
-    this.timelinesToDisplay = this.timelines;
-  }
-
-  async filterMyPosts() {
-    this.seeAllTimelines = false;
-    this.updateTimelines();
-  }
-
-  async allPosts() {
-    this.seeAllTimelines = true;
-    this.updateTimelines();
-  }
-
-  updateTimelines() {
-    if (this.seeAllTimelines) {
-      this.timelinesToDisplay = [...this.timelines]
-    }
-    else {
-      let timelinesToDisplay = [];
-      for (let item of this.timelines) {
-        if (item.userId === this._homeService.loggedInUserInfo.userId) {
-          timelinesToDisplay.push(item);
-        }
-      }
-      this.timelinesToDisplay = timelinesToDisplay;
-    }
-  }
-
-  async submitPost(post: string) {
-    let createPostPayload: CreatePost = {
-      userId: this._homeService.loggedInUserInfo.userId,
-      postText: post
-    }
-
-    try {
-      let res = await this._homeService.createPost(createPostPayload);
-      let timelines = [...this.timelines]
-      timelines.unshift({
+    this.activityFeed = [
+      {
+        post: {
+          postId: 0,
+          text: "haha",
+          author: {
+            name: "sdf",
+            profilePic: "df"
+          },
+          visibility: "d"
+        },
         comments: [],
-        likeReactCount: 0,
-        loveReactCount: 0,
-        smileReactCount: 0,
-        postDateTime: res.postDateTime,
-        postText: res.postText,
-        postId: res.postId,
-        userId: res.userId,
-        userName: this._homeService.loggedInUserInfo.userName,
-        avatar: this._homeService.loggedInUserInfo.profilePicture
-      })
-
-      this.timelines = timelines;
-      this.updateTimelines();
-    }
-    catch (err) {
-
-    }
-  }
-
-  async updateReactForPost(postId: number, reactType: 'like' | 'love' | 'smile') {
-    try {
-      await this._homeService.reactPost(postId, reactType);
-      for (let item of this.timelines) {
-        if (item.postId === postId) {
-          if (reactType === 'like') {
-            item.likeReactCount += 1;
-          }
-          else if (reactType === 'love') {
-            item.loveReactCount += 1;
-          }
-          else {
-            item.smileReactCount += 1;
-          }
-          break;
-        }
-        this.updateTimelines();
-      }
-    }
-    catch (error) {
-      console.log(error)
-    }
-  }
-
-  async love(postId: number) {
-    this.updateReactForPost(postId, 'love');
-  }
-
-  async like(postId: number) {
-    this.updateReactForPost(postId, 'like');
-  }
-
-  async smile(postId: number) {
-    this.updateReactForPost(postId, 'smile');
-  }
-
-  async comment(commentOutput: CommentEvent) {
-    let payload: CreatePostComment = {
-      postId: commentOutput.postId,
-      commentText: commentOutput.commentText,
-      userId: this._homeService.loggedInUserInfo.userId
-    }
-
-    try {
-      let res = await this._homeService.createComment(payload);
-
-      let timelines = [...this.timelines]
-      for (let item of timelines) {
-        if (item.postId === payload.postId) {
-          item.comments.push({
-            userId: this._homeService.loggedInUserInfo.userId,
-            commentDateTime: res.commentDateTime,
-            commentId: res.commentId,
-            commentText: res.commentText,
-            userName: this._homeService.loggedInUserInfo.userName,
-            avatar: res.avatar
-          });
-          break;
+        replies: [],
+        react: {
+          like: 0,
+          love: 0,
+          smile: 0
         }
       }
-
-      this.timelines = timelines;
-      this.updateTimelines();
-    }
-    catch (error) {
-      console.log(error)
-    }
+    ]
   }
 
-  async updatePost(post: UpdatePostOutput) {
-    try {
-      await this._homeService.updatePost(post.postId, post.postInfo);
-      for (let item of this.timelines) {
-        if (item.postId === post.postId) {
-          item.postText = post.postInfo.postText;
-          break;
-        }
-      }
-      this.updateTimelines();
-    }
-    catch (error) {
-      console.log(error)
-    }
-  }
+  // async filterMyPosts() {
+  //   this.seeAllTimelines = false;
+  //   this.updateTimelines();
+  // }
 
-  async updateComment(comment: UpdateCommentOutput) {
-    try {
-      let isCommentUpdated = false;
-      await this._homeService.updateComment(comment.commentId, comment.commentInfo);
-      for (let item of this.timelines) {
-        for (let itemComment of item.comments) {
-          if (itemComment.commentId === comment.commentId) {
-            itemComment.commentText = comment.commentInfo.commentText;
-            isCommentUpdated = true;
-            break;
-          }
-        }
-        if(isCommentUpdated) {
-          break;
-        }
-      }
-      this.updateTimelines();
-    }
-    catch (error) {
-      console.log(error)
-    }
-  }
+  // async allPosts() {
+  //   this.seeAllTimelines = true;
+  //   this.updateTimelines();
+  // }
+
+  // updateTimelines() {
+  //   if (this.seeAllTimelines) {
+  //     this.timelinesToDisplay = [...this.timelines]
+  //   }
+  //   else {
+  //     let timelinesToDisplay = [];
+  //     for (let item of this.timelines) {
+  //       if (item.userId === this._homeService.loggedInUserInfo.userId) {
+  //         timelinesToDisplay.push(item);
+  //       }
+  //     }
+  //     this.timelinesToDisplay = timelinesToDisplay;
+  //   }
+  // }
+
+  // async submitPost(post: string) {
+  //   let createPostPayload: CreatePost = {
+  //     userId: this._homeService.loggedInUserInfo.userId,
+  //     postText: post
+  //   }
+
+  //   try {
+  //     let res = await this._homeService.createPost(createPostPayload);
+  //     let timelines = [...this.timelines]
+  //     timelines.unshift({
+  //       comments: [],
+  //       likeReactCount: 0,
+  //       loveReactCount: 0,
+  //       smileReactCount: 0,
+  //       postDateTime: res.postDateTime,
+  //       postText: res.postText,
+  //       postId: res.postId,
+  //       userId: res.userId,
+  //       userName: this._homeService.loggedInUserInfo.userName,
+  //       avatar: this._homeService.loggedInUserInfo.profilePicture
+  //     })
+
+  //     this.timelines = timelines;
+  //     this.updateTimelines();
+  //   }
+  //   catch (err) {
+
+  //   }
+  // }
+
+  // async updateReactForPost(postId: number, reactType: 'like' | 'love' | 'smile') {
+  //   try {
+  //     await this._homeService.reactPost(postId, reactType);
+  //     for (let item of this.timelines) {
+  //       if (item.postId === postId) {
+  //         if (reactType === 'like') {
+  //           item.likeReactCount += 1;
+  //         }
+  //         else if (reactType === 'love') {
+  //           item.loveReactCount += 1;
+  //         }
+  //         else {
+  //           item.smileReactCount += 1;
+  //         }
+  //         break;
+  //       }
+  //       this.updateTimelines();
+  //     }
+  //   }
+  //   catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
+  // async love(postId: number) {
+  //   this.updateReactForPost(postId, 'love');
+  // }
+
+  // async like(postId: number) {
+  //   this.updateReactForPost(postId, 'like');
+  // }
+
+  // async smile(postId: number) {
+  //   this.updateReactForPost(postId, 'smile');
+  // }
+
+  // async comment(commentOutput: CommentEvent) {
+  //   let payload: CreatePostComment = {
+  //     postId: commentOutput.postId,
+  //     commentText: commentOutput.commentText,
+  //     userId: this._homeService.loggedInUserInfo.userId
+  //   }
+
+  //   try {
+  //     let res = await this._homeService.createComment(payload);
+
+  //     let timelines = [...this.timelines]
+  //     for (let item of timelines) {
+  //       if (item.postId === payload.postId) {
+  //         item.comments.push({
+  //           userId: this._homeService.loggedInUserInfo.userId,
+  //           commentDateTime: res.commentDateTime,
+  //           commentId: res.commentId,
+  //           commentText: res.commentText,
+  //           userName: this._homeService.loggedInUserInfo.userName,
+  //           avatar: res.avatar
+  //         });
+  //         break;
+  //       }
+  //     }
+
+  //     this.timelines = timelines;
+  //     this.updateTimelines();
+  //   }
+  //   catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
+  // async updatePost(post: UpdatePostOutput) {
+  //   try {
+  //     await this._homeService.updatePost(post.postId, post.postInfo);
+  //     for (let item of this.timelines) {
+  //       if (item.postId === post.postId) {
+  //         item.postText = post.postInfo.postText;
+  //         break;
+  //       }
+  //     }
+  //     this.updateTimelines();
+  //   }
+  //   catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
+  // async updateComment(comment: UpdateCommentOutput) {
+  //   try {
+  //     let isCommentUpdated = false;
+  //     await this._homeService.updateComment(comment.commentId, comment.commentInfo);
+  //     for (let item of this.timelines) {
+  //       for (let itemComment of item.comments) {
+  //         if (itemComment.commentId === comment.commentId) {
+  //           itemComment.commentText = comment.commentInfo.commentText;
+  //           isCommentUpdated = true;
+  //           break;
+  //         }
+  //       }
+  //       if(isCommentUpdated) {
+  //         break;
+  //       }
+  //     }
+  //     this.updateTimelines();
+  //   }
+  //   catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   goToProfile() {
     this._router.navigate(['user', 'user-profile', this.user.userId])

@@ -64,7 +64,7 @@ export class HomeService {
     return response;
   }
 
-  async getTimelines() {
+  async getActivityFeed() {
     let response = await this.http.get<Timeline[]>(this.baseUrl_Timeline+'/timeline/all', this.httpOptions).toPromise();
 
     return response;

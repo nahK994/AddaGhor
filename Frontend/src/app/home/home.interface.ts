@@ -1,9 +1,38 @@
-export interface Post
-{
+interface Author {
+  profilePic: string,
+  name: string
+}
+
+export interface Post {
   postId: number,
-  userId: number,
-  postText: string,
-  postDateTime: string
+  text: string,
+  author: Author,
+  visibility: string
+}
+
+export interface Comment {
+  commentId: number,
+  author: Author,
+  text: string,
+}
+
+export interface React {
+  smile: number,
+  love: number,
+  like: number
+}
+
+export interface Reply {
+  referenceId: number,
+  text: string,
+  author: Author
+}
+
+export interface ActivityFeed {
+  post: Post,
+  comments: Comment[],
+  react: React,
+  replies: Reply[]
 }
 
 export interface CreatePost
@@ -28,14 +57,14 @@ export interface PostComment {
   avatar: string
 }
 
-export interface React
-{
-  postId: number,
-  reactId: number,
-  smileReactCount: number,
-  loveReactCount: number,
-  likeReactCount: number
-}
+// export interface React
+// {
+//   postId: number,
+//   reactId: number,
+//   smileReactCount: number,
+//   loveReactCount: number,
+//   likeReactCount: number
+// }
 
 export interface CreateReact
 {
