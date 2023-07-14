@@ -4,8 +4,8 @@
       <div class="title">
         Adda Ghor
       </div>
-      <button *ngIf="seeAllTimelines" mat-raised-button (click)="filterMyPosts()">Filter my posts</button>
-      <button *ngIf="!seeAllTimelines" mat-raised-button (click)="allPosts()">See all posts</button>
+      <button *ngIf="seeAllActivityFeed" mat-raised-button (click)="filterMyPosts()">Filter my posts</button>
+      <button *ngIf="!seeAllActivityFeed" mat-raised-button (click)="allPosts()">See all posts</button>
     </div>
     <div class="profile-and-create-post">
       <img *ngIf="user?.profilePicture" class="image" [src]="user?.avatar" />
@@ -25,9 +25,8 @@
     </div>
   
     <div class="timeline">
-      <ng-container *ngFor="let timeline of timelinesToDisplay">
-        <post-card [timeLineInfo]="timeline" [userId]="user?.userId" (likeEvent)="like($event)"
-          (smileEvent)="smile($event)" (loveEvent)="love($event)" (commentEvent)="comment($event)"
+      <ng-container *ngFor="let feed of allActivityFeed">
+        <post-card [activityFeed]="feed" [userId]="user?.userId" (likeEvent)="like($event)"
           (updatePost)="updatePost($event)" (updateComment)="updateComment($event)"></post-card>
       </ng-container>
     </div>

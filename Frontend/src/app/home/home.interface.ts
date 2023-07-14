@@ -1,6 +1,7 @@
 interface Author {
   profilePic: string,
-  name: string
+  name: string,
+  userId: number
 }
 
 export interface Post {
@@ -35,19 +36,6 @@ export interface ActivityFeed {
   replies: Reply[]
 }
 
-export interface CreatePost
-{
-  userId: number,
-  postText: string
-}
-
-export interface CreatePostComment
-{
-  postId: number,
-  userId: number,
-  commentText: string
-}
-
 export interface PostComment {
   commentId: number,
   userId: number,
@@ -56,49 +44,3 @@ export interface PostComment {
   commentDateTime: string,
   avatar: string
 }
-
-// export interface React
-// {
-//   postId: number,
-//   reactId: number,
-//   smileReactCount: number,
-//   loveReactCount: number,
-//   likeReactCount: number
-// }
-
-export interface CreateReact
-{
-  postId: number,
-  smileReactCount: number,
-  loveReactCount: number,
-  likeReactCount: number
-}
-
-export interface Timeline
-{
-  userId: number,
-  userName: string,
-  avatar: string,
-  postId: number,
-  postText: string,
-  postDateTime: string
-
-  smileReactCount: number,
-  loveReactCount: number,
-  likeReactCount: number,
-  comments: PostComment[]
-}
-
-// interface Post1{
-//   autherId: number,
-//   authorName: number,
-//   id: number,
-//   content: string,
-//   reacts: Array<PostReact>,
-//   comments: PostComment[]
-// }
-
-// interface PostReact{
-//   type: 'smile' | 'love' | 'like',
-//   count: number
-// }

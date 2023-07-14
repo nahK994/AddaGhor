@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommentEvent, UpdateCommentOutput, UpdatePostOutput } from 'src/app/shared/components/post-card/post-card.component';
 import { User } from 'src/app/user/user.interface';
 import { UserService } from 'src/app/user/user.service';
-import { ActivityFeed, CreatePost, CreatePostComment, Timeline } from '../home.interface';
+import { ActivityFeed } from '../home.interface';
 import { HomeService } from '../home.service';
 
 @Component({
@@ -16,8 +16,8 @@ export class LandingPageComponent implements OnInit {
 
   user: User;
   activityFeed: ActivityFeed[];
-  // seeAllTimelines: boolean = true;
-  // timelinesToDisplay: Timeline[];
+  allActivityFeed: ActivityFeed[];
+  seeAllActivityFeed: boolean = true;
 
   constructor(
     public dialog: MatDialog,
@@ -47,7 +47,8 @@ export class LandingPageComponent implements OnInit {
           text: "haha",
           author: {
             name: "sdf",
-            profilePic: "df"
+            profilePic: "df",
+            userId: 0
           },
           visibility: "d"
         },
@@ -87,71 +88,35 @@ export class LandingPageComponent implements OnInit {
   //   }
   // }
 
-  // async submitPost(post: string) {
-  //   let createPostPayload: CreatePost = {
-  //     userId: this._homeService.loggedInUserInfo.userId,
-  //     postText: post
-  //   }
+  async submitPost(post: string) {
+    // let createPostPayload: CreatePost = {
+    //   userId: this._homeService.loggedInUserInfo.userId,
+    //   postText: post
+    // }
 
-  //   try {
-  //     let res = await this._homeService.createPost(createPostPayload);
-  //     let timelines = [...this.timelines]
-  //     timelines.unshift({
-  //       comments: [],
-  //       likeReactCount: 0,
-  //       loveReactCount: 0,
-  //       smileReactCount: 0,
-  //       postDateTime: res.postDateTime,
-  //       postText: res.postText,
-  //       postId: res.postId,
-  //       userId: res.userId,
-  //       userName: this._homeService.loggedInUserInfo.userName,
-  //       avatar: this._homeService.loggedInUserInfo.profilePicture
-  //     })
+    // try {
+    //   let res = await this._homeService.createPost(createPostPayload);
+    //   let timelines = [...this.timelines]
+    //   timelines.unshift({
+    //     comments: [],
+    //     likeReactCount: 0,
+    //     loveReactCount: 0,
+    //     smileReactCount: 0,
+    //     postDateTime: res.postDateTime,
+    //     postText: res.postText,
+    //     postId: res.postId,
+    //     userId: res.userId,
+    //     userName: this._homeService.loggedInUserInfo.userName,
+    //     avatar: this._homeService.loggedInUserInfo.profilePicture
+    //   })
 
-  //     this.timelines = timelines;
-  //     this.updateTimelines();
-  //   }
-  //   catch (err) {
+    //   this.timelines = timelines;
+    //   this.updateTimelines();
+    // }
+    // catch (err) {
 
-  //   }
-  // }
-
-  // async updateReactForPost(postId: number, reactType: 'like' | 'love' | 'smile') {
-  //   try {
-  //     await this._homeService.reactPost(postId, reactType);
-  //     for (let item of this.timelines) {
-  //       if (item.postId === postId) {
-  //         if (reactType === 'like') {
-  //           item.likeReactCount += 1;
-  //         }
-  //         else if (reactType === 'love') {
-  //           item.loveReactCount += 1;
-  //         }
-  //         else {
-  //           item.smileReactCount += 1;
-  //         }
-  //         break;
-  //       }
-  //       this.updateTimelines();
-  //     }
-  //   }
-  //   catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
-  // async love(postId: number) {
-  //   this.updateReactForPost(postId, 'love');
-  // }
-
-  // async like(postId: number) {
-  //   this.updateReactForPost(postId, 'like');
-  // }
-
-  // async smile(postId: number) {
-  //   this.updateReactForPost(postId, 'smile');
-  // }
+    // }
+  }
 
   // async comment(commentOutput: CommentEvent) {
   //   let payload: CreatePostComment = {

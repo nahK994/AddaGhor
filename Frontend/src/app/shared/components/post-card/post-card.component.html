@@ -3,11 +3,11 @@
         <div class="header">
             <div class="title">
                 <div>
-                    <img class="post-image" src="assets/{{timeLineInfo?.avatar}}" />
+                    <img class="post-image" [src]="activityFeed.post.author.profilePic" />
                 </div>
-                <div class="text">{{timeLineInfo?.userName}}</div>
+                <div class="text">{{activityFeed.post.author.name}}</div>
             </div>
-            <button mat-icon-button color="primary" (click)="editPost()" *ngIf="timeLineInfo?.userId === userId && !isPostEditMode">
+            <button mat-icon-button color="primary" (click)="editPost()" *ngIf="activityFeed.post.author.userId === userId && !isPostEditMode">
                 <mat-icon>edit</mat-icon>
             </button>
         </div>
@@ -21,31 +21,31 @@
     <div class="react">
         <div class="react-item">
             <div>
-                {{timeLineInfo?.smileReactCount}}
+                {{activityFeed.react.smile}}
             </div>
-            <div class="react-action" (click)="smileReact()">
+            <div class="react-action" (click)="reactPost('smile')">
                 <angular-emojis [name]="'smiley'" size="20"></angular-emojis>
             </div>
         </div>
         <div class="react-item">
             <div class="react-count">
-                {{timeLineInfo?.loveReactCount}}
+                {{activityFeed.react.love}}
             </div>
-            <div class="react-action" (click)="loveReact()">
+            <div class="react-action" (click)="reactPost('love')">
                 <angular-emojis [name]="'heartpulse'" size="20"></angular-emojis>
             </div>
         </div>
         <div class="react-item">
             <div class="react-count">
-                {{timeLineInfo?.likeReactCount}}
+                {{activityFeed.react.like}}
             </div>
-            <div class="react-action" (click)="likeReact()">
+            <div class="react-action" (click)="reactPost('like')">
                 <angular-emojis [name]="'thumbsup'" size="20"></angular-emojis>
             </div>
         </div>
     </div>
     <div class="comment">
-        <div class="comment-item" *ngFor="let comment of timeLineInfo?.comments">
+        <div class="comment-item" *ngFor="let comment of activityFeed.comments">
             <div class="header">
                 <div class="commet-user-info">
                     <div>

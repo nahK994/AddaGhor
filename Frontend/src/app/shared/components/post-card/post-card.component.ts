@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { CreatePost, CreatePostComment, PostComment, Timeline } from 'src/app/home/home.interface';
+import { ActivityFeed, PostComment } from 'src/app/home/home.interface';
+import { CreatePost, PostCardService } from './post-card.service';
 
 export interface CommentEvent {
   postId: number;
@@ -22,25 +23,21 @@ export interface UpdateCommentOutput {
   templateUrl: './post-card.component.html',
   styleUrls: ['./post-card.component.scss']
 })
-export class PostCardComponent implements OnInit {
+export class PostCardComponent {
 
-  timeLineInfo: Timeline;
-  @Input('timeLineInfo') set setTimeLineInfo(val: Timeline) {
+  activityFeed: ActivityFeed;
+  @Input('activityFeed') set setActivityFeed(val: ActivityFeed) {
     if(!val) {
       return;
     }
-    this.timeLineInfo = val;
+    this.activityFeed = val;
   }
 
   @Input('userId') userId: number;
 
-  @Output() likeEvent: EventEmitter<number> = new EventEmitter();
-  @Output() smileEvent: EventEmitter<number> = new EventEmitter();
-  @Output() loveEvent: EventEmitter<number> = new EventEmitter();
-
   @Output() commentEvent: EventEmitter<CommentEvent> = new EventEmitter();
 
-  @Output() updatePost: EventEmitter<UpdatePostOutput> = new EventEmitter();
+  // @Output() updatePost: EventEmitter<UpdatePostOutput> = new EventEmitter();
   @Output() updateComment: EventEmitter<UpdateCommentOutput> = new EventEmitter();
 
   newComment = new FormControl();
@@ -52,45 +49,25 @@ export class PostCardComponent implements OnInit {
   isCommentEditMode: boolean;
   commentInfoToUpdate: PostComment;
 
-  constructor() { }
+  constructor(
+    private _postCardService: PostCardService
+  ) { }
 
-  ngOnInit(): void {
-  }
-
-  likeReact() {
-    this.likeEvent.emit(this.timeLineInfo.postId);
-  }
-
-  smileReact() {
-    this.smileEvent.emit(this.timeLineInfo.postId);
-  }
-
-  loveReact() {
-    this.loveEvent.emit(this.timeLineInfo.postId);
+  async reactPost(reactType: 'like'|'smile'|'love') {
+    await this._postCardService.reactPost(this.activityFeed.post.postId, reactType);
   }
 
   commentPost() {
     this.commentEvent.emit({
-      postId: this.timeLineInfo.postId,
+      postId: this.activityFeed.post.postId,
       commentText: this.newComment.value
     })
     this.newComment.setValue('');
   }
 
   editPost() {
-    this.post.setValue(this.timeLineInfo.postText);
+    this.post.setValue(this.activityFeed.post.postId);
     this.isPostEditMode = true;
-  }
-
-  submitPost() {
-    this.isPostEditMode = false;
-    this.updatePost.emit({
-      postId: this.timeLineInfo.postId,
-      postInfo: {
-        userId: this.userId,
-        postText: this.post.value
-      }
-    })
   }
 
   editComment(comment: PostComment) {
@@ -104,22 +81,31 @@ export class PostCardComponent implements OnInit {
     this.updateComment.emit({
       commentId: this.commentInfoToUpdate.commentId,
       commentInfo: {
-        postId: this.timeLineInfo.postId,
+        postId: this.activityFeed.post.postId,
         userId: this.userId,
         commentText: this.comment.value
       }
     })
   }
 
-  onUpdatePost(post: string) {
-    this.updatePost.emit({
-      postId: this.timeLineInfo.postId,
-      postInfo: {
-        userId: this.timeLineInfo.userId,
-        postText: post
-      }
-    })
-    this.isPostEditMode = false;
+  // onUpdatePost(post: string) {
+  //   this.updatePost.emit({
+  //     postId: this.activityFeed.post.postId,
+  //     postInfo: {
+  //       userId: this.userId,
+  //       postText: post
+  //     }
+  //   })
+  //   this.isPostEditMode = false;
+  // }
+  async updatePost(post: UpdatePostOutput) {
+    try {
+      await this._postCardService.updatePost(post.postId, post.postInfo);
+      this.activityFeed.post.text = post.postInfo.postText
+    }
+    catch (error) {
+      console.log(error)
+    }
   }
 
 }

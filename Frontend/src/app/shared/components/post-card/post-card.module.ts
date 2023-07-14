@@ -9,6 +9,8 @@ import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { PostModule } from '../post/post.module';
+import { PostCardService } from './post-card.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [PostCardComponent],
@@ -21,10 +23,14 @@ import { PostModule } from '../post/post.module';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    PostModule
+    PostModule,
+    HttpClientModule
   ],
   exports: [
     PostCardComponent
+  ],
+  providers: [
+    PostCardService
   ]
 })
 export class PostCardModule { }

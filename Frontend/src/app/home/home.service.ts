@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CreatePost } from '../shared/components/post-card/post-card.service';
 import { User } from '../user/user.interface';
-import { CreatePostComment, CreatePost, CreateReact, Post, Timeline, PostComment } from './home.interface';
+import { Post, PostComment, ActivityFeed } from './home.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -29,12 +30,12 @@ export class HomeService {
     return response;
   }
 
-  async updatePost(postId: number, payload: CreatePost) {
-    let URL_extention = '/post/update/'+postId;
-    let response = await this.http.put<CreatePost>(this.baseUrl_Post+URL_extention, payload, this.httpOptions).toPromise();
+  // async updatePost(postId: number, payload: CreatePost) {
+  //   let URL_extention = '/post/update/'+postId;
+  //   let response = await this.http.put<CreatePost>(this.baseUrl_Post+URL_extention, payload, this.httpOptions).toPromise();
 
-    return response;
-  }
+  //   return response;
+  // }
 
   async getPost(postId: number) {
     let URL_extention = '/posts/'+postId;
@@ -50,29 +51,22 @@ export class HomeService {
     return response;
   }
 
-  async updateComment(commentId: number, payload: CreatePostComment) {
-    let URL_extention = '/comment/update/'+commentId;
-    let response = await this.http.put<CreatePostComment>(this.baseUrl_Comment+URL_extention, payload, this.httpOptions).toPromise();
+  // async updateComment(commentId: number, payload: CreatePostComment) {
+  //   let URL_extention = '/comment/update/'+commentId;
+  //   let response = await this.http.put<CreatePostComment>(this.baseUrl_Comment+URL_extention, payload, this.httpOptions).toPromise();
 
-    return response;
-  }
-
-  async reactPost(postId: number, reactType: 'like'|'smile'|'love') {
-    let URL_extention = '/react/'+postId+'/'+reactType;
-    let response = await this.http.put<CreateReact>(this.baseUrl_React+URL_extention, this.httpOptions).toPromise();
-
-    return response;
-  }
+  //   return response;
+  // }
 
   async getActivityFeed() {
-    let response = await this.http.get<Timeline[]>(this.baseUrl_Timeline+'/timeline/all', this.httpOptions).toPromise();
+    let response = await this.http.get<ActivityFeed[]>(this.baseUrl_Timeline+'/timeline/all', this.httpOptions).toPromise();
 
     return response;
   }
 
   async getUserTimelines(userId: number) {
     let URL_extention = '/timeline/'+userId;
-    let response = await this.http.get<Timeline[]>(this.baseUrl_Timeline+URL_extention, this.httpOptions).toPromise();
+    let response = await this.http.get<ActivityFeed[]>(this.baseUrl_Timeline+URL_extention, this.httpOptions).toPromise();
 
     return response;
   }
