@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/user/user.interface';
 import { UserService } from 'src/app/user/user.service';
-import { ActivityFeed } from '../home.interface';
+import { ActivityFeed } from '../home.service';
 import { HomeService } from '../home.service';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ActivityFeed, Comment } from 'src/app/home/home.interface';
+import { ActivityFeed, Comment } from '../../../home/home.service'
 import { PostCardService } from './post-card.service';
 
 export interface CommentEvent {
