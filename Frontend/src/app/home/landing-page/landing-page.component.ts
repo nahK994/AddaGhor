@@ -81,31 +81,6 @@ export class LandingPageComponent implements OnInit {
     ]
   }
 
-  // async filterMyPosts() {
-  //   this.seeAllTimelines = false;
-  //   this.updateTimelines();
-  // }
-
-  // async allPosts() {
-  //   this.seeAllTimelines = true;
-  //   this.updateTimelines();
-  // }
-
-  // updateTimelines() {
-  //   if (this.seeAllTimelines) {
-  //     this.timelinesToDisplay = [...this.timelines]
-  //   }
-  //   else {
-  //     let timelinesToDisplay = [];
-  //     for (let item of this.timelines) {
-  //       if (item.userId === this._homeService.loggedInUserInfo.userId) {
-  //         timelinesToDisplay.push(item);
-  //       }
-  //     }
-  //     this.timelinesToDisplay = timelinesToDisplay;
-  //   }
-  // }
-
   async submitPost(post: string) {
     // let createPostPayload: CreatePost = {
     //   userId: this._homeService.loggedInUserInfo.userId,
@@ -135,78 +110,6 @@ export class LandingPageComponent implements OnInit {
 
     // }
   }
-
-  // async comment(commentOutput: CommentEvent) {
-  //   let payload: CreatePostComment = {
-  //     postId: commentOutput.postId,
-  //     commentText: commentOutput.commentText,
-  //     userId: this._homeService.loggedInUserInfo.userId
-  //   }
-
-  //   try {
-  //     let res = await this._homeService.createComment(payload);
-
-  //     let timelines = [...this.timelines]
-  //     for (let item of timelines) {
-  //       if (item.postId === payload.postId) {
-  //         item.comments.push({
-  //           userId: this._homeService.loggedInUserInfo.userId,
-  //           commentDateTime: res.commentDateTime,
-  //           commentId: res.commentId,
-  //           commentText: res.commentText,
-  //           userName: this._homeService.loggedInUserInfo.userName,
-  //           avatar: res.avatar
-  //         });
-  //         break;
-  //       }
-  //     }
-
-  //     this.timelines = timelines;
-  //     this.updateTimelines();
-  //   }
-  //   catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
-  // async updatePost(post: UpdatePostOutput) {
-  //   try {
-  //     await this._homeService.updatePost(post.postId, post.postInfo);
-  //     for (let item of this.timelines) {
-  //       if (item.postId === post.postId) {
-  //         item.postText = post.postInfo.postText;
-  //         break;
-  //       }
-  //     }
-  //     this.updateTimelines();
-  //   }
-  //   catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
-  // async updateComment(comment: UpdateCommentOutput) {
-  //   try {
-  //     let isCommentUpdated = false;
-  //     await this._homeService.updateComment(comment.commentId, comment.commentInfo);
-  //     for (let item of this.timelines) {
-  //       for (let itemComment of item.comments) {
-  //         if (itemComment.commentId === comment.commentId) {
-  //           itemComment.commentText = comment.commentInfo.commentText;
-  //           isCommentUpdated = true;
-  //           break;
-  //         }
-  //       }
-  //       if(isCommentUpdated) {
-  //         break;
-  //       }
-  //     }
-  //     this.updateTimelines();
-  //   }
-  //   catch (error) {
-  //     console.log(error)
-  //   }
-  // }
 
   goToProfile() {
     this._router.navigate(['user', 'user-profile', this.user.userId])
