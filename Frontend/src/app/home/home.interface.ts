@@ -36,11 +36,11 @@ export interface ActivityFeed {
   replies: Reply[]
 }
 
-export interface PostComment {
-  commentId: number,
-  userId: number,
-  userName: string,
-  commentText: string,
-  commentDateTime: string,
-  avatar: string
-}
+// export interface PostComment {
+//   commentId: number,
+//   userId: number,
+//   userName: string,
+//   commentText: string,
+//   commentDateTime: string,
+//   avatar: string
+// }

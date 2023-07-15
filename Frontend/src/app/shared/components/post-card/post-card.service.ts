@@ -9,11 +9,11 @@ export interface CreateComment
   commentText: string
 }
 
-export interface CreatePost
-{
-  userId: number,
-  postText: string
-}
+// export interface CreatePost
+// {
+//   userId: number,
+//   postText: string
+// }
 
 @Injectable({
   providedIn: 'root'
@@ -40,16 +40,33 @@ export class PostCardService {
     return response;
   }
 
-  async updateComment(commentId: number, payload: CreateComment) {
-    let URL_extention = '/comment/update/'+commentId;
-    let response = await lastValueFrom(this.http.put<CreateComment>(this.baseUrl+URL_extention, payload, this.httpOptions));
+  async updateComment(commentId: number, commentText: string) {
+    let URL_extention = '/comment/'+commentId;
+    let payload = {
+      "text": commentText,
+
+    }
+    let response = await lastValueFrom(this.http.put<number>(this.baseUrl+URL_extention, payload, this.httpOptions));
 
     return response;
   }
 
-  async updatePost(postId: number, payload: CreatePost) {
-    let URL_extention = '/post/update/'+postId;
-    let response = await lastValueFrom(this.http.put<CreatePost>(this.baseUrl+URL_extention, payload, this.httpOptions));
+  async updatePost(postId: number, postText: string) {
+    let payload = {
+      "text": postText
+    }
+    let URL_extention = '/post/'+postId;
+    let response = await lastValueFrom(this.http.put<number>(this.baseUrl+URL_extention, payload, this.httpOptions));
+
+    return response;
+  }
+
+  async createComment(postId: number, commentText: string) {
+    let payload = {
+      "postId": postId,
+      "text": commentText
+    }
+    let response = await lastValueFrom(this.http.post<number>(this.baseUrl+'/comment', payload, this.httpOptions));
 
     return response;
   }

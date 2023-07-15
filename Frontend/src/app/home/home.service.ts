@@ -1,8 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CreatePost } from '../shared/components/post-card/post-card.service';
 import { User } from '../user/user.interface';
-import { Post, PostComment, ActivityFeed } from './home.interface';
+import { Post, ActivityFeed } from './home.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -24,11 +23,11 @@ export class HomeService {
     private http: HttpClient
   ) { }
 
-  async createPost(payload: CreatePost) {
-    let response = await this.http.post<Post>(this.baseUrl_Post+'/post/create', payload, this.httpOptions).toPromise();
+  // async createPost(payload: CreatePost) {
+  //   let response = await this.http.post<Post>(this.baseUrl_Post+'/post/create', payload, this.httpOptions).toPromise();
 
-    return response;
-  }
+  //   return response;
+  // }
 
   // async updatePost(postId: number, payload: CreatePost) {
   //   let URL_extention = '/post/update/'+postId;
@@ -45,11 +44,11 @@ export class HomeService {
   }
 
 
-  async createComment(payload: CreatePostComment) {
-    let response = await this.http.post<PostComment>(this.baseUrl_Comment+'/comment/create', payload, this.httpOptions).toPromise();
+  // async createComment(payload: CreatePostComment) {
+  //   let response = await this.http.post<PostComment>(this.baseUrl_Comment+'/comment/create', payload, this.httpOptions).toPromise();
 
-    return response;
-  }
+  //   return response;
+  // }
 
   // async updateComment(commentId: number, payload: CreatePostComment) {
   //   let URL_extention = '/comment/update/'+commentId;

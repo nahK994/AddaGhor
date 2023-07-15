@@ -12,10 +12,10 @@
             </button>
         </div>
         <div *ngIf="!isPostEditMode">
-            {{timeLineInfo?.postText}}
+            {{activityFeed.post.text}}
         </div>
         <div class="edit" *ngIf="isPostEditMode">
-            <post [mode]="'update'" [value]="timeLineInfo?.postText" (post)="onUpdatePost($event)"></post>
+            <post [mode]="'update'" [value]="activityFeed.post.text" (post)="updatePost($event)"></post>
         </div>
     </div>
     <div class="react">
@@ -49,33 +49,33 @@
             <div class="header">
                 <div class="commet-user-info">
                     <div>
-                        <img class="comment-image" src="assets/{{comment?.avatar}}" />
+                        <img class="comment-image" [src]="comment.author.profilePic" />
                     </div>
-                    <div class="text">{{comment?.userName}}</div>
+                    <div class="text">{{comment.author.name}}</div>
                 </div>
-                <button mat-icon-button *ngIf="comment?.userId === userId" color="primary" (click)="editComment(comment)">
+                <button mat-icon-button *ngIf="comment.author.userId === userId" color="primary" (click)="editComment(comment)">
                     <mat-icon>edit</mat-icon>
                 </button>
             </div>
-            <div class="comment-text">{{comment?.commentText}}</div>
+            <ng-container *ngIf="commentEditModeId !== comment.commentId; else updateCommentBody">
+                <div class="comment-text">{{comment?.text}}</div>
+            </ng-container>
+            <ng-template #updateCommentBody>
+                <div class="new-comment">
+                    <mat-form-field appearance="outline" class="input-style">
+                        <mat-label>Update comment</mat-label>
+                        <input [formControl]="commentFormControl" matInput placeholder="Update comment">
+                    </mat-form-field>
+                    <button class="action-btn" mat-raised-button color="primary" (click)="updateComment(comment)">Update</button>
+                </div>
+            </ng-template>
         </div>
-        <ng-container *ngIf="!isCommentEditMode; else updateCommentBody">
-            <div class="new-comment">
-                <mat-form-field appearance="outline" class="input-style">
-                    <mat-label>Write comment</mat-label>
-                    <input [formControl]="newComment" matInput placeholder="Wite comment">
-                </mat-form-field>
-                <button class="action-btn" mat-raised-button color="primary" (click)="commentPost()">Comment</button>
-            </div>
-        </ng-container>
-        <ng-template #updateCommentBody>
-            <div class="new-comment">
-                <mat-form-field appearance="outline" class="input-style">
-                    <mat-label>Update comment</mat-label>
-                    <input [formControl]="comment" matInput placeholder="Update comment">
-                </mat-form-field>
-                <button class="action-btn" mat-raised-button color="primary" (click)="submitComment()">Update</button>
-            </div>
-        </ng-template>
+        <div class="new-comment">
+            <mat-form-field appearance="outline" class="input-style">
+                <mat-label>Write comment</mat-label>
+                <input [formControl]="commentBoxFormControl" matInput placeholder="Wite comment">
+            </mat-form-field>
+            <button class="action-btn" mat-raised-button color="primary" (click)="createComment()">Comment</button>
+        </div>
     </div>
 </mat-card>

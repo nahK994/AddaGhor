@@ -1,21 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ActivityFeed, PostComment } from 'src/app/home/home.interface';
-import { CreatePost, PostCardService } from './post-card.service';
+import { ActivityFeed, Comment } from 'src/app/home/home.interface';
+import { PostCardService } from './post-card.service';
 
 export interface CommentEvent {
   postId: number;
   commentText: string;
-}
-
-export interface UpdatePostOutput {
-  postId: number;
-  postInfo: CreatePost;
-}
-
-export interface UpdateCommentOutput {
-  commentId: number;
-  commentInfo: CreatePostComment;
 }
 
 @Component({
@@ -35,19 +25,16 @@ export class PostCardComponent {
 
   @Input('userId') userId: number;
 
-  @Output() commentEvent: EventEmitter<CommentEvent> = new EventEmitter();
-
-  // @Output() updatePost: EventEmitter<UpdatePostOutput> = new EventEmitter();
-  @Output() updateComment: EventEmitter<UpdateCommentOutput> = new EventEmitter();
-
-  newComment = new FormControl();
+  commentBoxFormControl = new FormControl();
 
   post: FormControl = new FormControl();
-  comment: FormControl = new FormControl();
+  commentFormControl: FormControl = new FormControl();
 
   isPostEditMode: boolean;
-  isCommentEditMode: boolean;
-  commentInfoToUpdate: PostComment;
+  commentEditModeId: number = -1;
+
+  
+  // commentInfoToUpdate: PostComment;
 
   constructor(
     private _postCardService: PostCardService
@@ -57,12 +44,9 @@ export class PostCardComponent {
     await this._postCardService.reactPost(this.activityFeed.post.postId, reactType);
   }
 
-  commentPost() {
-    this.commentEvent.emit({
-      postId: this.activityFeed.post.postId,
-      commentText: this.newComment.value
-    })
-    this.newComment.setValue('');
+  async createComment() {
+    await this._postCardService.createComment(this.activityFeed.post.postId, this.commentBoxFormControl.value);
+    this.commentBoxFormControl.setValue('');
   }
 
   editPost() {
@@ -70,38 +54,21 @@ export class PostCardComponent {
     this.isPostEditMode = true;
   }
 
-  editComment(comment: PostComment) {
-    this.comment.setValue(comment.commentText);
-    this.commentInfoToUpdate = comment
-    this.isCommentEditMode = true;
+  editComment(comment: Comment) {
+    this.commentFormControl.setValue(comment.text);
+    // this.commentInfoToUpdate = comment
+    this.commentEditModeId = comment.commentId;
   }
 
-  submitComment() {
-    this.isCommentEditMode = false;
-    this.updateComment.emit({
-      commentId: this.commentInfoToUpdate.commentId,
-      commentInfo: {
-        postId: this.activityFeed.post.postId,
-        userId: this.userId,
-        commentText: this.comment.value
-      }
-    })
+  async updateComment(comment: Comment) {
+    await this._postCardService.updateComment(comment.commentId, this.commentFormControl.value);
+    this.commentEditModeId = -1;
   }
 
-  // onUpdatePost(post: string) {
-  //   this.updatePost.emit({
-  //     postId: this.activityFeed.post.postId,
-  //     postInfo: {
-  //       userId: this.userId,
-  //       postText: post
-  //     }
-  //   })
-  //   this.isPostEditMode = false;
-  // }
-  async updatePost(post: UpdatePostOutput) {
+  async updatePost(postText: string) {
     try {
-      await this._postCardService.updatePost(post.postId, post.postInfo);
-      this.activityFeed.post.text = post.postInfo.postText
+      await this._postCardService.updatePost(this.activityFeed.post.postId, postText);
+      this.activityFeed.post.text = postText;
     }
     catch (error) {
       console.log(error)

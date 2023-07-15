@@ -25,9 +25,8 @@
     </div>
   
     <div class="timeline">
-      <ng-container *ngFor="let feed of allActivityFeed">
-        <post-card [activityFeed]="feed" [userId]="user?.userId" (likeEvent)="like($event)"
-          (updatePost)="updatePost($event)" (updateComment)="updateComment($event)"></post-card>
+      <ng-container *ngFor="let feed of activityFeed">
+        <post-card [activityFeed]="feed" [userId]="user?.userId"></post-card>
       </ng-container>
     </div>
   </div>

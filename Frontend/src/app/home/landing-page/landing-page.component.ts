@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommentEvent, UpdateCommentOutput, UpdatePostOutput } from 'src/app/shared/components/post-card/post-card.component';
 import { User } from 'src/app/user/user.interface';
 import { UserService } from 'src/app/user/user.service';
 import { ActivityFeed } from '../home.interface';
@@ -47,12 +46,31 @@ export class LandingPageComponent implements OnInit {
           text: "haha",
           author: {
             name: "sdf",
-            profilePic: "df",
-            userId: 0
+            profilePic: "https://c4.wallpaperflare.com/wallpaper/65/932/27/anime-demon-slayer-kimetsu-no-yaiba-boy-earrings-kimetsu-no-yaiba-hd-wallpaper-preview.jpg",
+            userId: 1
           },
           visibility: "d"
         },
-        comments: [],
+        comments: [
+          {
+            author: {
+              name: "asd",
+              profilePic: "https://c4.wallpaperflare.com/wallpaper/65/932/27/anime-demon-slayer-kimetsu-no-yaiba-boy-earrings-kimetsu-no-yaiba-hd-wallpaper-preview.jpg",
+              userId: 2
+            },
+            commentId: 0,
+            text: "hahyerg eg"
+          },
+          {
+            author: {
+              name: "Author",
+              profilePic: "https://c4.wallpaperflare.com/wallpaper/65/932/27/anime-demon-slayer-kimetsu-no-yaiba-boy-earrings-kimetsu-no-yaiba-hd-wallpaper-preview.jpg",
+              userId: 1
+            },
+            commentId: 1,
+            text: "hahyerg eg author"
+          }
+        ],
         replies: [],
         react: {
           like: 0,
