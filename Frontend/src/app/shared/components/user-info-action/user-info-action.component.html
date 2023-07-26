@@ -1,27 +1,13 @@
 <div class="user-info-action">
     <mat-card [formGroup]="formGroup" class="info">
         <mat-form-field appearance="outline">
-            <mat-label>Choose an avatar</mat-label>
-            <mat-select formControlName="avatar" [disabled]="mode === 'view'">
-                <mat-option value="surveyCorp.png">Survey Corp</mat-option>
-                <mat-option value="meliteryPolice.png">Melitery Police</mat-option>
-                <mat-option value="gerrison.png">Gerrison</mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-            <mat-label>User Name</mat-label>
-            <input formControlName="userName" matInput placeholder="User Name" [readonly]="mode === 'view'">
+            <mat-label>Name</mat-label>
+            <input formControlName="name" matInput placeholder="Name" [readonly]="mode === 'view'">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
             <mat-label>Email</mat-label>
             <input formControlName="email" matInput placeholder="Email" [readonly]="mode === 'view'">
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-            <mat-label>Occupation</mat-label>
-            <input formControlName="occupation" matInput placeholder="occupation" [readonly]="mode === 'view'">
         </mat-form-field>
 
         <mat-form-field appearance="outline">

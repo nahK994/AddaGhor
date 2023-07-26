@@ -23,12 +23,10 @@ export class UserInfoActionComponent {
       return;
     }
 
-    this.formGroup.get('userName').setValue(val.userName);
+    this.formGroup.get('name').setValue(val.userName);
     this.formGroup.get('bio').setValue(val.bio);
-    this.formGroup.get('occupation').setValue(val.occupation);
     this.formGroup.get('email').setValue(val.email);
     this.formGroup.get('password').setValue(val.password);
-    this.formGroup.get('avatar').setValue(val.avatar);
   }
 
   @Output() userInfo: EventEmitter<CreateUser> = new EventEmitter();
@@ -39,12 +37,10 @@ export class UserInfoActionComponent {
     private _fb: FormBuilder
   ) {
     this.formGroup = this._fb.group({
-      userName: [''],
+      name: [''],
       bio: [''],
-      occupation: [''],
       email: [''],
-      password: [''],
-      avatar: ['']
+      password: ['']
     })
   }
 

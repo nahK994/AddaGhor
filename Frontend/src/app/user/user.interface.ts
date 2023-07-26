@@ -10,9 +10,9 @@ export interface CreateUser
 
 export interface User
 {
-  userId: number,
-  userName: string,
+  userId?: number,
+  name: string,
   bio?: string,
   email: string,
-  profilePicture: string
+  profilePicture?: string
 }

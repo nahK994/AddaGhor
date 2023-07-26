@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { lastValueFrom } from 'rxjs';
 import { CreateUser, User } from './user.interface';
 
 @Injectable({
@@ -17,7 +18,7 @@ export class UserService {
   ) { }
 
   async createUser(payload: CreateUser) {
-    let response = await this.http.post<User>(this.baseUrl_Login+'/user/create', payload, this.httpOptions).toPromise();
+    let response = await lastValueFrom(this.http.post<number>(this.baseUrl_Login+'/user/create', payload, this.httpOptions));
 
     return response;
   }
