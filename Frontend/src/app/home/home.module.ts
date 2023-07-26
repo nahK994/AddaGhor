@@ -10,6 +10,7 @@ import { MatCardModule } from '@angular/material/card';
 import { PostModule } from '../shared/components/post/post.module';
 import { PostCardModule } from '../shared/components/post-card/post-card.module';
 import { AccessTokenInterceptor } from '../interceptor/token.interceptor';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { AccessTokenInterceptor } from '../interceptor/token.interceptor';
     PostModule,
     UserModule,
     PostCardModule,
-    MatCardModule
+    MatCardModule,
+    MatButtonModule
   ],
   providers: [
     {

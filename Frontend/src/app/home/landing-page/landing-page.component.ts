@@ -120,4 +120,12 @@ export class LandingPageComponent implements OnInit {
       relativeTo: this._activateRoute
     })
   }
+
+  filterMyPosts() {
+    this.seeAllActivityFeed = false;
+  }
+
+  allPosts() {
+    this.seeAllActivityFeed = true;
+  }  
 }
