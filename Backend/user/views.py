@@ -1,17 +1,14 @@
 from rest_framework.response import Response
-from rest_framework import status, viewsets, permissions
+from rest_framework import status, viewsets
 
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserRegistrationSerializer, UserSerializer, UserListSerializer, UserLoginSerializer
-from rest_framework.permissions import BasePermission
+from rest_framework.permissions import BasePermission, IsAuthenticated
 from .models import User
 
 
 class UserPermission(BasePermission):
-    def has_permission(self, request, view):
-        return request.user.is_authenticated
-
-    def has_permission_object(self, request, view, obj):
+    def has_object_permission(self, request, view, obj):
         return obj == request.user
 
 
@@ -46,17 +43,21 @@ class UserLoginViewset(viewsets.ModelViewSet):
 class UserViewset(viewsets.ModelViewSet):
     http_method_names = ["get", "put", "delete"]
     serializer_class = UserSerializer
-    queryset = User
-    permission_classes = [UserPermission]
+    queryset = User.objects.all()
 
     def get_permissions(self):
-        return super().get_permissions()
+        permission_classes = [IsAuthenticated]
+        if self.action == 'update' or self.action == 'destroy':
+            permission_classes.append(UserPermission)
+
+        return [permission() for permission in permission_classes]
+
 
     def list(self, request):
         if not request.user.is_admin:
             return Response("not allowed", status=status.HTTP_403_FORBIDDEN)
 
-        users = User.objects.all()
+        users = self.queryset
         serializer = UserListSerializer(users, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
