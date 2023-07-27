@@ -2,8 +2,17 @@ from rest_framework.response import Response
 from rest_framework import status, viewsets, permissions
 
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import User, UserProfile
-from .serializers import UserProfileSerializer, UserSerializer, UserListSerializer, UserLoginSerializer
+from .serializers import UserRegistrationSerializer, UserSerializer, UserListSerializer, UserLoginSerializer
+from rest_framework.permissions import BasePermission
+from .models import User
+
+
+class UserPermission(BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_authenticated
+
+    def has_permission_object(self, request, view, obj):
+        return obj == request.user
 
 
 def get_tokens_for_user(user):
@@ -34,12 +43,16 @@ class UserLoginViewset(viewsets.ModelViewSet):
             return Response("invalid email or password", status=status.HTTP_403_FORBIDDEN)
 
 
-class UserViewset(viewsets.ViewSet):
+class UserViewset(viewsets.ModelViewSet):
     http_method_names = ["get", "put", "delete"]
-    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = UserSerializer
+    queryset = User
+    permission_classes = [UserPermission]
+
+    def get_permissions(self):
+        return super().get_permissions()
 
     def list(self, request):
-        # print(request.user)
         if not request.user.is_admin:
             return Response("not allowed", status=status.HTTP_403_FORBIDDEN)
 
@@ -48,65 +61,7 @@ class UserViewset(viewsets.ViewSet):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def retrieve(self, request, pk):
-        if pk != request.user.id:
-            return Response({'message': 'You are not allowed to access other user details'},
-                            status=status.HTTP_403_FORBIDDEN)
 
-        filtered_user = User.objects.filter(id=pk)
-        if not filtered_user:
-            return Response({'message': 'no such user'}, status=status.HTTP_404_NOT_FOUND)
-        user = filtered_user[0]
-        serializer = UserSerializer(user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def update(self, request, pk=None):
-        user = request.user
-        if 'email' in request.data:
-            filtered_user = User.objects.filter(email=request.data['email']).exclude(id=pk)
-            if filtered_user:
-                return Response({'message': 'Email already exists'}, status=status.HTTP_403_FORBIDDEN)
-
-        user.email = request.data['email']
-        user.name = request.data['name']
-
-        if 'password' in request.data:
-            user.set_password(request.data['password'])
-        user.save()
-        serialized_user = UserSerializer(user)
-        return Response(serialized_user.data, status=status.HTTP_200_OK)
-
-    def delete(self, request, pk):
-        if not request.user.is_admin:
-            return Response("not allowed", status=status.HTTP_403_FORBIDDEN)
-
-        filtered_user = User.objects.filter(id=pk)
-        if not filtered_user:
-            return Response("no such user", status=status.HTTP_404_NOT_FOUND)
-        user = filtered_user[0]
-
-        user.delete()
-        return Response("user deleted", status=status.HTTP_200_OK)
-
-
-class UserRegistrationViewset(viewsets.ViewSet):
+class UserRegistrationViewset(viewsets.ModelViewSet):
+    serializer_class = UserRegistrationSerializer
     http_method_names = ["post"]
-
-    def create(self, request):
-        try:
-            data = request.data
-            if len(User.objects.filter(email=data['email'])):
-                return Response({'message': 'Email already exists'}, status=status.HTTP_403_FORBIDDEN)
-
-            user_obj = User.objects.create_user(data['name'], data['email'], data['password'])
-
-            user_profile_obj = UserProfile.objects.create(
-                user=user_obj,
-                bio=data['bio'],
-                profile_picture=data['profilePicture']
-            )
-            user_profile_serializer = UserProfileSerializer(user_profile_obj, context={'request': request})
-
-            return Response(user_profile_serializer.data, status=status.HTTP_201_CREATED)
-        except Exception as e:
-            return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
