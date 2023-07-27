@@ -35,7 +35,7 @@ export class LandingPageComponent implements OnInit {
       email: "asd",
       profilePicture: "sdf",
       userId: 1,
-      userName: "asd",
+      name: "asd",
       bio: "sdf"
     }
 
