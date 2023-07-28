@@ -9,7 +9,7 @@
     </div>
     <div class="profile-and-create-post">
       <img *ngIf="user?.profilePicture" class="image" [src]="user?.avatar" />
-      <div class="name" (click)="goToProfile()">{{user?.userName}}</div>
+      <div class="name" (click)="goToProfile()">{{user?.name}}</div>
       <button mat-stroked-button (click)="logout()">
         <span>Logout</span>
         <mat-icon style="margin-left: 8px;">logout</mat-icon>
