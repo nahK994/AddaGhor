@@ -11,7 +11,7 @@
                 <mat-icon>edit</mat-icon>
             </button>
         </div>
-        <div *ngIf="!isPostEditMode">
+        <div class="post-text" *ngIf="!isPostEditMode">
             {{activityFeed.post.text}}
         </div>
         <div class="edit" *ngIf="isPostEditMode">
@@ -20,27 +20,27 @@
     </div>
     <div class="react">
         <div class="react-item">
-            <div>
-                {{activityFeed.react.smile}}
-            </div>
             <div class="react-action" (click)="reactPost('smile')">
                 <angular-emojis [name]="'smiley'" size="20"></angular-emojis>
             </div>
+            <div class="react-count">
+                {{activityFeed.react.smile}}
+            </div>
         </div>
         <div class="react-item">
-            <div class="react-count">
-                {{activityFeed.react.love}}
-            </div>
             <div class="react-action" (click)="reactPost('love')">
                 <angular-emojis [name]="'heartpulse'" size="20"></angular-emojis>
             </div>
+            <div class="react-count">
+                {{activityFeed.react.love}}
+            </div>
         </div>
         <div class="react-item">
-            <div class="react-count">
-                {{activityFeed.react.like}}
-            </div>
             <div class="react-action" (click)="reactPost('like')">
                 <angular-emojis [name]="'thumbsup'" size="20"></angular-emojis>
+            </div>
+            <div class="react-count">
+                {{activityFeed.react.like}}
             </div>
         </div>
     </div>
