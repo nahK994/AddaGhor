@@ -82,33 +82,25 @@ export class LandingPageComponent implements OnInit {
   }
 
   async submitPost(post: string) {
-    // let createPostPayload: CreatePost = {
-    //   userId: this._homeService.loggedInUserInfo.userId,
-    //   postText: post
-    // }
-
-    // try {
-    //   let res = await this._homeService.createPost(createPostPayload);
-    //   let timelines = [...this.timelines]
-    //   timelines.unshift({
-    //     comments: [],
-    //     likeReactCount: 0,
-    //     loveReactCount: 0,
-    //     smileReactCount: 0,
-    //     postDateTime: res.postDateTime,
-    //     postText: res.postText,
-    //     postId: res.postId,
-    //     userId: res.userId,
-    //     userName: this._homeService.loggedInUserInfo.userName,
-    //     avatar: this._homeService.loggedInUserInfo.profilePicture
-    //   })
-
-    //   this.timelines = timelines;
-    //   this.updateTimelines();
-    // }
-    // catch (err) {
-
-    // }
+    this.activityFeed.unshift({
+      post: {
+        postId: 0,
+        author:{
+          name: this.user.name,
+          profilePic: this.user.profilePicture,
+          userId: this.user.userId
+        },
+        text: post,
+        visibility: "a"
+      },
+      comments: [],
+      react: {
+        like: 0,
+        love: 0,
+        smile: 0
+      },
+      replies: []
+    })
   }
 
   goToProfile() {
