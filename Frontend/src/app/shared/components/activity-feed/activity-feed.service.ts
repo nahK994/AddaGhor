@@ -18,7 +18,7 @@ export interface CreateComment
 @Injectable({
   providedIn: 'root'
 })
-export class PostCardService {
+export class ActivityFeedService {
 
   baseUrl = ''
 

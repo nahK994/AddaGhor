@@ -8,7 +8,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { UserModule } from '../user/user.module';
 import { MatCardModule } from '@angular/material/card';
 import { PostModule } from '../shared/components/post/post.module';
-import { PostCardModule } from '../shared/components/post-card/post-card.module';
+import { ActivityFeedModule } from '../shared/components/activity-feed/activity-feed.module';
 import { AccessTokenInterceptor } from '../interceptor/token.interceptor';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -22,7 +22,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatIconModule,
     PostModule,
     UserModule,
-    PostCardModule,
+    ActivityFeedModule,
     MatCardModule,
     MatButtonModule
   ],

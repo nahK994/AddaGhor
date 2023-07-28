@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PostCardComponent } from './post-card.component';
+import { ActivityFeedComponent } from './activity-feed.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AngularEmojisModule } from 'angular-emojis';
@@ -9,11 +9,11 @@ import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { PostModule } from '../post/post.module';
-import { PostCardService } from './post-card.service';
+import { ActivityFeedService } from './activity-feed.service';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [PostCardComponent],
+  declarations: [ActivityFeedComponent],
   imports: [
     CommonModule,
     MatButtonModule,
@@ -27,10 +27,10 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   exports: [
-    PostCardComponent
+    ActivityFeedComponent
   ],
   providers: [
-    PostCardService
+    ActivityFeedService
   ]
 })
-export class PostCardModule { }
+export class ActivityFeedModule { }

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivityFeed, Comment } from '../../../home/home.service'
-import { PostCardService } from './post-card.service';
+import { ActivityFeedService } from './activity-feed.service';
 
 export interface CommentEvent {
   postId: number;
@@ -9,11 +9,11 @@ export interface CommentEvent {
 }
 
 @Component({
-  selector: 'post-card',
-  templateUrl: './post-card.component.html',
-  styleUrls: ['./post-card.component.scss']
+  selector: 'activity-feed',
+  templateUrl: './activity-feed.component.html',
+  styleUrls: ['./activity-feed.component.scss']
 })
-export class PostCardComponent {
+export class ActivityFeedComponent {
 
   activityFeed: ActivityFeed;
   @Input('activityFeed') set setActivityFeed(val: ActivityFeed) {
@@ -37,15 +37,15 @@ export class PostCardComponent {
   // commentInfoToUpdate: PostComment;
 
   constructor(
-    private _postCardService: PostCardService
+    private _activityFeedService: ActivityFeedService
   ) { }
 
   async reactPost(reactType: 'like'|'smile'|'love') {
-    await this._postCardService.reactPost(this.activityFeed.post.postId, reactType);
+    await this._activityFeedService.reactPost(this.activityFeed.post.postId, reactType);
   }
 
   async createComment() {
-    await this._postCardService.createComment(this.activityFeed.post.postId, this.commentBoxFormControl.value);
+    await this._activityFeedService.createComment(this.activityFeed.post.postId, this.commentBoxFormControl.value);
     this.commentBoxFormControl.setValue('');
   }
 
@@ -61,13 +61,13 @@ export class PostCardComponent {
   }
 
   async updateComment(comment: Comment) {
-    await this._postCardService.updateComment(comment.commentId, this.commentFormControl.value);
+    await this._activityFeedService.updateComment(comment.commentId, this.commentFormControl.value);
     this.commentEditModeId = -1;
   }
 
   async updatePost(postText: string) {
     try {
-      await this._postCardService.updatePost(this.activityFeed.post.postId, postText);
+      await this._activityFeedService.updatePost(this.activityFeed.post.postId, postText);
       this.activityFeed.post.text = postText;
     }
     catch (error) {
