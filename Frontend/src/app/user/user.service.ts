@@ -1,7 +1,25 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { CreateUser, User } from './user.interface';
+
+export interface CreateUser
+{
+  userName: string,
+  bio?: string,
+  email: string,
+  password: string,
+  occupation: string,
+  avatar: string
+}
+
+export interface User
+{
+  userId?: number,
+  name: string,
+  bio?: string,
+  email: string,
+  profilePicture?: string
+}
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '../user/user.interface';
+import { User } from '../user/user.service';
 
 interface Author {
   profilePic: string,
@@ -9,14 +9,14 @@ interface Author {
 }
 
 export interface Post {
-  postId: number,
+  postId?: number,
   text: string,
   author: Author,
   visibility: string
 }
 
 export interface Comment {
-  commentId: number,
+  commentId?: number,
   author: Author,
   text: string,
 }

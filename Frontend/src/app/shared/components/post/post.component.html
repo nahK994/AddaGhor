@@ -4,12 +4,8 @@
       <span *ngIf="isCreateMode">Write post</span>
       <span *ngIf="!isCreateMode">Update post</span>
     </mat-label>
-    <textarea 
-        matInput
-        maxlength="1000" [formControl]="postControl"
-        rows="8"
-        [placeholder]="isCreateMode? 'Write post':'Update post'">
-    </textarea>
+    <textarea matInput maxlength="1000" rows="8" [formControl]="postText"
+      [placeholder]="isCreateMode? 'Write post':'Update post'"></textarea>
   </mat-form-field>
   <button style="width: fit-content;" mat-raised-button color="primary" (click)="onSubmitPost()">
     <span *ngIf="isCreateMode">Post</span>

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { CreateUser } from '../user.interface';
-import { UserService } from '../user.service';
+import { CreateUser, UserService } from '../user.service';
 
 @Component({
   selector: 'app-create-user',

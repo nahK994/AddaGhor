@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CreateUser } from 'src/app/user/user.interface';
+import { CreateUser } from 'src/app/user/user.service';
 
 @Component({
   selector: 'user-info-action',

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { User } from 'src/app/user/user.interface';
+import { User } from 'src/app/user/user.service';
 import { UserService } from 'src/app/user/user.service';
 import { ActivityFeed } from '../home.service';
 import { HomeService } from '../home.service';
@@ -56,7 +56,7 @@ export class LandingPageComponent implements OnInit {
             author: {
               name: "asd",
               profilePic: "https://c4.wallpaperflare.com/wallpaper/65/932/27/anime-demon-slayer-kimetsu-no-yaiba-boy-earrings-kimetsu-no-yaiba-hd-wallpaper-preview.jpg",
-              userId: 2
+              userId: 1
             },
             commentId: 0,
             text: "hahyerg eg"
@@ -65,7 +65,7 @@ export class LandingPageComponent implements OnInit {
             author: {
               name: "Author",
               profilePic: "https://c4.wallpaperflare.com/wallpaper/65/932/27/anime-demon-slayer-kimetsu-no-yaiba-boy-earrings-kimetsu-no-yaiba-hd-wallpaper-preview.jpg",
-              userId: 1
+              userId: 2
             },
             commentId: 1,
             text: "hahyerg eg author"

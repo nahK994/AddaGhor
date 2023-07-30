@@ -7,7 +7,7 @@
                 </div>
                 <div class="text">{{activityFeed.post.author.name}}</div>
             </div>
-            <button mat-icon-button color="primary" (click)="editPost()" *ngIf="activityFeed.post.author.userId === userId && !isPostEditMode">
+            <button mat-icon-button color="primary" (click)="editPost()" *ngIf="activityFeed.post.author.userId === user.userId && !isPostEditMode">
                 <mat-icon>edit</mat-icon>
             </button>
         </div>
@@ -15,7 +15,7 @@
             {{activityFeed.post.text}}
         </div>
         <div class="edit" *ngIf="isPostEditMode">
-            <post [mode]="'update'" [value]="activityFeed.post.text" (post)="updatePost($event)"></post>
+            <post [mode]="'edit'" [postInfo]="activityFeed.post" (post)="updatePost($event)"></post>
         </div>
     </div>
     <div class="react">
@@ -53,7 +53,7 @@
                     </div>
                     <div class="text">{{comment.author.name}}</div>
                 </div>
-                <button mat-icon-button *ngIf="comment.author.userId === userId" color="primary" (click)="editComment(comment)">
+                <button mat-icon-button *ngIf="comment.author.userId === user.userId" color="primary" (click)="editComment(comment)">
                     <mat-icon>edit</mat-icon>
                 </button>
             </div>

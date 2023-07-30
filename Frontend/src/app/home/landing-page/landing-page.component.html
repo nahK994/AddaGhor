@@ -26,7 +26,7 @@
   
     <div class="timeline">
       <ng-container *ngFor="let feed of activityFeed">
-        <activity-feed [activityFeed]="feed" [userId]="user?.userId"></activity-feed>
+        <activity-feed [activityFeed]="feed" [user]="user"></activity-feed>
       </ng-container>
     </div>
   </div>

@@ -11,24 +11,24 @@ export class PostComponent {
 
   isCreateMode: boolean = true;
   postId: number;
-  postControl = new FormControl();
+  postText: FormControl = new FormControl('');
   @Output() post: EventEmitter<string> = new EventEmitter<string>();
 
   @Input("mode") set setMode(val: "create" | "edit") {
     if(!val) {
       return;
     }
-    this.isCreateMode = val !== "create";
+    this.isCreateMode = val === "create";
   }
 
-  @Input("postInfo") set setPostText(val: {
+  @Input("postInfo") set setPostInfo(val: {
     "postId": number,
-    "postText": string
+    "text": string
   }) {
     if(!val) {
       return;
     }
-    this.postControl.setValue(val.postText);
+    this.postText.setValue(val.text);
     this.postId = val.postId;
   }
 
@@ -38,13 +38,13 @@ export class PostComponent {
 
   async onSubmitPost() {
     if(this.isCreateMode) {
-      await this._postService.createPost(this.postControl.value);
+      await this._postService.createPost(this.postText.value);
     }
     else {
-      await this._postService.updatePost(this.postId, this.postControl.value);
+      await this._postService.updatePost(this.postId, this.postText.value);
     }
-    this.postControl.setValue('');
-    this.post.emit(this.postControl.value);
+    this.post.emit(this.postText.value);
+    this.postText.setValue('');
   }
 
 }
