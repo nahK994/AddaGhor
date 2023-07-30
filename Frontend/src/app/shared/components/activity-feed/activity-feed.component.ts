@@ -33,9 +33,6 @@ export class ActivityFeedComponent {
   isPostEditMode: boolean;
   commentEditModeId: number = -1;
 
-  
-  // commentInfoToUpdate: PostComment;
-
   constructor(
     private _activityFeedService: ActivityFeedService
   ) { }

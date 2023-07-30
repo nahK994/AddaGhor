@@ -60,39 +60,12 @@ export class HomeService {
     private http: HttpClient
   ) { }
 
-  // async createPost(payload: CreatePost) {
-  //   let response = await this.http.post<Post>(this.baseUrl_Post+'/post/create', payload, this.httpOptions).toPromise();
-
-  //   return response;
-  // }
-
-  // async updatePost(postId: number, payload: CreatePost) {
-  //   let URL_extention = '/post/update/'+postId;
-  //   let response = await this.http.put<CreatePost>(this.baseUrl_Post+URL_extention, payload, this.httpOptions).toPromise();
-
-  //   return response;
-  // }
-
   async getPost(postId: number) {
     let URL_extention = '/posts/'+postId;
     let response = await this.http.get<Post>(this.baseUrl_Post+URL_extention, this.httpOptions).toPromise();
 
     return response;
   }
-
-
-  // async createComment(payload: CreatePostComment) {
-  //   let response = await this.http.post<PostComment>(this.baseUrl_Comment+'/comment/create', payload, this.httpOptions).toPromise();
-
-  //   return response;
-  // }
-
-  // async updateComment(commentId: number, payload: CreatePostComment) {
-  //   let URL_extention = '/comment/update/'+commentId;
-  //   let response = await this.http.put<CreatePostComment>(this.baseUrl_Comment+URL_extention, payload, this.httpOptions).toPromise();
-
-  //   return response;
-  // }
 
   async getActivityFeed() {
     let response = await this.http.get<ActivityFeed[]>(this.baseUrl_Timeline+'/timeline/all', this.httpOptions).toPromise();

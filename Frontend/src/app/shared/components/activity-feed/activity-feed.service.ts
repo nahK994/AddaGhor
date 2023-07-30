@@ -9,12 +9,6 @@ export interface CreateComment
   commentText: string
 }
 
-// export interface CreatePost
-// {
-//   userId: number,
-//   postText: string
-// }
-
 @Injectable({
   providedIn: 'root'
 })

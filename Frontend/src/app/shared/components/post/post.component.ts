@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output} from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { PostService } from './post.service';
 
 @Component({
   selector: 'post',
@@ -9,31 +10,41 @@ import { FormControl } from '@angular/forms';
 export class PostComponent {
 
   isCreateMode: boolean = true;
+  postId: number;
+  postControl = new FormControl();
+  @Output() post: EventEmitter<string> = new EventEmitter<string>();
+
   @Input("mode") set setMode(val: "create" | "edit") {
     if(!val) {
       return;
     }
-    if(val !== "create") {
-      this.isCreateMode = false;
-    }
+    this.isCreateMode = val !== "create";
   }
 
-  @Input("value") set setPostText(val: string) {
+  @Input("postInfo") set setPostText(val: {
+    "postId": number,
+    "postText": string
+  }) {
     if(!val) {
       return;
     }
-    this.postControl.setValue(val);
+    this.postControl.setValue(val.postText);
+    this.postId = val.postId;
   }
 
-  @Output() post: EventEmitter<string> = new EventEmitter<string>();
+  constructor(
+    private _postService: PostService
+  ) {}
 
-  constructor() {}
-
-  postControl = new FormControl();
-
-  onSubmitPost() {
-    this.post.emit(this.postControl.value)
+  async onSubmitPost() {
+    if(this.isCreateMode) {
+      await this._postService.createPost(this.postControl.value);
+    }
+    else {
+      await this._postService.updatePost(this.postId, this.postControl.value);
+    }
     this.postControl.setValue('');
+    this.post.emit(this.postControl.value);
   }
 
 }

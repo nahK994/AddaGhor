@@ -5,6 +5,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { PostService } from './post.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -14,10 +16,14 @@ import { MatInputModule } from '@angular/material/input';
     MatButtonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    HttpClientModule
   ],
   exports: [
     PostComponent
+  ],
+  providers: [
+    PostService
   ]
 })
 export class PostModule { }
