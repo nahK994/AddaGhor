@@ -16,7 +16,7 @@ class PostCommandPermission(BasePermission):
 
 class PostViewset(viewsets.ModelViewSet):
     serializer_class = PostSerializer
-    http_method_names = ["post", "put", "get"]
+    http_method_names = ["post", "put", "get", "delete"]
     queryset = Post.objects.prefetch_related('user').all()
 
 
