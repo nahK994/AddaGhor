@@ -4,6 +4,7 @@ from .models import User, UserProfile
 
 class UserSerializer(serializers.ModelSerializer):
     bio = serializers.CharField()
+
     class Meta:
         model = User
         fields = ['name', 'email', 'bio']
