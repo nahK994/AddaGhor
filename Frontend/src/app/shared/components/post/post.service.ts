@@ -19,10 +19,10 @@ export class PostService {
 
   async updatePost(postId: number, postText: string) {
     let payload = {
-      "text": postText,
-      "id": postId
+      "text": postText
     }
-    let response = await lastValueFrom(this.http.put<number>(this.baseUrl_Post+'/posts', payload, this.httpOptions));
+    let URL_extention = '/posts/'+postId;
+    let response = await lastValueFrom(this.http.put<number>(this.baseUrl_Post+URL_extention, payload, this.httpOptions));
 
     return response;
   }

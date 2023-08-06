@@ -17,6 +17,12 @@ class PostSerializer(serializers.ModelSerializer):
             text = data['text']
         )
         return post_obj
+
+
+    def update(self, instance, validated_data):
+        instance.text = validated_data.get('text', instance.text)
+        instance.save()
+        return instance
     
 
     def to_representation(self, instance):
