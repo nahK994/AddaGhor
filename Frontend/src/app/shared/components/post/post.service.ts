@@ -19,19 +19,19 @@ export class PostService {
 
   async updatePost(postId: number, postText: string) {
     let payload = {
-      "text": postText
+      "text": postText,
+      "id": postId
     }
-    let URL_extention = '/post/'+postId;
-    let response = await lastValueFrom(this.http.put<number>(this.baseUrl_Post+URL_extention, payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.put<number>(this.baseUrl_Post+'/posts', payload, this.httpOptions));
 
     return response;
   }
 
   async createPost(postText: string) {
     let payload = {
-      "postText": postText
+      "text": postText
     };
-    let response = await lastValueFrom(this.http.post<number>(this.baseUrl_Post+'/post', payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.post<number>(this.baseUrl_Post+'/posts', payload, this.httpOptions));
 
     return response;
   }
