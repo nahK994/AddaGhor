@@ -3,7 +3,6 @@ from .models import Comment, Post
 
 
 class PostSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Post
         fields = ['id', 'text']
@@ -30,7 +29,7 @@ class PostSerializer(serializers.ModelSerializer):
         }
 
     
-class CommentCommandSerializer(serializers.ModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
     postId = serializers.IntegerField()
 
     class Meta:

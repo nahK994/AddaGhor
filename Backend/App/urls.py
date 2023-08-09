@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from rest_framework import routers
 from rest_framework_swagger.views import get_swagger_view
-from timeline.views import CommentCommandViewset, PostViewset
+from timeline.views import CommentViewset, PostViewset
 from user.views import UserViewset, UserLoginViewset, UserRegistrationViewset
 from rest_framework_simplejwt.views import TokenRefreshView
 from django.conf import settings
@@ -34,7 +34,7 @@ class OptionalSlashRouter(routers.SimpleRouter):
 router = OptionalSlashRouter()
 
 router.register("posts", PostViewset, basename="posts")
-router.register("comments", CommentCommandViewset, basename="comments")
+router.register("comments", CommentViewset, basename="comments")
 
 router.register("users", UserViewset, basename="users")
 router.register("registration", UserRegistrationViewset, basename="registration")
