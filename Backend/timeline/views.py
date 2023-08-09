@@ -33,18 +33,6 @@ class PostViewset(viewsets.ModelViewSet):
         context.update({"request": self.request})
         return context
 
-    
-    def list(self, request, *args, **kwargs):
-        posts = self.queryset.filter(user=request.user)
-        serialized_data = PostSerializer(posts, many=True).data
-        return Response(serialized_data, status=status.HTTP_200_OK)
-
-    
-    def retrieve(self, request, pk):
-        post = self.queryset.filter(id=pk)
-        serialized_data = PostSerializer(post).data
-        return Response(serialized_data, status=status.HTTP_200_OK)
-
 
 class CommentCommandViewset(viewsets.ModelViewSet):
     serializer_class = CommentCommandSerializer
