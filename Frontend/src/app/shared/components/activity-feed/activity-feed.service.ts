@@ -35,7 +35,7 @@ export class ActivityFeedService {
   }
 
   async updateComment(commentId: number, commentText: string) {
-    let URL_extention = '/comment/'+commentId;
+    let URL_extention = '/comments/'+commentId;
     let payload = {
       "text": commentText,
 
@@ -50,7 +50,7 @@ export class ActivityFeedService {
       "postId": postId,
       "text": commentText
     }
-    let response = await lastValueFrom(this.http.post<number>(this.baseUrl+'/comment', payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.post<number>(this.baseUrl+'/comments', payload, this.httpOptions));
 
     return response;
   }
