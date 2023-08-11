@@ -25,11 +25,8 @@ export class ActivityFeedService {
   ) { }
 
   async reactPost(postId: number, reactType: 'like'|'smile'|'love') {
-    let URL_extention = '/react/'+postId+'/'+reactType;
-    let payload = {
-      "reactType": reactType
-    }
-    let response = await lastValueFrom(this.http.put(this.baseUrl+URL_extention, payload, this.httpOptions));
+    let URL_extention = '/posts/'+postId+'/'+reactType;
+    let response = await lastValueFrom(this.http.put(this.baseUrl+URL_extention, this.httpOptions));
 
     return response;
   }
