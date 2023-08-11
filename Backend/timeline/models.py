@@ -23,8 +23,8 @@ class Comment(models.Model):
 
 
 class React(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="post")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reacts")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="reacts")
     love = models.IntegerField(default=0)
     like = models.IntegerField(default=0)
     smile = models.IntegerField(default=0)
