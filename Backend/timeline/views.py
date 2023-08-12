@@ -2,8 +2,10 @@ from rest_framework import viewsets
 from .serializers import CommentSerializer, PostSerializer
 from rest_framework.permissions import BasePermission, IsAuthenticated
 from .models import Comment, Post, React
+from user.models import User
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.db.models.query import QuerySet
 
 
 class ReactType:
@@ -35,72 +37,67 @@ class PostViewset(viewsets.ModelViewSet):
         context = super().get_serializer_context()
         context.update({"request": self.request})
         return context
+
+    def update_post_react(self, react: QuerySet, like: int = 0, smile: int = 0, love: int = 0):
+        react.update(
+            smile=smile,
+            love=love,
+            like=like
+        )
+    
+    def create_post_react(self, user: User, post: Post, like: int = 0, smile: int = 0, love: int = 0):
+        React.objects.create(
+            user = user,
+            post = post,
+            smile=smile,
+            love=love,
+            like=like
+        )
     
     @action(methods=['put'], detail=True, url_path=ReactType.smile, url_name=ReactType.smile)
     def smile(self, request, pk):
         post = self.get_object()
         react = React.objects.filter(user=request.user)
-        if not react:
-            react = React.objects.create(
-                user = request.user,
-                post = post,
-                smile=1
-            )
-            return Response("success", status=200)
-        elif not react[0].smile:
-            react.update(
-                smile=1,
-                love=0,
-                like=0
-            )
-            return Response("success", status=200)
+        if react:
+            if react[0].smile:
+                react[0].delete()
+                return Response("removed", status=204)
+            else:
+                self.update_post_react(react, smile=1)
+                return Response("success", status=200)
         else:
-            react[0].delete()
-            return Response("removed", status=204)
+            self.create_post_react(user=request.user, post=post, smile=1)
+            return Response("success", status=200)
     
     @action(methods=['put'], detail=True, url_path=ReactType.love, url_name=ReactType.love)
     def love(self, request, pk):
         post = self.get_object()
         react = React.objects.filter(user=request.user)
-        if not react:
-            react = React.objects.create(
-                user = request.user,
-                post = post,
-                love=1
-            )
-            return Response("success", status=200)
-        elif not react[0].love:
-            react.update(
-                smile=0,
-                love=1,
-                like=0
-            )
-            return Response("success", status=200)
+        if react:
+            if react[0].love:
+                react[0].delete()
+                return Response("removed", status=204)
+            else:
+                self.update_post_react(react, love=1)
+                return Response("success", status=200)
         else:
-            react[0].delete()
-            return Response("removed", status=204)
+            self.create_post_react(user=request.user, post=post, love=1)
+            return Response("success", status=200)
     
     @action(methods=['put'], detail=True, url_path=ReactType.like, url_name=ReactType.like)
     def like(self, request, pk):
         post = self.get_object()
         react = React.objects.filter(user=request.user)
-        if not react:
-            react = React.objects.create(
-                user = request.user,
-                post = post,
-                like=1
-            )
-            return Response("success", status=200)
-        elif not react[0].like:
-            react.update(
-                smile=0,
-                love=0,
-                like=1
-            )
-            return Response("success", status=200)
+        if react:
+            if react[0].like:
+                react[0].delete()
+                return Response("removed", status=204)
+            else:
+                self.update_post_react(react, like=1)
+                return Response("success", status=200)
         else:
-            react[0].delete()
-            return Response("removed", status=204)
+            self.create_post_react(user=request.user, post=post, like=1)
+            return Response("success", status=200)
 
 
 class CommentViewset(viewsets.ModelViewSet):
