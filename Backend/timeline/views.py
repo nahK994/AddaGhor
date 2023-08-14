@@ -118,7 +118,7 @@ class CommentViewset(viewsets.ModelViewSet):
 
 
 class ActivityViewset(viewsets.ViewSet):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def list(self, request):
         posts = Post.objects.prefetch_related('reacts').all()
