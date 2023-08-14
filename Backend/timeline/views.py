@@ -102,14 +102,12 @@ class PostViewset(viewsets.ModelViewSet):
 
 class CommentViewset(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
-    http_method_names = ["post", "put", "delete", "get"]
     queryset = Comment.objects.prefetch_related('post').all()
 
     def get_permissions(self):
         permission_classes = [IsAuthenticated]
         if self.action == 'update' or self.action == 'destroy':
             permission_classes.append(CommandPermission)
-
         return [permission() for permission in permission_classes]
 
     def get_serializer_context(self):
