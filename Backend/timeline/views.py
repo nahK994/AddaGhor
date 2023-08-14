@@ -6,6 +6,7 @@ from user.models import User
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.db.models.query import QuerySet
+from django.db.models import Prefetch
 
 
 class ReactType:
@@ -114,3 +115,22 @@ class CommentViewset(viewsets.ModelViewSet):
         context = super().get_serializer_context()
         context.update({"request": self.request})
         return context
+
+
+class ActivityViewset(viewsets.ViewSet):
+    # permission_classes = [IsAuthenticated]
+
+    def list(self, request):
+        posts = Post.objects.prefetch_related('reacts').all()
+        activities = []
+        for post in posts:
+            activities.append({
+                "post": PostSerializer(post).data,
+                "comments": CommentSerializer(post.comments, many=True).data,
+                "react": {
+                    "love": 0,
+                    "like": 0,
+                    "smile": 0
+                } 
+            })
+        return Response(activities, status=200)
