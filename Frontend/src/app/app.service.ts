@@ -10,6 +10,13 @@ export interface LoginCredentialModel
   password: string
 }
 
+export interface LoginInfo {
+  userId: number,
+  isAdmin: boolean,
+  refresh: string,
+  access: string
+}
+
 interface Assets {
   accessToken: string;
   refreshToken: string;
@@ -54,7 +61,7 @@ export class AppService {
 
   async loginUser(loginInfo: LoginCredentialModel) {
     let loginURL_extention = '/login';
-    let response: number = await lastValueFrom(this.http.post<number>(this.doamin + loginURL_extention, loginInfo, this.httpOptions));
+    let response: LoginInfo = await lastValueFrom(this.http.post<LoginInfo>(this.doamin + loginURL_extention, loginInfo, this.httpOptions));
     return response;
   }
 
