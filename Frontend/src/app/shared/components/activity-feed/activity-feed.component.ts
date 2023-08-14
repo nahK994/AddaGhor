@@ -31,7 +31,7 @@ export class ActivityFeedComponent {
   post: FormControl = new FormControl();
   commentFormControl: FormControl = new FormControl();
 
-  isPostEditMode: boolean;
+  isPostEditMode: boolean = false;
   commentEditModeId: number = -1;
 
   constructor(

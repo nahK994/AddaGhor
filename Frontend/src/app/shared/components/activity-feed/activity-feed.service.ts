@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 export interface CreateComment
 {
@@ -14,7 +15,7 @@ export interface CreateComment
 })
 export class ActivityFeedService {
 
-  baseUrl = ''
+  readonly doamin = environment.domain
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -26,7 +27,7 @@ export class ActivityFeedService {
 
   async reactPost(postId: number, reactType: 'like'|'smile'|'love') {
     let URL_extention = '/posts/'+postId+'/'+reactType;
-    let response = await lastValueFrom(this.http.put(this.baseUrl+URL_extention, this.httpOptions));
+    let response = await lastValueFrom(this.http.put(this.doamin+URL_extention, this.httpOptions));
 
     return response;
   }
@@ -37,7 +38,7 @@ export class ActivityFeedService {
       "text": commentText,
 
     }
-    let response = await lastValueFrom(this.http.put<number>(this.baseUrl+URL_extention, payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.put<number>(this.doamin+URL_extention, payload, this.httpOptions));
 
     return response;
   }
@@ -47,7 +48,7 @@ export class ActivityFeedService {
       "postId": postId,
       "text": commentText
     }
-    let response = await lastValueFrom(this.http.post<number>(this.baseUrl+'/comments', payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.post<number>(this.doamin+'/comments', payload, this.httpOptions));
 
     return response;
   }

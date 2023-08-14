@@ -1,13 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
 
-  baseUrl_Post: string = 'http://localhost:8001';
+  readonly doamin = environment.domain
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -22,7 +23,7 @@ export class PostService {
       "text": postText
     }
     let URL_extention = '/posts/'+postId;
-    let response = await lastValueFrom(this.http.put<number>(this.baseUrl_Post+URL_extention, payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.put<number>(this.doamin+URL_extention, payload, this.httpOptions));
 
     return response;
   }
@@ -31,7 +32,7 @@ export class PostService {
     let payload = {
       "text": postText
     };
-    let response = await lastValueFrom(this.http.post<number>(this.baseUrl_Post+'/posts', payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.post<number>(this.doamin+'/posts', payload, this.httpOptions));
 
     return response;
   }

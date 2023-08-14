@@ -28,58 +28,8 @@ export class LandingPageComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     let userId = this._activateRoute.snapshot.params['userId'];
-    // this.user = await this._userService.getUser(userId);
-    // this.activityFeed = await this._homeService.getActivityFeed();
-
-    this.user = {
-      email: "asd",
-      profilePicture: "sdf",
-      userId: 1,
-      name: "asd",
-      bio: "sdf"
-    }
-
-    this.activityFeed = [
-      {
-        post: {
-          postId: 0,
-          text: "haha",
-          author: {
-            name: "sdf",
-            profilePic: "https://c4.wallpaperflare.com/wallpaper/65/932/27/anime-demon-slayer-kimetsu-no-yaiba-boy-earrings-kimetsu-no-yaiba-hd-wallpaper-preview.jpg",
-            userId: 1
-          },
-          date: ""
-        },
-        comments: [
-          {
-            author: {
-              name: "asd",
-              profilePic: "https://c4.wallpaperflare.com/wallpaper/65/932/27/anime-demon-slayer-kimetsu-no-yaiba-boy-earrings-kimetsu-no-yaiba-hd-wallpaper-preview.jpg",
-              userId: 1
-            },
-            commentId: 0,
-            text: "hahyerg eg",
-            date: ""
-          },
-          {
-            author: {
-              name: "Author",
-              profilePic: "https://c4.wallpaperflare.com/wallpaper/65/932/27/anime-demon-slayer-kimetsu-no-yaiba-boy-earrings-kimetsu-no-yaiba-hd-wallpaper-preview.jpg",
-              userId: 2
-            },
-            commentId: 1,
-            text: "hahyerg eg author",
-            date: ""
-          }
-        ],
-        react: {
-          like: 0,
-          love: 0,
-          smile: 0
-        }
-      }
-    ]
+    this.user = await this._userService.getUser(userId);
+    this.activityFeed = await this._homeService.getActivityFeed();
   }
 
   async submitPost(post: string) {
