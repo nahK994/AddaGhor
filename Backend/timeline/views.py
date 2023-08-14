@@ -6,7 +6,6 @@ from user.models import User
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.db.models.query import QuerySet
-from django.db.models import Prefetch
 
 
 class ReactType:
@@ -39,65 +38,61 @@ class PostViewset(viewsets.ModelViewSet):
         context.update({"request": self.request})
         return context
 
-    def update_post_react(self, react: QuerySet, like: int = 0, smile: int = 0, love: int = 0):
+    def update_post_react(self, react: QuerySet, react_type: str):
         react.update(
-            smile=smile,
-            love=love,
-            like=like
+            type = react_type
         )
     
-    def create_post_react(self, user: User, post: Post, like: int = 0, smile: int = 0, love: int = 0):
+    def create_post_react(self, user: User, post: Post, react_type: str):
         React.objects.create(
             user = user,
             post = post,
-            smile=smile,
-            love=love,
-            like=like
+            type = react_type
         )
     
     @action(methods=['put'], detail=True, url_path=ReactType.smile, url_name=ReactType.smile)
     def smile(self, request, pk):
         post = self.get_object()
-        react = React.objects.filter(user=request.user)
+        react = React.objects.filter(user=request.user, post=post)
         if react:
-            if react[0].smile:
+            if react[0].type == ReactType.smile:
                 react[0].delete()
                 return Response("removed", status=204)
             else:
-                self.update_post_react(react, smile=1)
+                self.update_post_react(react, ReactType.smile)
                 return Response("success", status=200)
         else:
-            self.create_post_react(user=request.user, post=post, smile=1)
+            self.create_post_react(user=request.user, post=post, react_type=ReactType.smile)
             return Response("success", status=200)
     
     @action(methods=['put'], detail=True, url_path=ReactType.love, url_name=ReactType.love)
     def love(self, request, pk):
         post = self.get_object()
-        react = React.objects.filter(user=request.user)
+        react = React.objects.filter(user=request.user, post=post)
         if react:
-            if react[0].love:
+            if react[0].type == ReactType.love:
                 react[0].delete()
                 return Response("removed", status=204)
             else:
-                self.update_post_react(react, love=1)
+                self.update_post_react(react, ReactType.love)
                 return Response("success", status=200)
         else:
-            self.create_post_react(user=request.user, post=post, love=1)
+            self.create_post_react(user=request.user, post=post, react_type=ReactType.love)
             return Response("success", status=200)
     
     @action(methods=['put'], detail=True, url_path=ReactType.like, url_name=ReactType.like)
     def like(self, request, pk):
         post = self.get_object()
-        react = React.objects.filter(user=request.user)
+        react = React.objects.filter(user=request.user, post=post)
         if react:
-            if react[0].like:
+            if react[0].type == ReactType.like:
                 react[0].delete()
                 return Response("removed", status=204)
             else:
-                self.update_post_react(react, like=1)
+                self.update_post_react(react, ReactType.like)
                 return Response("success", status=200)
         else:
-            self.create_post_react(user=request.user, post=post, like=1)
+            self.create_post_react(user=request.user, post=post, react_type=ReactType.like)
             return Response("success", status=200)
 
 
