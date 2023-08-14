@@ -123,9 +123,9 @@ class ActivityViewset(viewsets.ViewSet):
                 "post": PostSerializer(post).data,
                 "comments": CommentSerializer(post.comments, many=True).data,
                 "react": {
-                    "love": 0,
-                    "like": 0,
-                    "smile": 0
+                    "love": post.reacts.filter(type=ReactType.love).count(),
+                    "like": post.reacts.filter(type=ReactType.like).count(),
+                    "smile": post.reacts.filter(type=ReactType.smile).count()
                 } 
             })
         return Response(activities, status=200)
