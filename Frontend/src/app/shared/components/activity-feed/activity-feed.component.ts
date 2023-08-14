@@ -59,7 +59,8 @@ export class ActivityFeedComponent {
         profilePic: this.user.profilePicture,
         userId: this.user.userId
       },
-      text: this.commentBoxFormControl.value
+      text: this.commentBoxFormControl.value,
+      date: ""
     })
     this.commentBoxFormControl.setValue('');
   }

@@ -12,13 +12,14 @@ export interface Post {
   postId?: number,
   text: string,
   author: Author,
-  visibility: string
+  date: string
 }
 
 export interface Comment {
   commentId?: number,
   author: Author,
   text: string,
+  date: string
 }
 
 export interface React {
@@ -27,17 +28,10 @@ export interface React {
   like: number
 }
 
-export interface Reply {
-  referenceId: number,
-  text: string,
-  author: Author
-}
-
 export interface ActivityFeed {
   post: Post,
   comments: Comment[],
-  react: React,
-  replies: Reply[]
+  react: React
 }
 
 @Injectable({

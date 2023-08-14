@@ -49,7 +49,7 @@ export class LandingPageComponent implements OnInit {
             profilePic: "https://c4.wallpaperflare.com/wallpaper/65/932/27/anime-demon-slayer-kimetsu-no-yaiba-boy-earrings-kimetsu-no-yaiba-hd-wallpaper-preview.jpg",
             userId: 1
           },
-          visibility: "d"
+          date: ""
         },
         comments: [
           {
@@ -59,7 +59,8 @@ export class LandingPageComponent implements OnInit {
               userId: 1
             },
             commentId: 0,
-            text: "hahyerg eg"
+            text: "hahyerg eg",
+            date: ""
           },
           {
             author: {
@@ -68,10 +69,10 @@ export class LandingPageComponent implements OnInit {
               userId: 2
             },
             commentId: 1,
-            text: "hahyerg eg author"
+            text: "hahyerg eg author",
+            date: ""
           }
         ],
-        replies: [],
         react: {
           like: 0,
           love: 0,
@@ -91,15 +92,14 @@ export class LandingPageComponent implements OnInit {
           userId: this.user.userId
         },
         text: post,
-        visibility: "a"
+        date: ""
       },
       comments: [],
       react: {
         like: 0,
         love: 0,
         smile: 0
-      },
-      replies: []
+      }
     })
   }
 
