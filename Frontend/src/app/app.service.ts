@@ -4,12 +4,6 @@ import { Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-export interface LoginCredentialModel
-{
-  email: string,
-  password: string
-}
-
 export interface LoginInfo {
   userId: number,
   isAdmin: boolean,
@@ -59,7 +53,10 @@ export class AppService {
       sessionStorage.removeItem(this.accessToken);
   }
 
-  async loginUser(loginInfo: LoginCredentialModel) {
+  async loginUser(loginInfo: {
+    email: string,
+    password: string
+  }) {
     let response: LoginInfo = await lastValueFrom(this.http.post<LoginInfo>(this.doamin + '/login', loginInfo, this.httpOptions));
     return response;
   }

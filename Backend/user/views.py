@@ -21,7 +21,7 @@ def get_tokens_for_user(user):
     }
 
 
-class UserLoginViewset(viewsets.ModelViewSet):
+class LoginViewset(viewsets.ModelViewSet):
     serializer_class = UserLoginSerializer
     http_method_names = ["post"]
 

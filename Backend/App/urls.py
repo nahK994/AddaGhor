@@ -18,7 +18,7 @@ from django.urls import path
 from rest_framework import routers
 from rest_framework_swagger.views import get_swagger_view
 from timeline.views import ActivityViewset, CommentViewset, PostViewset
-from user.views import UserViewset, UserLoginViewset, UserRegistrationViewset
+from user.views import UserViewset, LoginViewset, UserRegistrationViewset
 from rest_framework_simplejwt.views import TokenRefreshView
 from django.conf import settings
 from django.conf.urls.static import static
@@ -39,7 +39,7 @@ router.register("activity", ActivityViewset, basename="activity")
 
 router.register("users", UserViewset, basename="users")
 router.register("registration", UserRegistrationViewset, basename="registration")
-router.register("login", UserLoginViewset, basename="user-login")
+router.register("login", LoginViewset, basename="login")
 
 schema_view = get_swagger_view(title='AddaGhor', patterns=router.urls)
 
