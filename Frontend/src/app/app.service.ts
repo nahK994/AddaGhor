@@ -60,8 +60,7 @@ export class AppService {
   }
 
   async loginUser(loginInfo: LoginCredentialModel) {
-    let loginURL_extention = '/login';
-    let response: LoginInfo = await lastValueFrom(this.http.post<LoginInfo>(this.doamin + loginURL_extention, loginInfo, this.httpOptions));
+    let response: LoginInfo = await lastValueFrom(this.http.post<LoginInfo>(this.doamin + '/login', loginInfo, this.httpOptions));
     return response;
   }
 

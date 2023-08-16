@@ -36,13 +36,13 @@ export class UserService {
   ) { }
 
   async createUser(payload: CreateUser) {
-    let response = await lastValueFrom(this.http.post<number>(this.baseUrl_Login+'/user/create', payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.post<number>(this.baseUrl_Login+'/users/create', payload, this.httpOptions));
 
     return response;
   }
 
   async updateUser(userId: number, payload: CreateUser) {
-    let updateURL_extention = '/user/update/'+userId;
+    let updateURL_extention = '/users/update/'+userId;
     let response = await this.http.put<CreateUser>(this.baseUrl_Login+updateURL_extention, payload, this.httpOptions).toPromise();
 
     return response;
