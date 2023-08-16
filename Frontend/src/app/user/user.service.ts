@@ -42,15 +42,13 @@ export class UserService {
   }
 
   async updateUser(userId: number, payload: CreateUser) {
-    let updateURL_extention = '/users/update/'+userId;
-    let response = await this.http.put<CreateUser>(this.baseUrl_Login+updateURL_extention, payload, this.httpOptions).toPromise();
+    let response = await lastValueFrom(this.http.put<CreateUser>(this.baseUrl_Login+'/users/'+userId, payload, this.httpOptions));
 
     return response;
   }
 
   async getUser(userId: number) {
-    let updateURL_extention = '/users/'+userId;
-    let response = await this.http.get<User>(this.baseUrl_Login+updateURL_extention, this.httpOptions).toPromise();
+    let response = await lastValueFrom(this.http.get<User>(this.baseUrl_Login+'/users/'+userId, this.httpOptions));
 
     return response;
   }

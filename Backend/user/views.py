@@ -2,12 +2,17 @@ from rest_framework.response import Response
 from rest_framework import status, viewsets
 
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import UserRegistrationSerializer, UserSerializer, UserListSerializer
+from .serializers import LoginSerializer, UserRegistrationSerializer, UserSerializer, UserListSerializer
 from rest_framework.permissions import BasePermission, IsAuthenticated
 from .models import User
 
 
 class UserPermission(BasePermission):
+    def has_permission(self, request, view):
+        if request.method.lower() == "post":
+            return False
+        return request.user and request.user.is_authenticated
+
     def has_object_permission(self, request, view, obj):
         return obj == request.user
 
@@ -21,8 +26,9 @@ def get_tokens_for_user(user):
     }
 
 
-class LoginViewset(viewsets.ViewSet):
+class LoginViewset(viewsets.ModelViewSet):
     http_method_names = ["post"]
+    serializer_class = LoginSerializer
 
     def create(self, request):
         filtered_user = User.objects.filter(email=request.data['email'])
@@ -40,17 +46,9 @@ class LoginViewset(viewsets.ViewSet):
 
 
 class UserViewset(viewsets.ModelViewSet):
-    http_method_names = ["get", "put", "delete"]
     serializer_class = UserSerializer
     queryset = User.objects.all()
-
-    def get_permissions(self):
-        permission_classes = [IsAuthenticated]
-        if self.action == 'update' or self.action == 'destroy':
-            permission_classes.append(UserPermission)
-
-        return [permission() for permission in permission_classes]
-
+    permission_classes = [UserPermission]
 
     def list(self, request):
         if not request.user.is_admin:

@@ -21,6 +21,7 @@ export class ProfileComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     let userId = this._activateRoute.snapshot.params['userId'];
     this.user = await this._userService.getUser(userId)
+    console.log(this.user)
   }
 
   goToHome() {

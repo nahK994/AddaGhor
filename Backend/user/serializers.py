@@ -2,6 +2,11 @@ from rest_framework import serializers
 from .models import User, UserProfile
 
 
+class LoginSerializer(serializers.Serializer):
+    email = serializers.CharField()
+    password = serializers.CharField()
+
+
 class UserSerializer(serializers.ModelSerializer):
     bio = serializers.CharField()
 
