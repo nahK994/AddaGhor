@@ -91,7 +91,7 @@ class UserRegistrationSerializer(serializers.Serializer):
     
     def to_representation(self, instance):
         return {
-            "id": instance.id,
+            "userId": instance.user.id,
             "name": instance.user.name,
             "email": instance.user.email,
             "bio": instance.bio

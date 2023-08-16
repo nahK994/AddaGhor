@@ -35,7 +35,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     
 class CommentSerializer(serializers.ModelSerializer):
-    postId = serializers.IntegerField()
+    postId = serializers.IntegerField(required=False)
 
     class Meta:
         model = Comment
