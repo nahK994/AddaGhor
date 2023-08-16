@@ -74,8 +74,10 @@ class UserRegistrationSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         data = validated_data
-        user_obj = User.objects.create_user(data['name'], data['email'], data['password'])
+        if 'profilePicture' not in data:
+            data['profilePicture'] = None
 
+        user_obj = User.objects.create_user(data['name'], data['email'], data['password'])
         user_profile_obj = UserProfile.objects.create(
             user=user_obj,
             bio=data['bio'],

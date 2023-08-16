@@ -36,7 +36,7 @@ export class UserService {
   ) { }
 
   async createUser(payload: CreateUser) {
-    let response = await lastValueFrom(this.http.post<number>(this.baseUrl_Login+'/users/create', payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.post<number>(this.baseUrl_Login+'/registration', payload, this.httpOptions));
 
     return response;
   }
