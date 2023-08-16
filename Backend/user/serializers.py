@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         return {
-            "id": instance.id,
+            "userId": instance.id,
             "name": instance.name,
             "email": instance.email,
             "bio": instance.user_profile.all()[0].bio
