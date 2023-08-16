@@ -37,11 +37,6 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
 
-class UserLoginSerializer(serializers.Serializer):
-    email = serializers.CharField(max_length='255')
-    password = serializers.CharField(max_length='500')
-
-
 class UserProfileSerializer(serializers.Serializer):
     bio = serializers.CharField(max_length='500')
     profilePicture = serializers.FileField(source='profile_picture')

@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework import status, viewsets
 
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import UserRegistrationSerializer, UserSerializer, UserListSerializer, UserLoginSerializer
+from .serializers import UserRegistrationSerializer, UserSerializer, UserListSerializer
 from rest_framework.permissions import BasePermission, IsAuthenticated
 from .models import User
 
@@ -21,8 +21,7 @@ def get_tokens_for_user(user):
     }
 
 
-class LoginViewset(viewsets.ModelViewSet):
-    serializer_class = UserLoginSerializer
+class LoginViewset(viewsets.ViewSet):
     http_method_names = ["post"]
 
     def create(self, request):
