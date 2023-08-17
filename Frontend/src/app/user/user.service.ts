@@ -4,7 +4,7 @@ import { lastValueFrom } from 'rxjs';
 
 export interface CreateUser
 {
-  userName: string,
+  name: string,
   bio?: string,
   email: string,
   password: string,

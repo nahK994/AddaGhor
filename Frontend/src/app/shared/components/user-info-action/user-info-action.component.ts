@@ -9,8 +9,8 @@ import { CreateUser } from 'src/app/user/user.service';
 })
 export class UserInfoActionComponent {
 
-  mode: 'create'|'edit'|'view';
-  @Input('mode') set setMode(val: 'create'|'edit'|'view') {
+  mode: 'create'|'edit';
+  @Input('mode') set setMode(val: 'create'|'edit') {
     if(!val) {
       return;
     }
@@ -23,7 +23,7 @@ export class UserInfoActionComponent {
       return;
     }
 
-    this.formGroup.get('name').setValue(val.userName);
+    this.formGroup.get('name').setValue(val.name);
     this.formGroup.get('bio').setValue(val.bio);
     this.formGroup.get('email').setValue(val.email);
     this.formGroup.get('password').setValue(val.password);

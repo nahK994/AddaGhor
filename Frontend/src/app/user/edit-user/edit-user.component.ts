@@ -32,6 +32,8 @@ export class EditUserComponent implements OnInit {
 
   submit(userInfo: CreateUser) {
     try {
+      delete userInfo.password;
+
       this._userService.updateUser(this.userId, userInfo)
       this._router.navigate(['..'], {
         relativeTo: this._activateRoute

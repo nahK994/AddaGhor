@@ -2,25 +2,25 @@
     <mat-card [formGroup]="formGroup" class="info">
         <mat-form-field appearance="outline">
             <mat-label>Name</mat-label>
-            <input formControlName="name" matInput placeholder="Name" [readonly]="mode === 'view'">
+            <input formControlName="name" matInput placeholder="Name">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
             <mat-label>Email</mat-label>
-            <input formControlName="email" matInput placeholder="Email" [readonly]="mode === 'view'">
+            <input formControlName="email" matInput placeholder="Email">
         </mat-form-field>
 
         <mat-form-field appearance="outline">
             <mat-label>Bio</mat-label>
-            <textarea matInput maxlength="1000" formControlName="bio" rows="8" placeholder="Bio" [readonly]="mode === 'view'">
+            <textarea matInput maxlength="1000" formControlName="bio" rows="8" placeholder="Bio">
         </textarea>
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" *ngIf="mode !== 'edit'">
             <mat-label>Password</mat-label>
-            <input formControlName="password" matInput placeholder="Password" [readonly]="mode === 'view'">
+            <input formControlName="password" matInput placeholder="Password">
         </mat-form-field>
     </mat-card>
 
-    <button *ngIf="mode !== 'view'" style="margin-top: 20px;" color="primary" mat-raised-button (click)="submit()">submit</button>
+    <button style="margin-top: 20px;" color="primary" mat-raised-button (click)="submit()">submit</button>
 </div>
