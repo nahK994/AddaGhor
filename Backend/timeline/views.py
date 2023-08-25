@@ -6,6 +6,7 @@ from user.models import User
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.db.models.query import QuerySet
+from django.db.models import Prefetch
 
 
 class ReactType:
@@ -27,7 +28,7 @@ class PostViewset(viewsets.ModelViewSet):
     queryset = Post.objects.prefetch_related('user').all()
 
     def get_permissions(self):
-        if self.action in ['update', 'destroy', ReactType.love, ReactType.like, ReactType.smile]:
+        if self.action in ['update', 'destroy']:
             permission_classes = [CommandPermission]
         else:
             permission_classes = [IsAuthenticated]
@@ -111,7 +112,7 @@ class ActivityViewset(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
     def list(self, request):
-        posts = Post.objects.prefetch_related('reacts').all()
+        posts = Post.objects.prefetch_related(Prefetch('reacts'), Prefetch('comments')).all()
         activities = []
         for post in posts:
             activities.append({
