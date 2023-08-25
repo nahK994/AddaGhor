@@ -19,30 +19,23 @@
         </div>
     </div>
     <div class="react">
-        <div class="react-item">
-            <div class="react-action" (click)="reactPost(reactType.smile)">
-                <angular-emojis [name]="'smiley'" size="20"></angular-emojis>
+        <ng-container *ngFor="let react of reactTypes">
+            <div class="react-item">
+                <div class="react-action" (click)="reactPost(reactType[react])">
+                    <angular-emojis [name]="reactEmoji[react]" size="20"></angular-emojis>
+                </div>
+                <ng-container *ngIf="activityFeed.userReact === reactType[react]; else notUserReacted">
+                    <div class="react-count user-react">
+                        {{activityFeed.reactCount[react]}}
+                    </div>
+                </ng-container>
+                <ng-template #notUserReacted>
+                    <div class="react-count">
+                        {{activityFeed.reactCount[react]}}
+                    </div>
+                </ng-template>
             </div>
-            <div class="react-count">
-                {{activityFeed.reactCount.smile}}
-            </div>
-        </div>
-        <div class="react-item">
-            <div class="react-action" (click)="reactPost(reactType.love)">
-                <angular-emojis [name]="'heartpulse'" size="20"></angular-emojis>
-            </div>
-            <div class="react-count">
-                {{activityFeed.reactCount.love}}
-            </div>
-        </div>
-        <div class="react-item">
-            <div class="react-action" (click)="reactPost(reactType.like)">
-                <angular-emojis [name]="'thumbsup'" size="20"></angular-emojis>
-            </div>
-            <div class="react-count">
-                {{activityFeed.reactCount.like}}
-            </div>
-        </div>
+        </ng-container>
     </div>
     <div class="comment">
         <div class="comment-item" *ngFor="let comment of activityFeed.comments">

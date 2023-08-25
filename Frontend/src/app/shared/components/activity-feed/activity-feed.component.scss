@@ -43,6 +43,10 @@
             }
             .react-count{
                 color: #65676B;
+                font-weight: bold;
+                &.user-react{
+                    color: blue;
+                }
             }
         }
     }
