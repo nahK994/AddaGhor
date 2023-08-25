@@ -38,11 +38,6 @@ class PostViewset(viewsets.ModelViewSet):
         context = super().get_serializer_context()
         context.update({"request": self.request})
         return context
-
-    def update_post_react(self, react: QuerySet, react_type: str):
-        react.update(
-            type = react_type
-        )
     
     def create_post_react(self, user: User, post: Post, react_type: str):
         React.objects.create(
@@ -60,7 +55,7 @@ class PostViewset(viewsets.ModelViewSet):
                 react[0].delete()
                 return Response("removed", status=204)
             else:
-                self.update_post_react(react, ReactType.smile)
+                react.update(type = ReactType.smile)
                 return Response("success", status=200)
         else:
             self.create_post_react(user=request.user, post=post, react_type=ReactType.smile)
@@ -75,7 +70,7 @@ class PostViewset(viewsets.ModelViewSet):
                 react[0].delete()
                 return Response("removed", status=204)
             else:
-                self.update_post_react(react, ReactType.love)
+                react.update(type = ReactType.love)
                 return Response("success", status=200)
         else:
             self.create_post_react(user=request.user, post=post, react_type=ReactType.love)
@@ -90,7 +85,7 @@ class PostViewset(viewsets.ModelViewSet):
                 react[0].delete()
                 return Response("removed", status=204)
             else:
-                self.update_post_react(react, ReactType.like)
+                react.update(type = ReactType.like)
                 return Response("success", status=200)
         else:
             self.create_post_react(user=request.user, post=post, react_type=ReactType.like)
