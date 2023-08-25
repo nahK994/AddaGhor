@@ -108,15 +108,17 @@ class ActivityViewset(viewsets.ViewSet):
 
     def list(self, request):
         posts = Post.objects.prefetch_related(Prefetch('reacts'), Prefetch('comments')).all()
+        user = request.user
         activities = []
         for post in posts:
             activities.append({
                 "post": PostSerializer(post).data,
                 "comments": CommentSerializer(post.comments, many=True).data,
-                "react": {
+                "reactCount": {
                     "love": post.reacts.filter(type=ReactType.love).count(),
                     "like": post.reacts.filter(type=ReactType.like).count(),
                     "smile": post.reacts.filter(type=ReactType.smile).count()
-                } 
+                },
+                "userReact": post.reacts.filter(user=user)[0].type if len(post.reacts.filter(user=user)) else None
             })
         return Response(activities, status=200)
