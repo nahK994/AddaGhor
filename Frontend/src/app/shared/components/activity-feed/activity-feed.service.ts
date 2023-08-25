@@ -10,6 +10,12 @@ export interface CreateComment
   commentText: string
 }
 
+export enum ReactType {
+  love = "love",
+  like = "like",
+  smile = "smile"
+}
+
 @Injectable({
   providedIn: 'root'
 })

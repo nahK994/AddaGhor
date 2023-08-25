@@ -45,11 +45,12 @@ export class LandingPageComponent implements OnInit {
         date: ""
       },
       comments: [],
-      react: {
+      reactCount: {
         like: 0,
         love: 0,
         smile: 0
-      }
+      },
+      userReact: null
     })
   }
 

@@ -20,27 +20,27 @@
     </div>
     <div class="react">
         <div class="react-item">
-            <div class="react-action" (click)="reactPost('smile')">
+            <div class="react-action" (click)="reactPost(reactType.smile)">
                 <angular-emojis [name]="'smiley'" size="20"></angular-emojis>
             </div>
             <div class="react-count">
-                {{activityFeed.react.smile}}
+                {{activityFeed.reactCount.smile}}
             </div>
         </div>
         <div class="react-item">
-            <div class="react-action" (click)="reactPost('love')">
+            <div class="react-action" (click)="reactPost(reactType.love)">
                 <angular-emojis [name]="'heartpulse'" size="20"></angular-emojis>
             </div>
             <div class="react-count">
-                {{activityFeed.react.love}}
+                {{activityFeed.reactCount.love}}
             </div>
         </div>
         <div class="react-item">
-            <div class="react-action" (click)="reactPost('like')">
+            <div class="react-action" (click)="reactPost(reactType.like)">
                 <angular-emojis [name]="'thumbsup'" size="20"></angular-emojis>
             </div>
             <div class="react-count">
-                {{activityFeed.react.like}}
+                {{activityFeed.reactCount.like}}
             </div>
         </div>
     </div>

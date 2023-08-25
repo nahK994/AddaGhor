@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { User } from '../../../user/user.service';
 import { ActivityFeed, Comment } from '../../../home/home.service'
-import { ActivityFeedService } from './activity-feed.service';
+import { ActivityFeedService, ReactType } from './activity-feed.service';
 
 export interface CommentEvent {
   postId: number;
@@ -16,6 +16,7 @@ export interface CommentEvent {
 })
 export class ActivityFeedComponent {
 
+  reactType = ReactType
   activityFeed: ActivityFeed;
   @Input('activityFeed') set setActivityFeed(val: ActivityFeed) {
     if(!val) {
@@ -38,17 +39,30 @@ export class ActivityFeedComponent {
     private _activityFeedService: ActivityFeedService
   ) { }
 
-  async reactPost(reactType: 'like'|'smile'|'love') {
-    await this._activityFeedService.reactPost(this.activityFeed.post.postId, reactType);
-    if(reactType === 'like') {
-      this.activityFeed.react.like++;
+  isSameReact(reactType: ReactType.like | ReactType.smile | ReactType.love) {
+    if(reactType === ReactType.like && this.activityFeed.userReact === ReactType.like) {
+      return true;
     }
-    else if(reactType === 'love') {
-      this.activityFeed.react.love++;
+    else if(reactType === ReactType.love && this.activityFeed.userReact === ReactType.love) {
+      return true;
+    }
+    else if(reactType === ReactType.smile && this.activityFeed.userReact === ReactType.smile) {
+      return true;
+    }
+    return false;
+  }
+
+  async reactPost(reactType: ReactType.like | ReactType.smile | ReactType.love) {
+    await this._activityFeedService.reactPost(this.activityFeed.post.postId, reactType);
+    if(this.isSameReact(reactType)) {
+      this.activityFeed.reactCount[reactType]--;
     }
     else {
-      this.activityFeed.react.smile++;
+      this.activityFeed.reactCount[reactType]++;
+      this.activityFeed.reactCount[this.activityFeed.userReact]--;
     }
+
+    this.activityFeed.userReact = reactType
   }
 
   async createComment() {

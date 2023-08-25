@@ -32,7 +32,8 @@ export interface React {
 export interface ActivityFeed {
   post: Post,
   comments: Comment[],
-  react: React
+  reactCount: React,
+  userReact: string
 }
 
 @Injectable({
