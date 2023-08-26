@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import Comment, Post
 
 
-class PostSerializer(serializers.ModelSerializer):
+class PostCommandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['id', 'text']
@@ -20,6 +20,17 @@ class PostSerializer(serializers.ModelSerializer):
         instance.text = validated_data.get('text', instance.text)
         instance.save()
         return instance
+
+    def to_representation(self, instance):
+        return {
+            "id": instance.id,
+        }
+
+
+class PostQuerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = []
 
     def to_representation(self, instance):
         return {

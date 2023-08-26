@@ -1,11 +1,10 @@
 from rest_framework import viewsets
-from .serializers import CommentSerializer, PostSerializer
+from .serializers import CommentSerializer, PostCommandSerializer, PostQuerySerializer
 from rest_framework.permissions import BasePermission, IsAuthenticated
 from .models import Comment, Post, React
 from user.models import User
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.db.models.query import QuerySet
 from django.db.models import Prefetch
 
 
@@ -24,8 +23,8 @@ class CommandPermission(BasePermission):
 
 
 class PostViewset(viewsets.ModelViewSet):
-    serializer_class = PostSerializer
-    queryset = Post.objects.prefetch_related('user').all()
+    http_method_names = ["post", "put", "get", "delete"]
+    queryset = Post.objects.prefetch_related('user').order_by("-date").all()
 
     def get_permissions(self):
         if self.action in ['update', 'destroy']:
@@ -33,6 +32,12 @@ class PostViewset(viewsets.ModelViewSet):
         else:
             permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
+    
+    def get_serializer_class(self):
+        if self.action in ['create', 'update']:
+            return PostCommandSerializer
+        else:
+            return PostQuerySerializer
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
@@ -112,7 +117,7 @@ class ActivityViewset(viewsets.ViewSet):
         activities = []
         for post in posts:
             activities.append({
-                "post": PostSerializer(post).data,
+                "post": PostQuerySerializer(post).data,
                 "comments": CommentSerializer(post.comments, many=True).data,
                 "reactCount": {
                     "love": post.reacts.filter(type=ReactType.love).count(),
