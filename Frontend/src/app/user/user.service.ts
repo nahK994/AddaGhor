@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 export interface CreateUser
 {
@@ -26,7 +27,7 @@ export interface User
 })
 export class UserService {
 
-  baseUrl_Login: string = 'http://localhost:8000';
+  readonly doamin = environment.domain;
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -36,19 +37,19 @@ export class UserService {
   ) { }
 
   async createUser(payload: CreateUser) {
-    let response = await lastValueFrom(this.http.post<number>(this.baseUrl_Login+'/registration', payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.post<number>(this.doamin+'/registration', payload, this.httpOptions));
 
     return response;
   }
 
   async updateUser(userId: number, payload: CreateUser) {
-    let response = await lastValueFrom(this.http.put<CreateUser>(this.baseUrl_Login+'/users/'+userId, payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.put<CreateUser>(this.doamin+'/users/'+userId, payload, this.httpOptions));
 
     return response;
   }
 
   async getUser(userId: number) {
-    let response = await lastValueFrom(this.http.get<User>(this.baseUrl_Login+'/users/'+userId, this.httpOptions));
+    let response = await lastValueFrom(this.http.get<User>(this.doamin+'/users/'+userId, this.httpOptions));
 
     return response;
   }
