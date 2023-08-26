@@ -26,15 +26,19 @@ class ReactViewset(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
     def create_post_react(self, user: User, post: Post, react_type: str):
-            React.objects.create(
-                user = user,
-                post = post,
-                type = react_type
+        react = React.objects.create(
+            user = user,
+            post = post,
+            type = react_type
         )
+        return react
     
     @action(methods=['put'], detail=True, url_path=ReactType.smile, url_name=ReactType.smile)
     def smile(self, request, pk):
-        post = self.get_object()
+        filtered_posts = Post.objects.filter(id=pk)
+        if not filtered_posts:
+            return Response("no such post", 404)
+        post = filtered_posts[0]
         react = React.objects.filter(user=request.user, post=post)
         if react:
             if react[0].type == ReactType.smile:
@@ -42,14 +46,17 @@ class ReactViewset(viewsets.ViewSet):
                 return Response("removed", status=204)
             else:
                 react.update(type = ReactType.smile)
-                return Response("success", status=200)
+                return Response(react[0].id, status=200)
         else:
-            self.create_post_react(user=request.user, post=post, react_type=ReactType.smile)
-            return Response("success", status=200)
+            react = self.create_post_react(user=request.user, post=post, react_type=ReactType.smile)
+            return Response(react.id, status=200)
     
     @action(methods=['put'], detail=True, url_path=ReactType.love, url_name=ReactType.love)
     def love(self, request, pk):
-        post = self.get_object()
+        filtered_posts = Post.objects.filter(id=pk)
+        if not filtered_posts:
+            return Response("no such post", 404)
+        post = filtered_posts[0]
         react = React.objects.filter(user=request.user, post=post)
         if react:
             if react[0].type == ReactType.love:
@@ -57,14 +64,17 @@ class ReactViewset(viewsets.ViewSet):
                 return Response("removed", status=204)
             else:
                 react.update(type = ReactType.love)
-                return Response("success", status=200)
+                return Response(react[0].id, status=200)
         else:
-            self.create_post_react(user=request.user, post=post, react_type=ReactType.love)
-            return Response("success", status=200)
+            react = self.create_post_react(user=request.user, post=post, react_type=ReactType.love)
+            return Response(react.id, status=200)
     
     @action(methods=['put'], detail=True, url_path=ReactType.like, url_name=ReactType.like)
     def like(self, request, pk):
-        post = self.get_object()
+        filtered_posts = Post.objects.filter(id=pk)
+        if not filtered_posts:
+            return Response("no such post", 404)
+        post = filtered_posts[0]
         react = React.objects.filter(user=request.user, post=post)
         if react:
             if react[0].type == ReactType.like:
@@ -72,10 +82,10 @@ class ReactViewset(viewsets.ViewSet):
                 return Response("removed", status=204)
             else:
                 react.update(type = ReactType.like)
-                return Response("success", status=200)
+                return Response(react[0].id, status=200)
         else:
-            self.create_post_react(user=request.user, post=post, react_type=ReactType.like)
-            return Response("success", status=200)
+            react = self.create_post_react(user=request.user, post=post, react_type=ReactType.like)
+            return Response(react.id, status=200)
 
 
 class PostViewset(viewsets.ModelViewSet):
