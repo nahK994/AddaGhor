@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CreateUser } from 'src/app/user/user.service';
+import { User } from 'src/app/user/user.service';
 
 @Component({
   selector: 'user-info-action',
@@ -18,7 +18,7 @@ export class UserInfoActionComponent {
     this.mode = val;
   }
   
-  @Input('data') set setData(val: CreateUser) {
+  @Input('data') set setData(val: User) {
     if(!val) {
       return;
     }
@@ -29,7 +29,7 @@ export class UserInfoActionComponent {
     this.formGroup.get('password').setValue(val.password);
   }
 
-  @Output() userInfo: EventEmitter<CreateUser> = new EventEmitter();
+  @Output() userInfo: EventEmitter<User> = new EventEmitter();
 
   formGroup: FormGroup;
 

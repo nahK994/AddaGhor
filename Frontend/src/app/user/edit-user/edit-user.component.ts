@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CreateUser, User } from '../user.service';
+import { User } from '../user.service';
 import { UserService } from '../user.service';
 
 @Component({
@@ -30,7 +30,7 @@ export class EditUserComponent implements OnInit {
     this._router.navigate(['home', this.userId])
   }
 
-  submit(userInfo: CreateUser) {
+  submit(userInfo: User) {
     try {
       delete userInfo.password;
 

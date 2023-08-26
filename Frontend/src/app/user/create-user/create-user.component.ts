@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { CreateUser, UserService } from '../user.service';
+import { User, UserService } from '../user.service';
 
 @Component({
   selector: 'app-create-user',
@@ -14,7 +14,7 @@ export class CreateUserComponent {
     private _router: Router
   ) { }
 
-  async signUp(userInfo: CreateUser) {    
+  async signUp(userInfo: User) {    
    try {
     await this._userService.createUser(userInfo);
     this._router.navigate([''])
