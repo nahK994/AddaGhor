@@ -23,17 +23,17 @@ export class PostService {
       "text": postText
     }
     let URL_extention = '/posts/'+postId;
-    let response = await lastValueFrom(this.http.put<number>(this.doamin+URL_extention, payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.put<{id: number}>(this.doamin+URL_extention, payload, this.httpOptions));
 
-    return response;
+    return response.id;
   }
 
   async createPost(postText: string) {
     let payload = {
       "text": postText
     };
-    let response = await lastValueFrom(this.http.post<number>(this.doamin+'/posts', payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.post<{id: number}>(this.doamin+'/posts', payload, this.httpOptions));
 
-    return response;
+    return response.id;
   }
 }

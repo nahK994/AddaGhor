@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PostInfo } from 'src/app/shared/components/post/post.component';
 import { User } from 'src/app/user/user.service';
 import { UserService } from 'src/app/user/user.service';
 import { ActivityFeed } from '../home.service';
@@ -32,16 +33,16 @@ export class LandingPageComponent implements OnInit {
     this.activityFeed = await this._homeService.getActivityFeed();
   }
 
-  async submitPost(post: string) {
+  async submitPost(post: PostInfo) {
     this.activityFeed.unshift({
       post: {
-        postId: 0,
+        postId: post.postId,
         author:{
           name: this.user.name,
           profilePic: this.user.profilePicture,
           userId: this.user.userId
         },
-        text: post,
+        text: post.text,
         date: ""
       },
       comments: [],

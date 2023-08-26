@@ -44,9 +44,9 @@ export class ActivityFeedService {
       "text": commentText,
 
     }
-    let response = await lastValueFrom(this.http.put<number>(this.doamin+URL_extention, payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.put<{id: number}>(this.doamin+URL_extention, payload, this.httpOptions));
 
-    return response;
+    return response.id;
   }
 
   async createComment(postId: number, commentText: string) {
@@ -54,9 +54,9 @@ export class ActivityFeedService {
       "postId": postId,
       "text": commentText
     }
-    let response = await lastValueFrom(this.http.post<number>(this.doamin+'/comments', payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.post<{id: number}>(this.doamin+'/comments', payload, this.httpOptions));
 
-    return response;
+    return response.id;
   }
 
 }

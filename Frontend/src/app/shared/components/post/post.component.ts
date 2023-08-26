@@ -2,6 +2,11 @@ import { Component, EventEmitter, Input, Output} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { PostService } from './post.service';
 
+export interface PostInfo {
+  postId: number,
+  text: string
+}
+
 @Component({
   selector: 'post',
   templateUrl: './post.component.html',
@@ -12,7 +17,7 @@ export class PostComponent {
   isCreateMode: boolean = true;
   postId: number;
   postText: FormControl = new FormControl('');
-  @Output() post: EventEmitter<string> = new EventEmitter<string>();
+  @Output() post: EventEmitter<PostInfo> = new EventEmitter<PostInfo>();
 
   @Input("mode") set setMode(val: "create" | "edit") {
     if(!val) {
@@ -37,13 +42,18 @@ export class PostComponent {
   ) {}
 
   async onSubmitPost() {
+    let postId = -1;
     if(this.isCreateMode) {
-      await this._postService.createPost(this.postText.value);
+      postId = await this._postService.createPost(this.postText.value);
     }
     else {
-      await this._postService.updatePost(this.postId, this.postText.value);
+      postId = await this._postService.updatePost(this.postId, this.postText.value);
     }
-    this.post.emit(this.postText.value);
+    let postInfo: PostInfo = {
+      postId: postId,
+      text: this.postText.value
+    }
+    this.post.emit(postInfo);
     this.postText.setValue('');
   }
 
