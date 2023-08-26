@@ -128,7 +128,7 @@ class ActivityViewset(viewsets.ViewSet):
         for post in posts:
             activities.append({
                 "post": PostQuerySerializer(post).data,
-                "comments": CommentSerializer(post.comments, many=True).data,
+                "comments": CommentQuerySerializer(post.comments, many=True).data,
                 "reactCount": {
                     "love": post.reacts.filter(type=ReactType.love).count(),
                     "like": post.reacts.filter(type=ReactType.like).count(),
