@@ -22,33 +22,14 @@ class CommandPermission(BasePermission):
         return obj.user == request.user
 
 
-class PostViewset(viewsets.ModelViewSet):
-    http_method_names = ["post", "put", "get", "delete"]
-    queryset = Post.objects.prefetch_related('user').order_by("-date").all()
+class ReactViewset(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
 
-    def get_permissions(self):
-        if self.action in ['update', 'destroy']:
-            permission_classes = [CommandPermission]
-        else:
-            permission_classes = [IsAuthenticated]
-        return [permission() for permission in permission_classes]
-    
-    def get_serializer_class(self):
-        if self.action in ['create', 'update']:
-            return PostCommandSerializer
-        else:
-            return PostQuerySerializer
-
-    def get_serializer_context(self):
-        context = super().get_serializer_context()
-        context.update({"request": self.request})
-        return context
-    
     def create_post_react(self, user: User, post: Post, react_type: str):
-        React.objects.create(
-            user = user,
-            post = post,
-            type = react_type
+            React.objects.create(
+                user = user,
+                post = post,
+                type = react_type
         )
     
     @action(methods=['put'], detail=True, url_path=ReactType.smile, url_name=ReactType.smile)
@@ -97,9 +78,32 @@ class PostViewset(viewsets.ModelViewSet):
             return Response("success", status=200)
 
 
+class PostViewset(viewsets.ModelViewSet):
+    http_method_names = ["post", "put", "get", "delete"]
+    queryset = Post.objects.prefetch_related('user').order_by("-date").all()
+
+    def get_permissions(self):
+        if self.action in ['update', 'destroy']:
+            permission_classes = [CommandPermission]
+        else:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+    
+    def get_serializer_class(self):
+        if self.action in ['create', 'update']:
+            return PostCommandSerializer
+        else:
+            return PostQuerySerializer
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
+
+
 class CommentViewset(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
-    queryset = Comment.objects.prefetch_related('post').all()
+    queryset = Comment.objects.prefetch_related('post').order_by("-date").all()
     permission_classes = [CommandPermission]
 
     def get_serializer_context(self):
