@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from .serializers import CommentSerializer, PostCommandSerializer, PostQuerySerializer
+from .serializers import CommentCommandSerializer, CommentQuerySerializer, PostCommandSerializer, PostQuerySerializer
 from rest_framework.permissions import BasePermission, IsAuthenticated
 from .models import Comment, Post, React
 from user.models import User
@@ -102,7 +102,13 @@ class PostViewset(viewsets.ModelViewSet):
 
 
 class CommentViewset(viewsets.ModelViewSet):
-    serializer_class = CommentSerializer
+    http_method_names = ["post", "put", "get", "delete"]
+    def get_serializer_class(self):
+        if self.action in ['create', 'update']:
+            return CommentCommandSerializer
+        else:
+            return CommentQuerySerializer
+
     queryset = Comment.objects.prefetch_related('post').order_by("-date").all()
     permission_classes = [CommandPermission]
 

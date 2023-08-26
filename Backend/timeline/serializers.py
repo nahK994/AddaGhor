@@ -45,7 +45,7 @@ class PostQuerySerializer(serializers.ModelSerializer):
         }
 
     
-class CommentSerializer(serializers.ModelSerializer):
+class CommentCommandSerializer(serializers.ModelSerializer):
     postId = serializers.IntegerField(required=False)
 
     class Meta:
@@ -75,6 +75,17 @@ class CommentSerializer(serializers.ModelSerializer):
         instance.text = validated_data.get('text', instance.text)
         instance.save()
         return instance    
+
+    def to_representation(self, instance):
+        return {
+            "id": instance.id,
+        }
+
+
+class CommentQuerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = []
 
     def to_representation(self, instance):
         return {
