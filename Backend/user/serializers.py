@@ -75,7 +75,7 @@ class UserRegistrationSerializer(serializers.Serializer):
     email = serializers.CharField()
     bio = serializers.CharField()
     password = serializers.CharField()
-    profilePicture = serializers.CharField()
+    profilePicture = serializers.CharField(required=False)
 
     def create(self, validated_data):
         data = validated_data

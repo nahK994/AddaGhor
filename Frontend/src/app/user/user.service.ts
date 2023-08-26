@@ -28,14 +28,14 @@ export class UserService {
   ) { }
 
   async createUser(payload: User) {
-    payload.profilePicture = ""
+    delete payload.profilePicture
     let response = await lastValueFrom(this.http.post<number>(this.doamin+'/registration', payload, this.httpOptions));
 
     return response;
   }
 
   async updateUser(userId: number, payload: User) {
-    payload.profilePicture = ""
+    delete payload.profilePicture
     let response = await lastValueFrom(this.http.put<User>(this.doamin+'/users/'+userId, payload, this.httpOptions));
 
     return response;
