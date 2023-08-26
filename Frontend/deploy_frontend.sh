@@ -1,0 +1,1 @@
+ng deploy --base-href=https://nahK994.github.io/AddaGhor/
