@@ -1,0 +1,25 @@
+version: '3'
+services:
+
+  db:
+    container_name: db
+    image: postgres
+    restart: always
+    ports:
+      - 5000:5432
+    environment:
+      - POSTGRES_USER=skhan
+      - POSTGRES_PASSWORD=haha
+      - POSTGRES_DB=adda_ghor
+      - DB_HOST=db
+      - DB_PORT=5000
+
+  backend:
+    container_name: backend
+    build: Backend
+    restart: always
+    ports:
+      - 8000:8000
+    command: bash -c "python3 manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - db
