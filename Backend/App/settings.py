@@ -165,4 +165,4 @@ AUTHENTICATION_BACKENDS = (
 
 STATIC_ROOT = '/home/addaghor/AddaGhor/static'
 MEDIA_ROOT = BASE_DIR/'uploads'
-MEDIA_URL = ''
+MEDIA_URL = 'uploads/'
