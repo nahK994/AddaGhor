@@ -163,6 +163,6 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-STATIC_ROOT = '/home/examhall/ExamHall/static'
+STATIC_ROOT = '/home/addaghor/AddaGhor/static'
 MEDIA_ROOT = BASE_DIR/'uploads'
 MEDIA_URL = ''
