@@ -20,6 +20,16 @@ services:
     restart: always
     ports:
       - 8000:8000
-    command: bash -c "python3 manage.py runserver 0.0.0.0:8000"
+    command: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
     depends_on:
       - db
+      - frontend
+
+  frontend:
+    container_name: frontend
+    build: Frontend
+    restart: always
+    ports:
+      - 4200:80
+    # depends_on:
+    #   - backend
