@@ -11,8 +11,6 @@ services:
       - POSTGRES_USER=skhan
       - POSTGRES_PASSWORD=haha
       - POSTGRES_DB=adda_ghor
-      - DB_HOST=db
-      - DB_PORT=5432
 
   backend:
     container_name: backend
