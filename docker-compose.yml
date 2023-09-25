@@ -12,7 +12,7 @@ services:
       - POSTGRES_PASSWORD=haha
       - POSTGRES_DB=adda_ghor
       - DB_HOST=db
-      - DB_PORT=5000
+      - DB_PORT=5432
 
   backend:
     container_name: backend
@@ -23,7 +23,6 @@ services:
     command: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
     depends_on:
       - db
-      - frontend
 
   frontend:
     container_name: frontend
@@ -31,5 +30,5 @@ services:
     restart: always
     ports:
       - 4200:80
-    # depends_on:
-    #   - backend
+    depends_on:
+      - backend

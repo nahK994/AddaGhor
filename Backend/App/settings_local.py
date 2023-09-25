@@ -16,5 +16,5 @@ DATABASES = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://frontend:80"
+    "http://localhost:4200"
 ]
