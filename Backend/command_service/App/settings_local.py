@@ -3,11 +3,11 @@ from .settings import *
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'adda_ghor',
+        'NAME': 'command_db_adda_ghor',
         'USER': 'skhan',
         'PASSWORD': 'haha',
-        'HOST': 'db',
-        'PORT': '5432',
+        'HOST': '0.0.0.0',
+        'PORT': '5000',
     }
 }
 

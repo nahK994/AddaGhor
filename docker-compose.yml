@@ -1,8 +1,8 @@
 version: '3'
 services:
 
-  db:
-    container_name: db
+  command_db:
+    container_name: command_db
     image: postgres
     restart: always
     ports:
@@ -10,23 +10,36 @@ services:
     environment:
       - POSTGRES_USER=skhan
       - POSTGRES_PASSWORD=haha
-      - POSTGRES_DB=adda_ghor
-
-  backend:
-    container_name: backend
-    build: Backend
+      - POSTGRES_DB=command_db_adda_ghor
+  
+  query_db:
+    container_name: query_db
+    image: postgres
     restart: always
     ports:
-      - 8000:8000
-    command: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
-    depends_on:
-      - db
+      - 5001:5432
+    environment:
+      - POSTGRES_USER=skhan
+      - POSTGRES_PASSWORD=haha
+      - POSTGRES_DB=query_db_adda_ghor
 
-  frontend:
-    container_name: frontend
-    build: Frontend
-    restart: always
-    ports:
-      - 4200:80
-    depends_on:
-      - backend
+  # command_service_adda_ghor:
+  #   container_name: command_service_adda_ghor
+  #   build: Backend/command_service
+  #   restart: always
+  #   # volumes:
+  #   #   - Backend/command_service:app:ro
+  #   ports:
+  #     - 8000:8000
+  #   command: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+  #   depends_on:
+  #     - command_db
+
+  # frontend:
+  #   container_name: frontend
+  #   build: Frontend
+  #   restart: always
+  #   ports:
+  #     - 4200:80
+  #   depends_on:
+  #     - backend
