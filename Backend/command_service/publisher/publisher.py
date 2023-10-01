@@ -17,7 +17,7 @@ def publish_user(actionType: ActionType, userInfo: models.UserProfile):
         data['email'] = userInfo.user.email
         data['name'] = userInfo.user.name
         data['bio'] = userInfo.bio
-        data['profile_picture'] = userInfo.profile_picture
+        # data['profile_picture'] = userInfo.profile_picture
         data['password'] = userInfo.user.password
 
     print("HIHI ===> ", data)
