@@ -31,15 +31,18 @@ class UserSerializer(serializers.ModelSerializer):
             if filtered_user and filtered_user[0] != instance:
                 raise serializers.ValidationError('Email already exists')
 
+        instance.email = validated_data.get('email', instance.email)
+        instance.name = validated_data.get('name', instance.name)
+        instance.set_password(validated_data.get('password', instance.password))
+        instance.save()
+
         if instance.user_profile.all():
             user_profile = instance.user_profile.all()[0]
             user_profile.bio = validated_data.get('bio', user_profile.bio)
             user_profile.save()
 
-        instance.email = validated_data.get('email', instance.email)
-        instance.name = validated_data.get('name', instance.name)
-        instance.set_password(validated_data.get('password', instance.password))
-        instance.save()
+        publish_user(ActionType.put, instance.user_profile.all()[0])
+
         return instance
 
 

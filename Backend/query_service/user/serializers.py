@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import User, UserProfile
-from publisher.publisher import publish_user, ActionType
 
 
 class LoginSerializer(serializers.Serializer):
@@ -89,7 +88,6 @@ class UserRegistrationSerializer(serializers.Serializer):
             bio=data['bio'],
             profile_picture=data['profilePicture']
         )
-        publish_user(ActionType.post, user_profile_obj)
         
         return user_profile_obj
     

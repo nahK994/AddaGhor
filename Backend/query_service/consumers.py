@@ -1,16 +1,19 @@
+import os, django
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "App.settings_local")
+django.setup()
+
+
 import pika
 import time
 import json
+from user.userEventHandlers import userCreateEventHandler, userUpdateEventHandler, userDeleteEventHandler
 
-# import os, django
 
-# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Result.settings")
-# django.setup()
+class ActionType:
+    post = "POST"
+    delete = "DELETE"
+    put = "PUT"
 
-# from topic.views import manageTopicData
-# from question.views import manageQuestionData
-# from user.views import manageUserData
-# from exam.views import manageExamData
 
 while True:
     try:
@@ -22,7 +25,7 @@ while True:
         channel.exchange_declare(exchange='user', exchange_type='fanout')
         channel.queue_declare(queue='user', exclusive=True)
         channel.queue_bind(exchange='user', queue='user')
-        print("result user consumer online")
+        print("user consumer online")
 
         # channel.exchange_declare(exchange='question', exchange_type='fanout')
         # channel.queue_declare(queue='result_question', exclusive=True)
@@ -39,16 +42,33 @@ while True:
         # channel.queue_bind(exchange='exam', queue='result_exam')
         # print("result exam consumer online")
         break
-    except:
-        print("result consumer failed")
+    except Exception as e:
+
+        print(f"consumer failed +++> {str(e)}")
         time.sleep(3)
 
+
+# from user.models import User, UserProfile
+
+
+# def userCreateEventHandler(data):
+#     user_obj = User.objects.create_user(data['name'], data['email'], data['password'])
+#     UserProfile.objects.create(
+#         user=user_obj,
+#         bio=data['bio'],
+#         profile_picture=data['profilePicture']
+#     )
 
 def userInfoCallback(ch, method, properties, body):
     data = json.loads(body.decode('ASCII'))
     print("user ==> ", data)
-    print(f"method ==> {method}")
-    # manageUserData(data)
+    action_type = data['actionType']
+    if action_type == ActionType.post:
+        userCreateEventHandler(data)
+    elif action_type == ActionType.put:
+        userUpdateEventHandler(data)
+    else:
+        userDeleteEventHandler(data)
 
 
 # def questionInfoCallback(ch, method, properties, body):

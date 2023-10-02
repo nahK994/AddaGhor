@@ -9,16 +9,24 @@ class ActionType:
     put = "PUT"
 
 
-def publish_user(actionType: ActionType, userInfo: models.UserProfile):
+def publish_user(action_type: ActionType, user_profile_info: models.UserProfile):
     data = {}
-    data['actionType'] = actionType
-    data['id'] = userInfo.id
-    if actionType == "POST" or actionType == "PUT":
-        data['email'] = userInfo.user.email
-        data['name'] = userInfo.user.name
-        data['bio'] = userInfo.bio
-        # data['profile_picture'] = userInfo.profile_picture
-        data['password'] = userInfo.user.password
+    if action_type == ActionType.post or action_type == ActionType.put:
+        data = {
+            'actionType': action_type,
+            'id': user_profile_info.user.id,
+            'userProfileId': user_profile_info.id,
+            'email': user_profile_info.user.email,
+            'name' : user_profile_info.user.name,
+            'bio'  : user_profile_info.bio,
+            'profilePicture': 'google.com',
+            'password': user_profile_info.user.password
+        }
+    else:
+        data = {
+            'actionType': action_type,
+            'id': user_profile_info.user.id
+        }
 
     print("HIHI ===> ", data)
     data = json.dumps(data)

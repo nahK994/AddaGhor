@@ -5,6 +5,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import LoginSerializer, UserRegistrationSerializer, UserSerializer, UserListSerializer
 from rest_framework.permissions import BasePermission, IsAuthenticated
 from .models import User
+from publisher.publisher import publish_user, ActionType
 
 
 class UserPermission(BasePermission):
@@ -58,6 +59,14 @@ class UserViewset(viewsets.ModelViewSet):
         serializer = UserListSerializer(users, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def destroy(self, request, *args, **kwargs):
+        user = request.user
+        user_profile = user.user_profile.all()
+        publish_user(ActionType.delete, user_profile[0])
+        user_profile.delete()
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class UserRegistrationViewset(viewsets.ModelViewSet):
