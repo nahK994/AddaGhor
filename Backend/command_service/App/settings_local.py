@@ -6,8 +6,8 @@ DATABASES = {
         'NAME': 'command_db_adda_ghor',
         'USER': 'skhan',
         'PASSWORD': 'haha',
-        'HOST': '0.0.0.0',
-        'PORT': '5000',
+        'HOST': 'command_db',
+        'PORT': '5432',
     }
 }
 

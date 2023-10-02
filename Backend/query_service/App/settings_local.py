@@ -6,8 +6,8 @@ DATABASES = {
         'NAME': 'query_db_adda_ghor',
         'USER': 'skhan',
         'PASSWORD': 'haha',
-        'HOST': '0.0.0.0',
-        'PORT': '5001',
+        'HOST': 'query_db',
+        'PORT': '5432',
     }
 }
 

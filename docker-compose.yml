@@ -23,17 +23,29 @@ services:
       - POSTGRES_PASSWORD=haha
       - POSTGRES_DB=query_db_adda_ghor
 
-  # command_service_adda_ghor:
-  #   container_name: command_service_adda_ghor
-  #   build: Backend/command_service
-  #   restart: always
-  #   # volumes:
-  #   #   - Backend/command_service:app:ro
-  #   ports:
-  #     - 8000:8000
-  #   command: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
-  #   depends_on:
-  #     - command_db
+  command_service:
+    container_name: command_service
+    build: Backend/command_service
+    restart: always
+    volumes:
+      - Backend_command_service:/app:ro
+    ports:
+      - 8000:8000
+    command: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - command_db
+  
+  query_service:
+    container_name: query_service
+    build: Backend/query_service
+    restart: always
+    volumes:
+      - Backend_query_service:/app:ro
+    ports:
+      - 8001:8000
+    command: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - query_db
 
   # frontend:
   #   container_name: frontend
@@ -43,3 +55,6 @@ services:
   #     - 4200:80
   #   depends_on:
   #     - backend
+volumes:
+  Backend_command_service:
+  Backend_query_service:
