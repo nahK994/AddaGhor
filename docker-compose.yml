@@ -43,7 +43,7 @@ services:
       - Backend_query_service:/app:ro
     ports:
       - 8001:8000
-    command: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+    command: bash -c "python3 script.py"
     depends_on:
       - query_db
 
@@ -55,6 +55,7 @@ services:
   #     - 4200:80
   #   depends_on:
   #     - backend
+
 volumes:
   Backend_command_service:
   Backend_query_service:
