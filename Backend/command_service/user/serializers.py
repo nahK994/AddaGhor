@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import User, UserProfile
-from ..publisher import publish_user, ActionType
+from publisher.publisher import publish_user, ActionType
 
 
 class LoginSerializer(serializers.Serializer):
