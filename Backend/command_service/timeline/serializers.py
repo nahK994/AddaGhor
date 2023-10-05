@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Comment, Post
-from publisher.publisher import ActionType, publish_post
+from publisher.publisher import ActionType, publish_post, publish_comment
 
 
 class PostCommandSerializer(serializers.ModelSerializer):
@@ -72,11 +72,13 @@ class CommentCommandSerializer(serializers.ModelSerializer):
             text = data['text'],
             post = post
         )
+        publish_comment(ActionType.post, comment_obj)
         return comment_obj
 
     def update(self, instance, validated_data):
         instance.text = validated_data.get('text', instance.text)
         instance.save()
+        publish_comment(ActionType.put, instance)
         return instance    
 
     def to_representation(self, instance):

@@ -4,7 +4,6 @@ from user.models import User
 
 
 def postCreateEventHandler(data):
-    print(f"create post data  +++++++++++++ {data}")
     filtered_user = User.objects.filter(id=data['user'])
     Post.objects.create(id=data['id'], text=data['text'], user=filtered_user[0])
 

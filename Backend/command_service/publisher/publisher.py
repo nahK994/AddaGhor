@@ -1,8 +1,7 @@
 import pika
 from user.models import UserProfile
-from timeline.models import Post
+from timeline.models import Comment, Post
 import json
-import time
 
 
 params = pika.URLParameters('amqps://itqdjkpt:6GAMl22_0xjDtFVbmslqDEZ-mtqN7VqP@shrimp.rmq.cloudamqp.com/itqdjkpt')
@@ -52,3 +51,21 @@ def publish_post(action_type: ActionType, post_info: Post):
         }
     data = json.dumps(data)
     channel.basic_publish(exchange='exchange', routing_key='post', body=data)
+
+
+def publish_comment(action_type: ActionType, comment_info: Comment):
+    if action_type == ActionType.post or action_type == ActionType.put:
+        data = {
+            "actionType": action_type,
+            "id": comment_info.id,
+            "user": comment_info.user.id,
+            "text": comment_info.text,
+            "post": comment_info.post.id
+        }
+    else:
+        data = {
+            "id": comment_info.id,
+            "actionType": ActionType.delete
+        }
+    data = json.dumps(data)
+    channel.basic_publish(exchange='exchange', routing_key='comment', body=data)
