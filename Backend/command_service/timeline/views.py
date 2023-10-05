@@ -6,6 +6,7 @@ from user.models import User
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.db.models import Prefetch
+from publisher.publisher import ActionType, publish_post
 
 
 class ReactType:
@@ -109,6 +110,12 @@ class PostViewset(viewsets.ModelViewSet):
         context = super().get_serializer_context()
         context.update({"request": self.request})
         return context
+    
+    def destroy(self, request, *args, **kwargs):
+        post = self.get_object()
+        publish_post(ActionType.delete, post)
+        post.delete()
+        return Response(status=204)
 
 
 class CommentViewset(viewsets.ModelViewSet):

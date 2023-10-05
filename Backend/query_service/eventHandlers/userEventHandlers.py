@@ -1,9 +1,7 @@
-import os, django
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "App.settings_local")
-django.setup()
+from .commonCodes import *
 
 
-from .models import User, UserProfile
+from user.models import User, UserProfile
 
 
 def userCreateEventHandler(data):
@@ -22,7 +20,6 @@ def userUpdateEventHandler(data):
         return
 
     filtered_user_obj.update(name=data['name'])
-    # user_obj.set_password(data['password'])
     filtered_user_profile = UserProfile.objects.filter(user=filtered_user_obj[0])    
     filtered_user_profile.update(
         user=filtered_user_obj[0],

@@ -1,6 +1,13 @@
 import pika
-from user import models
+from user.models import UserProfile
+from timeline.models import Post
 import json
+import time
+
+
+params = pika.URLParameters('amqps://itqdjkpt:6GAMl22_0xjDtFVbmslqDEZ-mtqN7VqP@shrimp.rmq.cloudamqp.com/itqdjkpt')
+connection = pika.BlockingConnection(params)
+channel = connection.channel()
 
 
 class ActionType:
@@ -9,8 +16,7 @@ class ActionType:
     put = "PUT"
 
 
-def publish_user(action_type: ActionType, user_profile_info: models.UserProfile):
-    data = {}
+def publish_user(action_type: ActionType, user_profile_info: UserProfile):
     if action_type == ActionType.post or action_type == ActionType.put:
         data = {
             'actionType': action_type,
@@ -27,13 +33,22 @@ def publish_user(action_type: ActionType, user_profile_info: models.UserProfile)
             'actionType': action_type,
             'id': user_profile_info.user.id
         }
-
-    print("HIHI ===> ", data)
     data = json.dumps(data)
-    params = pika.URLParameters('amqps://itqdjkpt:6GAMl22_0xjDtFVbmslqDEZ-mtqN7VqP@shrimp.rmq.cloudamqp.com/itqdjkpt')
-    connection = pika.BlockingConnection(params)
-    channel = connection.channel()
+    channel.basic_publish(exchange='exchange', routing_key='user', body=data)
+    
 
-    channel.exchange_declare(exchange='user', exchange_type='fanout')
-    channel.basic_publish(exchange='user', routing_key='', body=data)
-    connection.close()
+def publish_post(action_type: ActionType, post_info: Post):
+    if action_type == ActionType.post or action_type == ActionType.put:
+        data = {
+            "actionType": action_type,
+            "id": post_info.id,
+            "user": post_info.user.id,
+            "text": post_info.text
+        }
+    else:
+        data = {
+            "id": post_info.id,
+            "actionType": ActionType.delete
+        }
+    data = json.dumps(data)
+    channel.basic_publish(exchange='exchange', routing_key='post', body=data)

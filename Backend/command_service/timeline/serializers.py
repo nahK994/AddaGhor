@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Comment, Post
+from publisher.publisher import ActionType, publish_post
 
 
 class PostCommandSerializer(serializers.ModelSerializer):
@@ -14,11 +15,13 @@ class PostCommandSerializer(serializers.ModelSerializer):
             user = request.user,
             text = data['text']
         )
+        publish_post(ActionType.post, post_obj)
         return post_obj
 
     def update(self, instance, validated_data):
         instance.text = validated_data.get('text', instance.text)
         instance.save()
+        publish_post(ActionType.put, instance)
         return instance
 
     def to_representation(self, instance):
