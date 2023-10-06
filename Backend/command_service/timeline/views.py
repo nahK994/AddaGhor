@@ -6,7 +6,7 @@ from user.models import User
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.db.models import Prefetch
-from publisher.publisher import ActionType, publish_post, publish_comment
+from publisher.publisher import ActionType, publish_post, publish_comment, publish_react
 
 
 class ReactType:
@@ -43,13 +43,16 @@ class ReactViewset(viewsets.ViewSet):
         react = React.objects.filter(user=request.user, post=post)
         if react:
             if react[0].type == ReactType.smile:
+                publish_react(ActionType.delete, react[0])
                 react[0].delete()
                 return Response("removed", status=204)
             else:
                 react.update(type = ReactType.smile)
+                publish_react(ActionType.put, react[0])
                 return Response(react[0].id, status=200)
         else:
             react = self.create_post_react(user=request.user, post=post, react_type=ReactType.smile)
+            publish_react(ActionType.post, react)
             return Response(react.id, status=200)
     
     @action(methods=['put'], detail=True, url_path=ReactType.love, url_name=ReactType.love)
@@ -61,13 +64,16 @@ class ReactViewset(viewsets.ViewSet):
         react = React.objects.filter(user=request.user, post=post)
         if react:
             if react[0].type == ReactType.love:
+                publish_react(ActionType.delete, react[0])
                 react[0].delete()
                 return Response("removed", status=204)
             else:
                 react.update(type = ReactType.love)
+                publish_react(ActionType.put, react[0])
                 return Response(react[0].id, status=200)
         else:
             react = self.create_post_react(user=request.user, post=post, react_type=ReactType.love)
+            publish_react(ActionType.post, react)
             return Response(react.id, status=200)
     
     @action(methods=['put'], detail=True, url_path=ReactType.like, url_name=ReactType.like)
@@ -79,13 +85,16 @@ class ReactViewset(viewsets.ViewSet):
         react = React.objects.filter(user=request.user, post=post)
         if react:
             if react[0].type == ReactType.like:
+                publish_react(ActionType.delete, react[0])
                 react[0].delete()
                 return Response("removed", status=204)
             else:
                 react.update(type = ReactType.like)
+                publish_react(ActionType.put, react[0])
                 return Response(react[0].id, status=200)
         else:
             react = self.create_post_react(user=request.user, post=post, react_type=ReactType.like)
+            publish_react(ActionType.post, react)
             return Response(react.id, status=200)
 
 

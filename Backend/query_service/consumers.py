@@ -3,6 +3,7 @@ import json
 from eventHandlers.userEventHandlers import *
 from eventHandlers.postEventHandlers import *
 from eventHandlers.commentEventHandlers import *
+from eventHandlers.reactEventHandlers import *
 
 
 class ActionType:
@@ -47,6 +48,18 @@ def commentInfoCallback(ch, method, properties, body):
         commentDeleteEventHandler(data)
 
 
+def reactInfoCallback(ch, method, properties, body):
+    data = json.loads(body.decode('ASCII'))
+    print("react ==> ", data)
+    action_type = data['actionType']
+    if action_type == ActionType.post:
+        reactCreateEventHandler(data)
+    elif action_type == ActionType.put:
+        reactUpdateEventHandler(data)
+    else:
+        reactDeleteEventHandler(data)
+
+
 params = pika.URLParameters('amqps://itqdjkpt:6GAMl22_0xjDtFVbmslqDEZ-mtqN7VqP@shrimp.rmq.cloudamqp.com/itqdjkpt')
 connection = pika.BlockingConnection(params)
 channel = connection.channel()
@@ -65,11 +78,15 @@ queue3 = channel.queue_declare('', exclusive=True)
 queue_name3 = queue3.method.queue
 channel.queue_bind(exchange='exchange', queue=queue_name3, routing_key='comment')
 
+queue4 = channel.queue_declare('', exclusive=True)
+queue_name4 = queue4.method.queue
+channel.queue_bind(exchange='exchange', queue=queue_name4, routing_key='react')
 
 
 channel.basic_consume(queue=queue_name1, on_message_callback=userInfoCallback, auto_ack=True)
 channel.basic_consume(queue=queue_name2, on_message_callback=postInfoCallback, auto_ack=True)
 channel.basic_consume(queue=queue_name3, on_message_callback=commentInfoCallback, auto_ack=True)
+channel.basic_consume(queue=queue_name4, on_message_callback=reactInfoCallback, auto_ack=True)
 
 print("consumer online")
 channel.start_consuming()

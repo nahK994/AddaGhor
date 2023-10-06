@@ -1,6 +1,6 @@
 import pika
 from user.models import UserProfile
-from timeline.models import Comment, Post
+from timeline.models import Comment, Post, React
 import json
 
 
@@ -69,3 +69,21 @@ def publish_comment(action_type: ActionType, comment_info: Comment):
         }
     data = json.dumps(data)
     channel.basic_publish(exchange='exchange', routing_key='comment', body=data)
+
+
+def publish_react(action_type: ActionType, react_info: React):
+    if action_type == ActionType.post or action_type == ActionType.put:
+        data = {
+            "actionType": action_type,
+            "id": react_info.id,
+            "user": react_info.user.id,
+            "type": react_info.type,
+            "post": react_info.post.id
+        }
+    else:
+        data = {
+            "id": react_info.id,
+            "actionType": ActionType.delete
+        }
+    data = json.dumps(data)
+    channel.basic_publish(exchange='exchange', routing_key='react', body=data)
