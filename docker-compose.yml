@@ -32,6 +32,10 @@ services:
     ports:
       - 8000:8000
     command: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
+    environment:
+      - POSTGRES_USER=skhan
+      - POSTGRES_PASSWORD=haha
+      - POSTGRES_DB=command_db_adda_ghor
     depends_on:
       - command_db
   
@@ -44,6 +48,10 @@ services:
     ports:
       - 8001:8000
     command: bash -c "python3 manage.py migrate && python3 script.py"
+    environment:
+      - POSTGRES_USER=skhan
+      - POSTGRES_PASSWORD=haha
+      - POSTGRES_DB=query_db_adda_ghor
     depends_on:
       - query_db
 

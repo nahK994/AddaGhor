@@ -1,11 +1,12 @@
 from .settings import *
+import os
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'command_db_adda_ghor',
-        'USER': 'skhan',
-        'PASSWORD': 'haha',
+        'NAME': os.getenv('POSTGRES_DB'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
         'HOST': 'command_db',
         'PORT': '5432',
     }
