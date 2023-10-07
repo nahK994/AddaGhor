@@ -7,6 +7,8 @@ services:
     restart: always
     ports:
       - 5000:5432
+    volumes:
+      - command_db_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=skhan
       - POSTGRES_PASSWORD=haha
@@ -18,6 +20,8 @@ services:
     restart: always
     ports:
       - 5001:5432
+    volumes:
+      - query_db_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=skhan
       - POSTGRES_PASSWORD=haha
@@ -27,8 +31,6 @@ services:
     container_name: command_service
     build: Backend/command_service
     restart: always
-    volumes:
-      - Backend_command_service:/app:ro
     ports:
       - 8000:8000
     command: bash -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
@@ -43,8 +45,6 @@ services:
     container_name: query_service
     build: Backend/query_service
     restart: always
-    volumes:
-      - Backend_query_service:/app:ro
     ports:
       - 8001:8000
     command: bash -c "python3 manage.py migrate && python3 script.py"
@@ -65,5 +65,5 @@ services:
   #     - backend
 
 volumes:
-  Backend_command_service:
-  Backend_query_service:
+  command_db_data:
+  query_db_data:

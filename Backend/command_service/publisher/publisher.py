@@ -2,7 +2,6 @@ import pika
 from user.models import UserProfile
 from timeline.models import Comment, Post, React
 import json
-print("HaHa HaHa")
 
 
 params = pika.URLParameters('amqps://itqdjkpt:6GAMl22_0xjDtFVbmslqDEZ-mtqN7VqP@shrimp.rmq.cloudamqp.com/itqdjkpt')
