@@ -8,7 +8,7 @@ services:
     ports:
       - 5000:5432
     volumes:
-      - command_db_data:/var/lib/postgresql/data
+      - /var/lib/postgresql/data
     environment:
       - POSTGRES_USER=skhan
       - POSTGRES_PASSWORD=haha
@@ -21,7 +21,7 @@ services:
     ports:
       - 5001:5432
     volumes:
-      - query_db_data:/var/lib/postgresql/data
+      - /var/lib/postgresql/data
     environment:
       - POSTGRES_USER=skhan
       - POSTGRES_PASSWORD=haha
@@ -63,7 +63,3 @@ services:
   #     - 4200:80
   #   depends_on:
   #     - backend
-
-volumes:
-  command_db_data:
-  query_db_data:
