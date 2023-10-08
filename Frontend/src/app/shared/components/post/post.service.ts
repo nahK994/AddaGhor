@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class PostService {
 
-  readonly doamin = environment.domain
+  readonly commandDomain = environment.commandDomain
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -23,7 +23,7 @@ export class PostService {
       "text": postText
     }
     let URL_extention = '/posts/'+postId;
-    let response = await lastValueFrom(this.http.put<{id: number}>(this.doamin+URL_extention, payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.put<{id: number}>(this.commandDomain+URL_extention, payload, this.httpOptions));
 
     return response.id;
   }
@@ -32,7 +32,7 @@ export class PostService {
     let payload = {
       "text": postText
     };
-    let response = await lastValueFrom(this.http.post<{id: number}>(this.doamin+'/posts', payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.post<{id: number}>(this.commandDomain+'/posts', payload, this.httpOptions));
 
     return response.id;
   }

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { User } from '../user/user.service';
+import { lastValueFrom } from 'rxjs';
 
 interface Author {
   profilePic: string,
@@ -42,7 +43,8 @@ export interface ActivityFeed {
 export class HomeService {
 
   loggedInUserInfo: User;
-  readonly doamin = environment.domain
+  readonly commandDoamin = environment.commandDomain
+  readonly queryDoamin = environment.queryDomain
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -54,20 +56,20 @@ export class HomeService {
 
   async getPost(postId: number) {
     let URL_extention = '/posts/'+postId;
-    let response = await this.http.get<Post>(this.doamin+URL_extention, this.httpOptions).toPromise();
+    let response = await lastValueFrom(this.http.get<Post>(this.commandDoamin+URL_extention, this.httpOptions));
 
     return response;
   }
 
   async getActivityFeed() {
-    let response = await this.http.get<ActivityFeed[]>(this.doamin+'/activity', this.httpOptions).toPromise();
+    let response = await lastValueFrom(this.http.get<ActivityFeed[]>(this.queryDoamin+'/activity', this.httpOptions));
 
     return response;
   }
 
   async getUserTimelines(userId: number) {
     let URL_extention = '/timeline/'+userId;
-    let response = await this.http.get<ActivityFeed[]>(this.doamin+URL_extention, this.httpOptions).toPromise();
+    let response = await lastValueFrom(this.http.get<ActivityFeed[]>(this.queryDoamin+URL_extention, this.httpOptions));
 
     return response;
   }

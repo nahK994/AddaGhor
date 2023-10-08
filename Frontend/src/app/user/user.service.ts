@@ -18,7 +18,9 @@ export interface User
 })
 export class UserService {
 
-  readonly doamin = environment.domain;
+  readonly queryDoamin = environment.queryDomain;
+  readonly commandDoamin = environment.commandDomain;
+
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -29,20 +31,20 @@ export class UserService {
 
   async createUser(payload: User) {
     delete payload.profilePicture
-    let response = await lastValueFrom(this.http.post<number>(this.doamin+'/registration', payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.post<number>(this.commandDoamin+'/registration', payload, this.httpOptions));
 
     return response;
   }
 
   async updateUser(userId: number, payload: User) {
     delete payload.profilePicture
-    let response = await lastValueFrom(this.http.put<User>(this.doamin+'/users/'+userId, payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.put<User>(this.commandDoamin+'/users/'+userId, payload, this.httpOptions));
 
     return response;
   }
 
   async getUser(userId: number) {
-    let response = await lastValueFrom(this.http.get<User>(this.doamin+'/users/'+userId, this.httpOptions));
+    let response = await lastValueFrom(this.http.get<User>(this.queryDoamin+'/users/'+userId, this.httpOptions));
 
     return response;
   }

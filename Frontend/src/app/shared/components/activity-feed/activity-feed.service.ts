@@ -21,7 +21,7 @@ export enum ReactType {
 })
 export class ActivityFeedService {
 
-  readonly doamin = environment.domain
+  readonly commandDoamin = environment.commandDomain
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -33,7 +33,7 @@ export class ActivityFeedService {
 
   async reactPost(postId: number, reactType: 'like'|'smile'|'love') {
     let URL_extention = '/posts/'+postId+'/'+reactType;
-    let response = await lastValueFrom(this.http.put(this.doamin+URL_extention, this.httpOptions));
+    let response = await lastValueFrom(this.http.put(this.commandDoamin+URL_extention, this.httpOptions));
 
     return response;
   }
@@ -44,7 +44,7 @@ export class ActivityFeedService {
       "text": commentText,
 
     }
-    let response = await lastValueFrom(this.http.put<{id: number}>(this.doamin+URL_extention, payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.put<{id: number}>(this.commandDoamin+URL_extention, payload, this.httpOptions));
 
     return response.id;
   }
@@ -54,7 +54,7 @@ export class ActivityFeedService {
       "postId": postId,
       "text": commentText
     }
-    let response = await lastValueFrom(this.http.post<{id: number}>(this.doamin+'/comments', payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.post<{id: number}>(this.commandDoamin+'/comments', payload, this.httpOptions));
 
     return response.id;
   }

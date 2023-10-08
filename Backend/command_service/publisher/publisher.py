@@ -4,9 +4,11 @@ from timeline.models import Comment, Post, React
 import json
 
 
-params = pika.URLParameters('amqps://itqdjkpt:6GAMl22_0xjDtFVbmslqDEZ-mtqN7VqP@shrimp.rmq.cloudamqp.com/itqdjkpt')
-connection = pika.BlockingConnection(params)
-channel = connection.channel()
+def initiate_channel():
+    params = pika.URLParameters('amqps://itqdjkpt:6GAMl22_0xjDtFVbmslqDEZ-mtqN7VqP@shrimp.rmq.cloudamqp.com/itqdjkpt')
+    connection = pika.BlockingConnection(params)
+    channel = connection.channel()
+    return channel
 
 
 class ActionType:
@@ -33,7 +35,13 @@ def publish_user(action_type: ActionType, user_profile_info: UserProfile):
             'id': user_profile_info.user.id
         }
     data = json.dumps(data)
-    channel.basic_publish(exchange='exchange', routing_key='user', body=data)
+    while True:
+        try:
+            channel = initiate_channel()
+            channel.basic_publish(exchange='exchange', routing_key='user', body=data)
+            break
+        except Exception as e:
+            print(str(e))
     
 
 def publish_post(action_type: ActionType, post_info: Post):
@@ -50,7 +58,13 @@ def publish_post(action_type: ActionType, post_info: Post):
             "actionType": ActionType.delete
         }
     data = json.dumps(data)
-    channel.basic_publish(exchange='exchange', routing_key='post', body=data)
+    while True:
+        try:
+            channel = initiate_channel()
+            channel.basic_publish(exchange='exchange', routing_key='post', body=data)
+            break
+        except Exception as e:
+            print(str(e))
 
 
 def publish_comment(action_type: ActionType, comment_info: Comment):
@@ -68,7 +82,13 @@ def publish_comment(action_type: ActionType, comment_info: Comment):
             "actionType": ActionType.delete
         }
     data = json.dumps(data)
-    channel.basic_publish(exchange='exchange', routing_key='comment', body=data)
+    while True:
+        try:
+            channel = initiate_channel()
+            channel.basic_publish(exchange='exchange', routing_key='comment', body=data)
+            break
+        except Exception as e:
+            print(str(e))
 
 
 def publish_react(action_type: ActionType, react_info: React):
@@ -86,4 +106,10 @@ def publish_react(action_type: ActionType, react_info: React):
             "actionType": ActionType.delete
         }
     data = json.dumps(data)
-    channel.basic_publish(exchange='exchange', routing_key='react', body=data)
+    while True:
+        try:
+            channel = initiate_channel()
+            channel.basic_publish(exchange='exchange', routing_key='react', body=data)
+            break
+        except Exception as e:
+            print(str(e))

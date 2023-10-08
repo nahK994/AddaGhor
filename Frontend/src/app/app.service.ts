@@ -21,7 +21,7 @@ interface Assets {
 })
 export class AppService {
 
-  readonly doamin = environment.domain
+  readonly commandDomain = environment.commandDomain
   readonly accessToken = "JWT_TOKEN";
   readonly refreshToken = "REFRESH_TOKEN";
 
@@ -39,7 +39,7 @@ export class AppService {
       let payload = {
           "refresh": sessionStorage.getItem(this.refreshToken)
       }
-      let response: any = await lastValueFrom(this.http.post<Assets>(this.doamin+baseUrl_RefreshAccessToken, payload, this.httpOptions));
+      let response: any = await lastValueFrom(this.http.post<Assets>(this.commandDomain+baseUrl_RefreshAccessToken, payload, this.httpOptions));
       this.setAssets(response.refreshToken, response.accessToken);
   }
 
@@ -57,7 +57,7 @@ export class AppService {
     email: string,
     password: string
   }) {
-    let response: LoginInfo = await lastValueFrom(this.http.post<LoginInfo>(this.doamin + '/login', loginInfo, this.httpOptions));
+    let response: LoginInfo = await lastValueFrom(this.http.post<LoginInfo>(this.commandDomain + '/login', loginInfo, this.httpOptions));
     return response;
   }
 

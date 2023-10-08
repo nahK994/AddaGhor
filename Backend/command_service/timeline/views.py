@@ -5,7 +5,6 @@ from .models import Comment, Post, React
 from user.models import User
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.db.models import Prefetch
 from publisher.publisher import ActionType, publish_post, publish_comment, publish_react
 
 
@@ -149,23 +148,3 @@ class CommentViewset(viewsets.ModelViewSet):
         comment.delete()
         return Response(status=204)
 
-
-class ActivityViewset(viewsets.ViewSet):
-    permission_classes = [IsAuthenticated]
-
-    def list(self, request):
-        posts = Post.objects.prefetch_related(Prefetch('reacts'), Prefetch('comments')).all()
-        user = request.user
-        activities = []
-        for post in posts:
-            activities.append({
-                "post": PostQuerySerializer(post).data,
-                "comments": CommentQuerySerializer(post.comments, many=True).data,
-                "reactCount": {
-                    "love": post.reacts.filter(type=ReactType.love).count(),
-                    "like": post.reacts.filter(type=ReactType.like).count(),
-                    "smile": post.reacts.filter(type=ReactType.smile).count()
-                },
-                "userReact": post.reacts.filter(user=user)[0].type if len(post.reacts.filter(user=user)) else None
-            })
-        return Response(activities, status=200)

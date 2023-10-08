@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  domain: "http://localhost:8000"
+  commandDomain: "http://localhost:8000",
+  queryDomain: "http://localhost:8001"
 };
 
 /*
