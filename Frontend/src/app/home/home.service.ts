@@ -43,8 +43,8 @@ export interface ActivityFeed {
 export class HomeService {
 
   loggedInUserInfo: User;
-  readonly commandDoamin = environment.commandDomain
-  readonly queryDoamin = environment.queryDomain
+  readonly commandDomain = environment.commandDomain
+  readonly queryDomain = environment.queryDomain
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -56,20 +56,39 @@ export class HomeService {
 
   async getPost(postId: number) {
     let URL_extention = '/posts/'+postId;
-    let response = await lastValueFrom(this.http.get<Post>(this.commandDoamin+URL_extention, this.httpOptions));
+    let response = await lastValueFrom(this.http.get<Post>(this.commandDomain+URL_extention, this.httpOptions));
 
     return response;
   }
 
   async getActivityFeed() {
-    let response = await lastValueFrom(this.http.get<ActivityFeed[]>(this.queryDoamin+'/activity', this.httpOptions));
+    let response = await lastValueFrom(this.http.get<ActivityFeed[]>(this.queryDomain+'/activity', this.httpOptions));
 
     return response;
   }
 
   async getUserTimelines(userId: number) {
     let URL_extention = '/timeline/'+userId;
-    let response = await lastValueFrom(this.http.get<ActivityFeed[]>(this.queryDoamin+URL_extention, this.httpOptions));
+    let response = await lastValueFrom(this.http.get<ActivityFeed[]>(this.queryDomain+URL_extention, this.httpOptions));
+
+    return response;
+  }
+
+  async updatePost(postId: number, postText: string) {
+    let payload = {
+      "text": postText
+    }
+    let URL_extention = '/posts/'+postId;
+    let response = await lastValueFrom(this.http.put<number>(this.commandDomain+URL_extention, payload, this.httpOptions));
+
+    return response;
+  }
+
+  async createPost(postText: string) {
+    let payload = {
+      "text": postText
+    };
+    let response = await lastValueFrom(this.http.post<number>(this.commandDomain+'/posts', payload, this.httpOptions));
 
     return response;
   }

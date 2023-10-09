@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PostInfo } from 'src/app/shared/components/post/post.component';
+// import { PostInfo } from 'src/app/shared/components/post/post.component';
 import { User } from 'src/app/user/user.service';
 import { UserService } from 'src/app/user/user.service';
 import { ActivityFeed } from '../home.service';
 import { HomeService } from '../home.service';
+import { FormControl } from '@angular/forms';
+import { lastValueFrom } from 'rxjs';
+import { debug } from 'console';
 
 @Component({
   selector: 'app-landing-page',
@@ -16,10 +19,9 @@ export class LandingPageComponent implements OnInit {
 
   user: User;
   activityFeed: ActivityFeed[];
-  allActivityFeed: ActivityFeed[];
+  postText: FormControl = new FormControl('');
 
   constructor(
-    public dialog: MatDialog,
     private _homeService: HomeService,
     private _activateRoute: ActivatedRoute,
     private _userService: UserService,
@@ -32,16 +34,18 @@ export class LandingPageComponent implements OnInit {
     this.activityFeed = await this._homeService.getActivityFeed();
   }
 
-  async submitPost(post: PostInfo) {
+  async submitPost() {
+    let postId = await this._homeService.createPost(this.postText.value);
+
     this.activityFeed.unshift({
       post: {
-        postId: post.postId,
+        postId: postId,
         author:{
           name: this.user.name,
           profilePic: this.user.profilePicture,
           userId: this.user.userId
         },
-        text: post.text,
+        text: this.postText.value,
       },
       comments: [],
       reactCount: {
@@ -50,6 +54,8 @@ export class LandingPageComponent implements OnInit {
         smile: 0
       }
     })
+    
+    this.postText.setValue('');
   }
 
   goToProfile() {
@@ -61,4 +67,26 @@ export class LandingPageComponent implements OnInit {
       relativeTo: this._activateRoute
     })
   }
+
+  // async onSubmitPost() {
+  //   let postId = await this._homeService.createPost(this.postText.value);
+
+  //   this.activityFeed.unshift({
+  //     post: {
+  //       postId: postId,
+  //       author:{
+  //         name: this.user.name,
+  //         profilePic: this.user.profilePicture,
+  //         userId: this.user.userId
+  //       },
+  //       text: this.postText.value.text,
+  //     },
+  //     comments: [],
+  //     reactCount: {
+  //       like: 0,
+  //       love: 0,
+  //       smile: 0
+  //     }
+  //   })
+  // }
 }

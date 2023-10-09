@@ -7,10 +7,12 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {MatIconModule} from '@angular/material/icon';
 import { UserModule } from '../user/user.module';
 import { MatCardModule } from '@angular/material/card';
-import { PostModule } from '../shared/components/post/post.module';
 import { ActivityFeedModule } from '../shared/components/activity-feed/activity-feed.module';
 import { AccessTokenInterceptor } from '../interceptor/token.interceptor';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
 
 
 @NgModule({
@@ -20,11 +22,14 @@ import { MatButtonModule } from '@angular/material/button';
     HomeRoutingModule,
     HttpClientModule,
     MatIconModule,
-    PostModule,
     UserModule,
     ActivityFeedModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule
   ],
   providers: [
     {

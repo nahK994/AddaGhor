@@ -18,10 +18,21 @@
   <div style="overflow-y: auto;">
     <div class="create-post">
       <mat-card class="card-style">
-        <post (post)="submitPost($event)"></post>
+        <div class="post">
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>
+              <span>Write post</span>
+            </mat-label>
+            <textarea matInput maxlength="1000" rows="8" [formControl]="postText"
+              placeholder="Write post"></textarea>
+          </mat-form-field>
+          <button style="width: fit-content;" mat-raised-button color="primary" (click)="submitPost()">
+            <span>Post</span>
+          </button>
+        </div>
       </mat-card>
     </div>
-  
+
     <div class="timeline">
       <ng-container *ngFor="let feed of activityFeed">
         <activity-feed [activityFeed]="feed" [user]="user"></activity-feed>
