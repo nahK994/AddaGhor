@@ -17,9 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from rest_framework import routers
 from rest_framework_swagger.views import get_swagger_view
-from timeline.views import ActivityViewset, CommentViewset, PostViewset, ReactViewset
-from user.views import UserViewset, LoginViewset, UserRegistrationViewset
-from rest_framework_simplejwt.views import TokenRefreshView
+from user.views import LoginViewset, UserViewset
+from timeline.views import ActivityViewset
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -33,19 +32,14 @@ class OptionalSlashRouter(routers.SimpleRouter):
 
 router = OptionalSlashRouter()
 
-router.register("posts", ReactViewset, basename="reacts")
-router.register("posts", PostViewset, basename="posts")
-router.register("comments", CommentViewset, basename="comments")
 router.register("activity", ActivityViewset, basename="activity")
 
 router.register("users", UserViewset, basename="users")
-router.register("registration", UserRegistrationViewset, basename="registration")
 router.register("login", LoginViewset, basename="login")
 
 schema_view = get_swagger_view(title='AddaGhor', patterns=router.urls)
 
 urlpatterns = [
         path('admin/', admin.site.urls),
-        path('users/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
         path('api/docs', schema_view)
     ] + router.urls + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

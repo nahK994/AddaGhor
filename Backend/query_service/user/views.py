@@ -2,9 +2,9 @@ from rest_framework.response import Response
 from rest_framework import status, viewsets
 
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import LoginSerializer, UserRegistrationSerializer, UserSerializer, UserListSerializer
-from rest_framework.permissions import BasePermission, IsAuthenticated
+from .serializers import LoginSerializer, UserSerializer
 from .models import User
+from rest_framework.permissions import BasePermission
 
 
 class UserPermission(BasePermission):
@@ -35,7 +35,6 @@ class LoginViewset(viewsets.ModelViewSet):
         if not filtered_user:
             return Response("no such user", status=status.HTTP_403_FORBIDDEN)
         user = filtered_user[0]
-
         if user.check_password(request.data['password']):
             user_info = get_tokens_for_user(user)
             user_info['isAdmin'] = user.is_admin
@@ -49,17 +48,5 @@ class UserViewset(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     permission_classes = [UserPermission]
+    http_method_names = ["get"]
 
-    def list(self, request):
-        if not request.user.is_admin:
-            return Response("not allowed", status=status.HTTP_403_FORBIDDEN)
-
-        users = self.queryset
-        serializer = UserListSerializer(users, many=True)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-class UserRegistrationViewset(viewsets.ModelViewSet):
-    serializer_class = UserRegistrationSerializer
-    http_method_names = ["post"]

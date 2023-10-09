@@ -3,7 +3,7 @@ from rest_framework import status, viewsets
 
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import LoginSerializer, UserRegistrationSerializer, UserSerializer, UserListSerializer
-from rest_framework.permissions import BasePermission, IsAuthenticated
+from rest_framework.permissions import BasePermission
 from .models import User
 from publisher.publisher import publish_user, ActionType
 
@@ -36,7 +36,6 @@ class LoginViewset(viewsets.ModelViewSet):
         if not filtered_user:
             return Response("no such user", status=status.HTTP_403_FORBIDDEN)
         user = filtered_user[0]
-
         if user.check_password(request.data['password']):
             user_info = get_tokens_for_user(user)
             user_info['isAdmin'] = user.is_admin

@@ -92,6 +92,7 @@ class UserRegistrationSerializer(serializers.Serializer):
             bio=data['bio'],
             profile_picture=data['profilePicture']
         )
+        user_profile_obj.user.password = data['password']
         publish_user(ActionType.post, user_profile_obj)
         
         return user_profile_obj
