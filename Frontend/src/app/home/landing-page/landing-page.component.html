@@ -4,8 +4,6 @@
       <div class="title">
         Adda Ghor
       </div>
-      <button *ngIf="seeAllActivityFeed" mat-raised-button (click)="filterMyPosts()">Filter my posts</button>
-      <button *ngIf="!seeAllActivityFeed" mat-raised-button (click)="allPosts()">See all posts</button>
     </div>
     <div class="profile-and-create-post">
       <img *ngIf="user?.profilePicture" class="image" [src]="user?.avatar" />

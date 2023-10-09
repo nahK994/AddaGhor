@@ -17,7 +17,6 @@ export class LandingPageComponent implements OnInit {
   user: User;
   activityFeed: ActivityFeed[];
   allActivityFeed: ActivityFeed[];
-  seeAllActivityFeed: boolean = true;
 
   constructor(
     public dialog: MatDialog,
@@ -43,15 +42,13 @@ export class LandingPageComponent implements OnInit {
           userId: this.user.userId
         },
         text: post.text,
-        date: ""
       },
       comments: [],
       reactCount: {
         like: 0,
         love: 0,
         smile: 0
-      },
-      userReact: null
+      }
     })
   }
 
@@ -64,12 +61,4 @@ export class LandingPageComponent implements OnInit {
       relativeTo: this._activateRoute
     })
   }
-
-  filterMyPosts() {
-    this.seeAllActivityFeed = false;
-  }
-
-  allPosts() {
-    this.seeAllActivityFeed = true;
-  }  
 }

@@ -14,14 +14,14 @@ export interface Post {
   postId?: number,
   text: string,
   author: Author,
-  date: string
+  date?: string
 }
 
 export interface Comment {
   commentId?: number,
   author: Author,
   text: string,
-  date: string
+  date?: string
 }
 
 export interface React {
@@ -34,7 +34,7 @@ export interface ActivityFeed {
   post: Post,
   comments: Comment[],
   reactCount: React,
-  userReact: string
+  userReact?: string
 }
 
 @Injectable({
