@@ -33,68 +33,38 @@ class ReactViewset(viewsets.ViewSet):
         )
         return react
     
-    @action(methods=['put'], detail=True, url_path=ReactType.smile, url_name=ReactType.smile)
-    def smile(self, request, pk):
+    def process_react(self, react_type: str, request, pk: int):
         filtered_posts = Post.objects.filter(id=pk)
         if not filtered_posts:
             return Response("no such post", 404)
         post = filtered_posts[0]
-        react = React.objects.filter(user=request.user, post=post)
+        filtered_react = React.objects.filter(user=request.user, post=post)
+        react = filtered_react[0]
         if react:
-            if react[0].type == ReactType.smile:
-                publish_react(ActionType.delete, react[0])
-                react[0].delete()
+            if react.type == react_type:
+                publish_react(ActionType.delete, react)
+                react.delete()
                 return Response("removed", status=204)
             else:
-                react.update(type = ReactType.smile)
-                publish_react(ActionType.put, react[0])
-                return Response(react[0].id, status=200)
+                filtered_react.update(type = react_type)
+                publish_react(ActionType.put, react)
+                return Response(react.id, status=200)
         else:
-            react = self.create_post_react(user=request.user, post=post, react_type=ReactType.smile)
-            publish_react(ActionType.post, react)
+            created_react = self.create_post_react(user=request.user, post=post, react_type=react_type)
+            publish_react(ActionType.post, created_react)
             return Response(react.id, status=200)
+
+    @action(methods=['put'], detail=True, url_path=ReactType.smile, url_name=ReactType.smile)
+    def smile(self, request, pk):
+        return self.process_react(ReactType.smile, request, pk)
     
     @action(methods=['put'], detail=True, url_path=ReactType.love, url_name=ReactType.love)
     def love(self, request, pk):
-        filtered_posts = Post.objects.filter(id=pk)
-        if not filtered_posts:
-            return Response("no such post", 404)
-        post = filtered_posts[0]
-        react = React.objects.filter(user=request.user, post=post)
-        if react:
-            if react[0].type == ReactType.love:
-                publish_react(ActionType.delete, react[0])
-                react[0].delete()
-                return Response("removed", status=204)
-            else:
-                react.update(type = ReactType.love)
-                publish_react(ActionType.put, react[0])
-                return Response(react[0].id, status=200)
-        else:
-            react = self.create_post_react(user=request.user, post=post, react_type=ReactType.love)
-            publish_react(ActionType.post, react)
-            return Response(react.id, status=200)
+        return self.process_react(ReactType.love, request, pk)
     
     @action(methods=['put'], detail=True, url_path=ReactType.like, url_name=ReactType.like)
     def like(self, request, pk):
-        filtered_posts = Post.objects.filter(id=pk)
-        if not filtered_posts:
-            return Response("no such post", 404)
-        post = filtered_posts[0]
-        react = React.objects.filter(user=request.user, post=post)
-        if react:
-            if react[0].type == ReactType.like:
-                publish_react(ActionType.delete, react[0])
-                react[0].delete()
-                return Response("removed", status=204)
-            else:
-                react.update(type = ReactType.like)
-                publish_react(ActionType.put, react[0])
-                return Response(react[0].id, status=200)
-        else:
-            react = self.create_post_react(user=request.user, post=post, react_type=ReactType.like)
-            publish_react(ActionType.post, react)
-            return Response(react.id, status=200)
+        return self.process_react(ReactType.like, request, pk)
 
 
 class PostViewset(viewsets.ModelViewSet):
