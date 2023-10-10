@@ -11,6 +11,7 @@ import {MatInputModule} from '@angular/material/input';
 import { PostModule } from '../post/post.module';
 import { ActivityFeedService } from './activity-feed.service';
 import { HttpClientModule } from '@angular/common/http';
+import { EditItemModule } from '../edit-item/edit-item.module';
 
 @NgModule({
   declarations: [ActivityFeedComponent],
@@ -24,7 +25,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatFormFieldModule,
     MatInputModule,
     PostModule,
-    HttpClientModule
+    HttpClientModule,
+    EditItemModule
   ],
   exports: [
     ActivityFeedComponent

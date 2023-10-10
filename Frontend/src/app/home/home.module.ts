@@ -23,13 +23,13 @@ import {MatInputModule} from '@angular/material/input';
     HttpClientModule,
     MatIconModule,
     UserModule,
-    ActivityFeedModule,
     MatCardModule,
     MatButtonModule,
     MatFormFieldModule,
     FormsModule,
     ReactiveFormsModule,
-    MatInputModule
+    MatInputModule,
+    ActivityFeedModule
   ],
   providers: [
     {

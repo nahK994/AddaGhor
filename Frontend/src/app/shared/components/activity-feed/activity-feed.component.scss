@@ -62,12 +62,21 @@
                 align-items: center;
                 height: 40px;
                 justify-content: space-between;
+                width: 100%;
+                margin-bottom: 16px;
                 .commet-user-info{
                     display: flex;
-                    align-items: center;
-                    .text{
+                    align-items: flex-start;
+                    flex-direction: column;
+                    row-gap: 8px;
+                    .author{
                         width: 100%;
                         font-weight: bold;
+                        display: flex;
+                        align-items: center;
+                    }
+                    .text{
+
                     }
                 }
 

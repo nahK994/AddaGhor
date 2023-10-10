@@ -74,22 +74,22 @@ export class HomeService {
     return response;
   }
 
-  async updatePost(postId: number, postText: string) {
-    let payload = {
-      "text": postText
-    }
-    let URL_extention = '/posts/'+postId;
-    let response = await lastValueFrom(this.http.put<number>(this.commandDomain+URL_extention, payload, this.httpOptions));
+  // async updatePost(postId: number, postText: string) {
+  //   let payload = {
+  //     "text": postText
+  //   }
+  //   let URL_extention = '/posts/'+postId;
+  //   let response = await lastValueFrom(this.http.put<number>(this.commandDomain+URL_extention, payload, this.httpOptions));
 
-    return response;
-  }
+  //   return response;
+  // }
 
   async createPost(postText: string) {
     let payload = {
       "text": postText
     };
-    let response = await lastValueFrom(this.http.post<number>(this.commandDomain+'/posts', payload, this.httpOptions));
+    let response = await lastValueFrom(this.http.post<{id: number}>(this.commandDomain+'/posts', payload, this.httpOptions));
 
-    return response;
+    return response.id;
   }
 }

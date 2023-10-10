@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { User } from '../../../user/user.service';
-import { ActivityFeed, Comment } from '../../../home/home.service'
+import { ActivityFeed } from '../../../home/home.service'
 import { ActivityFeedService, ReactType } from './activity-feed.service';
+import { EditedTextOutputFormat } from '../edit-item/edit-item.component';
 
 export interface CommentEvent {
   postId: number;
@@ -36,11 +37,11 @@ export class ActivityFeedComponent {
 
   commentBoxFormControl = new FormControl();
 
-  post: FormControl = new FormControl();
-  commentFormControl: FormControl = new FormControl();
+  // post: FormControl = new FormControl();
+  // commentFormControl: FormControl = new FormControl();
 
-  isPostEditMode: boolean = false;
-  commentEditModeId: number = -1;
+  // isPostEditMode: boolean = false;
+  // commentEditModeId: number = -1;
 
   constructor(
     private _activityFeedService: ActivityFeedService
@@ -73,30 +74,29 @@ export class ActivityFeedComponent {
     this.commentBoxFormControl.setValue('');
   }
 
-  editPost() {
-    this.post.setValue(this.activityFeed.post.postId);
-    this.isPostEditMode = true;
-  }
+  // editPost() {
+  //   this.post.setValue(this.activityFeed.post.postId);
+  //   this.isPostEditMode = true;
+  // }
 
-  editComment(comment: Comment) {
-    this.commentFormControl.setValue(comment.text);
-    this.commentEditModeId = comment.commentId;
-  }
+  // editComment(comment: Comment) {
+  //   this.commentFormControl.setValue(comment.text);
+  //   this.commentEditModeId = comment.commentId;
+  // }
 
-  async updateComment(comment: Comment) {
-    await this._activityFeedService.updateComment(comment.commentId, this.commentFormControl.value);
-    this.commentEditModeId = -1;
+  async updateComment(editedItem: EditedTextOutputFormat) {
+    await this._activityFeedService.updateComment(editedItem.itemId, editedItem.text);
     for(let i=0 ; i<this.activityFeed.comments.length; i++) {
-      if(comment.commentId === this.activityFeed.comments[i].commentId) {
-        this.activityFeed.comments[i].text = this.commentFormControl.value;
+      if(editedItem.itemId === this.activityFeed.comments[i].commentId) {
+        this.activityFeed.comments[i].text = editedItem.text;
         break
       }
     }
   }
 
-  async updatePost(postText: string) {
-    this.activityFeed.post.text = postText;
-    this.isPostEditMode = false;
+  async updatePost(editedItem: EditedTextOutputFormat) {
+    await this._activityFeedService.updatePost(editedItem.itemId, editedItem.text)
+    this.activityFeed.post.text = editedItem.text;
   }
 
 }

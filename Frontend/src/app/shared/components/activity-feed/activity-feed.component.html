@@ -7,16 +7,17 @@
                 </div>
                 <div class="text">{{activityFeed.post.author.name}}</div>
             </div>
-            <button mat-icon-button color="primary" (click)="editPost()" *ngIf="activityFeed.post.author.userId === user.userId && !isPostEditMode">
+            <!-- <button mat-icon-button color="primary" (click)="editPost()" *ngIf="activityFeed.post.author.userId === user.userId && !isPostEditMode">
                 <mat-icon>edit</mat-icon>
-            </button>
+            </button> -->
+            <edit-item [text]="activityFeed.post.text" [itemId]="activityFeed.post.postId" *ngIf="activityFeed.post.author.userId === user.userId" (editedText)="updatePost($event)"></edit-item>
         </div>
-        <div class="post-text" *ngIf="!isPostEditMode">
+        <div class="post-text">
             {{activityFeed.post.text}}
         </div>
-        <div class="edit" *ngIf="isPostEditMode">
+        <!-- <div class="edit" *ngIf="isPostEditMode">
             <post [mode]="'edit'" [postInfo]="activityFeed.post" (post)="updatePost($event)"></post>
-        </div>
+        </div> -->
     </div>
     <div class="react">
         <ng-container *ngFor="let react of reactTypes">
@@ -41,16 +42,18 @@
         <div class="comment-item" *ngFor="let comment of activityFeed.comments">
             <div class="header">
                 <div class="commet-user-info">
-                    <div>
+                    <div class="author">
                         <img class="comment-image" src="assets/tanjiro.jpg" />
+                        <div>{{comment.author.name}}</div>
                     </div>
-                    <div class="text">{{comment.author.name}}</div>
+                    <div class="text">{{comment.text}}</div>
                 </div>
-                <button mat-icon-button *ngIf="comment.author.userId === user.userId" color="primary" (click)="editComment(comment)">
+                <!-- <button mat-icon-button *ngIf="comment.author.userId === user.userId" color="primary" (click)="editComment(comment)">
                     <mat-icon>edit</mat-icon>
-                </button>
+                </button> -->
+                <edit-item [text]="comment.text" [itemId]="comment.commentId" *ngIf="comment.author.userId === user.userId" (editedText)="updateComment($event)"></edit-item>
             </div>
-            <ng-container *ngIf="commentEditModeId !== comment.commentId; else updateCommentBody">
+            <!-- <ng-container *ngIf="commentEditModeId !== comment.commentId; else updateCommentBody">
                 <div class="comment-text">{{comment?.text}}</div>
             </ng-container>
             <ng-template #updateCommentBody>
@@ -61,7 +64,7 @@
                     </mat-form-field>
                     <button class="action-btn" mat-raised-button color="primary" (click)="updateComment(comment)">Update</button>
                 </div>
-            </ng-template>
+            </ng-template> -->
         </div>
         <div class="new-comment">
             <mat-form-field appearance="outline" class="input-style">

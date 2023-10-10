@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Here give the edited text</h1>
+<div mat-dialog-content class="edit-dialog-body">
+  <mat-form-field class="edit-dialog-mat-form-field" appearance="fill">
+    <mat-label>Write here</mat-label>
+    <textarea rows="10" matInput [formControl]="text"></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="edit-dialog-botton">
+  <button mat-raised-button (click)="closeDialog()">Done</button>
+</div>

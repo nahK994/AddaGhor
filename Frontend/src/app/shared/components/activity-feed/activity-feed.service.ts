@@ -59,4 +59,13 @@ export class ActivityFeedService {
     return response.id;
   }
 
+  async updatePost(postId: number, postText: string) {
+    let payload = {
+      "text": postText
+    }
+    let URL_extention = '/posts/'+postId;
+    let response = await lastValueFrom(this.http.put<{id: number}>(this.commandDoamin+URL_extention, payload, this.httpOptions));
+    return response.id;
+  }
+
 }

@@ -36,7 +36,6 @@ export class LandingPageComponent implements OnInit {
 
   async submitPost() {
     let postId = await this._homeService.createPost(this.postText.value);
-
     this.activityFeed.unshift({
       post: {
         postId: postId,
