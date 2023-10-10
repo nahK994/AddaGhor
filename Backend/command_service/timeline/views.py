@@ -39,8 +39,8 @@ class ReactViewset(viewsets.ViewSet):
             return Response("no such post", 404)
         post = filtered_posts[0]
         filtered_react = React.objects.filter(user=request.user, post=post)
-        react = filtered_react[0]
-        if react:
+        if filtered_react:
+            react = filtered_react[0]
             if react.type == react_type:
                 publish_react(ActionType.delete, react)
                 react.delete()
@@ -52,7 +52,7 @@ class ReactViewset(viewsets.ViewSet):
         else:
             created_react = self.create_post_react(user=request.user, post=post, react_type=react_type)
             publish_react(ActionType.post, created_react)
-            return Response(react.id, status=200)
+            return Response(created_react.id, status=200)
 
     @action(methods=['put'], detail=True, url_path=ReactType.smile, url_name=ReactType.smile)
     def smile(self, request, pk):
