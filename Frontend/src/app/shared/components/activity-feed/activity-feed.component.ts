@@ -37,12 +37,6 @@ export class ActivityFeedComponent {
 
   commentBoxFormControl = new FormControl();
 
-  // post: FormControl = new FormControl();
-  // commentFormControl: FormControl = new FormControl();
-
-  // isPostEditMode: boolean = false;
-  // commentEditModeId: number = -1;
-
   constructor(
     private _activityFeedService: ActivityFeedService
   ) { }
@@ -73,16 +67,6 @@ export class ActivityFeedComponent {
     })
     this.commentBoxFormControl.setValue('');
   }
-
-  // editPost() {
-  //   this.post.setValue(this.activityFeed.post.postId);
-  //   this.isPostEditMode = true;
-  // }
-
-  // editComment(comment: Comment) {
-  //   this.commentFormControl.setValue(comment.text);
-  //   this.commentEditModeId = comment.commentId;
-  // }
 
   async updateComment(editedItem: EditedTextOutputFormat) {
     await this._activityFeedService.updateComment(editedItem.itemId, editedItem.text);

@@ -8,7 +8,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-import { PostModule } from '../post/post.module';
 import { ActivityFeedService } from './activity-feed.service';
 import { HttpClientModule } from '@angular/common/http';
 import { EditItemModule } from '../edit-item/edit-item.module';
@@ -24,7 +23,6 @@ import { EditItemModule } from '../edit-item/edit-item.module';
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    PostModule,
     HttpClientModule,
     EditItemModule
   ],

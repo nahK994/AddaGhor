@@ -74,16 +74,6 @@ export class HomeService {
     return response;
   }
 
-  // async updatePost(postId: number, postText: string) {
-  //   let payload = {
-  //     "text": postText
-  //   }
-  //   let URL_extention = '/posts/'+postId;
-  //   let response = await lastValueFrom(this.http.put<number>(this.commandDomain+URL_extention, payload, this.httpOptions));
-
-  //   return response;
-  // }
-
   async createPost(postText: string) {
     let payload = {
       "text": postText
