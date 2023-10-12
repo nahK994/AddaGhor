@@ -7,8 +7,6 @@ services:
     restart: always
     ports:
       - 5000:5432
-    volumes:
-      - /var/lib/postgresql/data
     environment:
       - POSTGRES_USER=skhan
       - POSTGRES_PASSWORD=haha
@@ -20,8 +18,6 @@ services:
     restart: always
     ports:
       - 5001:5432
-    volumes:
-      - /var/lib/postgresql/data
     environment:
       - POSTGRES_USER=skhan
       - POSTGRES_PASSWORD=haha
