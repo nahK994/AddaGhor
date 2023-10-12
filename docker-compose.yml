@@ -56,7 +56,7 @@ services:
     build: Frontend
     restart: always
     ports:
-      - 4200:80
+      - 4200:4200
     depends_on:
       - query_service
       - command_service
