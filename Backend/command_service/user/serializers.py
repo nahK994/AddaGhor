@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from .models import User, UserProfile
 from publisher.publisher import publish_user, ActionType
+from django.utils.crypto import get_random_string
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 
 
 class LoginSerializer(serializers.Serializer):
@@ -90,17 +93,20 @@ class UserRegistrationSerializer(serializers.Serializer):
         user_profile_obj = UserProfile.objects.create(
             user=user_obj,
             bio=data['bio'],
-            profile_picture=data['profilePicture']
+            profile_picture=data['profilePicture'],
+            activation_code=get_random_string(length=32)
         )
-        user_profile_obj.user.password = data['password']
-        publish_user(ActionType.post, user_profile_obj)
+
+        html_content = render_to_string("user_activation_email.html", {
+            "activationURL": "http://localhost:8000/users/"+str(user_obj.id)+'/activate'+"?code="+user_profile_obj.activation_code
+        })
+        msg = EmailMultiAlternatives('User activation email', '', 'addaghor786@gmail.com', [user_obj.email])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
         
         return user_profile_obj
     
     def to_representation(self, instance):
         return {
-            "userId": instance.user.id,
-            "name": instance.user.name,
-            "email": instance.user.email,
-            "bio": instance.bio
+            "message": "An activation email has been sent to your email.",
         }

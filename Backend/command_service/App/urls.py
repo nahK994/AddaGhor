@@ -18,7 +18,7 @@ from django.urls import path
 from rest_framework import routers
 from rest_framework_swagger.views import get_swagger_view
 from timeline.views import CommentViewset, PostViewset, ReactViewset
-from user.views import UserViewset, LoginViewset, UserRegistrationViewset
+from user.views import UserActivationViewset, UserViewset, LoginViewset, UserRegistrationViewset
 from rest_framework_simplejwt.views import TokenRefreshView
 from django.conf import settings
 from django.conf.urls.static import static
@@ -37,6 +37,7 @@ router.register("posts", ReactViewset, basename="reacts")
 router.register("posts", PostViewset, basename="posts")
 router.register("comments", CommentViewset, basename="comments")
 
+router.register("users", UserActivationViewset, basename="user_activate")
 router.register("users", UserViewset, basename="users")
 router.register("registration", UserRegistrationViewset, basename="registration")
 router.register("login", LoginViewset, basename="login")

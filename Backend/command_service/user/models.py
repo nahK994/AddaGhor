@@ -62,6 +62,7 @@ class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_profile")
     bio = models.TextField(null=True, blank=True)
     profile_picture = models.FileField(upload_to='profile_pictures', blank=True, null=True)
+    activation_code = models.CharField(max_length=32, default='')
 
     class Meta:
         db_table = 'user_profiles'

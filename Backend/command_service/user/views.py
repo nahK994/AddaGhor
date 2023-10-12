@@ -5,6 +5,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import LoginSerializer, UserRegistrationSerializer, UserSerializer, UserListSerializer
 from rest_framework.permissions import BasePermission
 from .models import User
+from rest_framework.decorators import action
 from publisher.publisher import publish_user, ActionType
 
 
@@ -71,3 +72,27 @@ class UserViewset(viewsets.ModelViewSet):
 class UserRegistrationViewset(viewsets.ModelViewSet):
     serializer_class = UserRegistrationSerializer
     http_method_names = ["post"]
+
+
+class UserActivationViewset(viewsets.ViewSet):
+
+    @action(methods=['put'], detail=True, url_path='activate')
+    def activate_user(self, request, pk=None):
+        activation_code = request.query_params['code']
+        filtered_user = User.objects.prefetch_related('user_profile').filter(id=pk)
+        user = filtered_user[0]
+        user_profile = user.user_profile.all()[0]
+        
+        if user_profile.activation_code == activation_code:
+            user_profile.activation_code = ''
+            user_profile.save()
+            response_dict = {
+                "userId": user.id,
+                "name": user.name,
+                "email": user.email,
+                "bio": user_profile.bio
+            }
+            publish_user(ActionType.post, user_profile)
+            return Response(response_dict, status=200)
+        else:
+            return Response("user cannot be activated", status=403)

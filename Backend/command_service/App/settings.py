@@ -174,3 +174,11 @@ PASSWORD_HASHERS = [
 STATIC_ROOT = '/home/addaghor/AddaGhor/static'
 MEDIA_ROOT = BASE_DIR/'uploads'
 MEDIA_URL = 'uploads/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'addaghor786@gmail.com'
+EMAIL_USE_TLS = True
+# EMAIL_HOST_PASSWORD = 'verystrongpasswordok?'
+EMAIL_HOST_PASSWORD = 'mucn phxy lqpm ioxj'
