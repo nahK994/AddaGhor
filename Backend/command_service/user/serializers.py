@@ -103,7 +103,7 @@ class UserRegistrationSerializer(serializers.Serializer):
         )
 
         html_content = render_to_string("user_activation_email.html", {
-            "activationURL": "http://localhost:8000/users/"+str(user_obj.id)+'/activate'+"?code="+generated_activation_code
+            "activationURL": "http://localhost:4200/user/"+str(user_obj.id)+"/activate/"+generated_activation_code
         })
         msg = EmailMultiAlternatives('User activation email', '', 'addaghor786@gmail.com', [user_obj.email])
         msg.attach_alternative(html_content, "text/html")
