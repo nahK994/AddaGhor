@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { User, UserService } from '../user.service';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-create-user',
@@ -11,17 +12,19 @@ export class CreateUserComponent {
 
   constructor(
     private _userService: UserService,
-    private _router: Router
+    private _router: Router,
+    private _appService: AppService
   ) { }
 
-  async signUp(userInfo: User) {    
-   try {
-    await this._userService.createUser(userInfo);
-    this._router.navigate([''])
-   }
-   catch(error) {
-     console.log("error ==> ", error)
-   }
+  async signUp(userInfo: User) {
+    this._appService.removeAssets();
+    try {
+      await this._userService.createUser(userInfo);
+      this._router.navigate([''])
+    }
+    catch (error) {
+      console.log("error ==> ", error)
+    }
   }
 
 }
