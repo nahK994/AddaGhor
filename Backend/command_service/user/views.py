@@ -4,7 +4,7 @@ from rest_framework import status, viewsets
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import LoginSerializer, UserRegistrationSerializer, UserSerializer, UserListSerializer
 from rest_framework.permissions import BasePermission
-from .models import User
+from .models import UserActivationLog, User
 from rest_framework.decorators import action
 from publisher.publisher import publish_user, ActionType
 
@@ -79,12 +79,17 @@ class UserActivationViewset(viewsets.ViewSet):
     @action(methods=['put'], detail=True, url_path='activate')
     def activate_user(self, request, pk=None):
         activation_code = request.query_params['code']
-        filtered_user = User.objects.prefetch_related('user_profile').filter(id=pk)
-        user = filtered_user[0]
-        user_profile = user.user_profile.all()[0]
+        filtered_user_activation_log = UserActivationLog.objects.prefetch_related('user', 'user__user_profile').filter(user=pk)
+        if not filtered_user_activation_log:
+            return Response({
+                "message": "You are not registered yet."
+            })
+        user_activation_log = filtered_user_activation_log[0]
         
-        if user_profile.activation_code == activation_code:
-            user_profile.activation_code = ''
+        if user_activation_log.activation_code == activation_code:
+            user = user_activation_log.user
+            user_profile = user.user_profile.all()[0]
+            user_profile.is_verified = True
             user_profile.save()
             response_dict = {
                 "userId": user.id,
