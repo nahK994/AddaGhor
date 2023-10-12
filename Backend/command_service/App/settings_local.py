@@ -8,7 +8,7 @@ DATABASES = {
         'USER': os.getenv('POSTGRES_USER'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
         'HOST': 'command_db',
-        'PORT': '5000',
+        'PORT': '5432',
     }
 }
 
