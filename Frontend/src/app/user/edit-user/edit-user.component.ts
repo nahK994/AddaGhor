@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../user.service';
 import { UserService } from '../user.service';
@@ -17,8 +16,7 @@ export class EditUserComponent implements OnInit {
   constructor(
     private _activateRoute: ActivatedRoute,
     private _userService: UserService,
-    private _router: Router,
-    private _fb: FormBuilder
+    private _router: Router
   ) { }
 
   async ngOnInit(): Promise<void> {

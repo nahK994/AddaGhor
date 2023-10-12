@@ -48,4 +48,10 @@ export class UserService {
 
     return response;
   }
+
+  async activateUser(userId: number, activationCode: string) {
+    let response = await lastValueFrom(this.http.put(this.commandDoamin+'/users/'+userId+'/activate?code='+activationCode, null, this.httpOptions));
+
+    return response;
+  }
 }
