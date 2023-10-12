@@ -26,8 +26,7 @@ def publish_user(action_type: ActionType, user_profile_info: UserProfile):
             'email': user_profile_info.user.email,
             'name' : user_profile_info.user.name,
             'bio'  : user_profile_info.bio,
-            'profilePicture': 'google.com',
-            'password': user_profile_info.user.password
+            'profilePicture': 'google.com'
         }
     else:
         data = {

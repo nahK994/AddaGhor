@@ -5,7 +5,7 @@ from user.models import User, UserProfile
 
 
 def userCreateEventHandler(data):
-    user_obj = User.objects.create_user(data['id'] ,data['name'], data['email'], data['password'])
+    user_obj = User.objects.create_user(data['id'] ,data['name'], data['email'])
     UserProfile.objects.create(
         id=data['userProfileId'],
         user=user_obj,
