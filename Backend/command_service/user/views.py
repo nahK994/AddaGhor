@@ -36,6 +36,11 @@ class LoginViewset(viewsets.ModelViewSet):
         filtered_user = User.objects.filter(email=request.data['email'])
         if not filtered_user:
             return Response("no such user", status=status.HTTP_403_FORBIDDEN)
+        
+        user = filtered_user[0]
+        user_profile = user.user_profile.all()[0]
+        if not user_profile.is_verified:
+            return Response("user not verified yet", status=status.HTTP_403_FORBIDDEN)
         user = filtered_user[0]
         if user.check_password(request.data['password']):
             user_info = get_tokens_for_user(user)
