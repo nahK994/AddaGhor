@@ -5,6 +5,7 @@ import { UserService } from 'src/app/user/user.service';
 import { ActivityFeed } from '../home.service';
 import { HomeService } from '../home.service';
 import { FormControl } from '@angular/forms';
+import { AppService } from 'src/app/app.service';
 
 @Component({
   selector: 'app-landing-page',
@@ -21,7 +22,8 @@ export class LandingPageComponent implements OnInit {
     private _homeService: HomeService,
     private _activateRoute: ActivatedRoute,
     private _userService: UserService,
-    private _router: Router
+    private _router: Router,
+    private _appService: AppService
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -58,6 +60,7 @@ export class LandingPageComponent implements OnInit {
   }
 
   logout() {
+    this._appService.removeAssets();
     this._router.navigate([''], {
       relativeTo: this._activateRoute
     })
