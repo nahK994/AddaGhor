@@ -60,33 +60,37 @@ def reactInfoCallback(ch, method, properties, body):
         reactDeleteEventHandler(data)
 
 
-params = pika.URLParameters('amqps://itqdjkpt:6GAMl22_0xjDtFVbmslqDEZ-mtqN7VqP@shrimp.rmq.cloudamqp.com/itqdjkpt')
-connection = pika.BlockingConnection(params)
-channel = connection.channel()
+while True:
+    try:
+        params = pika.URLParameters('amqps://itqdjkpt:6GAMl22_0xjDtFVbmslqDEZ-mtqN7VqP@shrimp.rmq.cloudamqp.com/itqdjkpt')
+        connection = pika.BlockingConnection(params)
+        channel = connection.channel()
 
-channel.exchange_declare(exchange='exchange', exchange_type='topic')
+        channel.exchange_declare(exchange='exchange', exchange_type='topic')
 
-queue1 = channel.queue_declare('', exclusive=True)
-queue_name1 = queue1.method.queue
-channel.queue_bind(exchange='exchange', queue=queue_name1, routing_key='user')
+        queue1 = channel.queue_declare('', exclusive=True)
+        queue_name1 = queue1.method.queue
+        channel.queue_bind(exchange='exchange', queue=queue_name1, routing_key='user')
 
-queue2 = channel.queue_declare('', exclusive=True)
-queue_name2 = queue2.method.queue
-channel.queue_bind(exchange='exchange', queue=queue_name2, routing_key='post')
+        queue2 = channel.queue_declare('', exclusive=True)
+        queue_name2 = queue2.method.queue
+        channel.queue_bind(exchange='exchange', queue=queue_name2, routing_key='post')
 
-queue3 = channel.queue_declare('', exclusive=True)
-queue_name3 = queue3.method.queue
-channel.queue_bind(exchange='exchange', queue=queue_name3, routing_key='comment')
+        queue3 = channel.queue_declare('', exclusive=True)
+        queue_name3 = queue3.method.queue
+        channel.queue_bind(exchange='exchange', queue=queue_name3, routing_key='comment')
 
-queue4 = channel.queue_declare('', exclusive=True)
-queue_name4 = queue4.method.queue
-channel.queue_bind(exchange='exchange', queue=queue_name4, routing_key='react')
+        queue4 = channel.queue_declare('', exclusive=True)
+        queue_name4 = queue4.method.queue
+        channel.queue_bind(exchange='exchange', queue=queue_name4, routing_key='react')
 
 
-channel.basic_consume(queue=queue_name1, on_message_callback=userInfoCallback, auto_ack=True)
-channel.basic_consume(queue=queue_name2, on_message_callback=postInfoCallback, auto_ack=True)
-channel.basic_consume(queue=queue_name3, on_message_callback=commentInfoCallback, auto_ack=True)
-channel.basic_consume(queue=queue_name4, on_message_callback=reactInfoCallback, auto_ack=True)
+        channel.basic_consume(queue=queue_name1, on_message_callback=userInfoCallback, auto_ack=True)
+        channel.basic_consume(queue=queue_name2, on_message_callback=postInfoCallback, auto_ack=True)
+        channel.basic_consume(queue=queue_name3, on_message_callback=commentInfoCallback, auto_ack=True)
+        channel.basic_consume(queue=queue_name4, on_message_callback=reactInfoCallback, auto_ack=True)
 
-print("consumer online")
-channel.start_consuming()
+        print("consumer online")
+        channel.start_consuming()
+    except Exception as e:
+        print(str(e))
