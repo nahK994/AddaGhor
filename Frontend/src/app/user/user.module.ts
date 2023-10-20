@@ -12,6 +12,8 @@ import { UserInfoActionModule } from '../shared/components/user-info-action/user
 import { CreateUserComponent } from './create-user/create-user.component';
 import { AccessTokenInterceptor } from '../interceptor/token.interceptor';
 import { ActivateUserComponent } from './activate-user/activate-user.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
 @NgModule({
   declarations: [EditUserComponent, CreateUserComponent, ActivateUserComponent],
   imports: [
@@ -22,7 +24,8 @@ import { ActivateUserComponent } from './activate-user/activate-user.component';
     UserRoutingModule,
     HttpClientModule,
     UserInfoActionModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSnackBarModule
   ],
   providers: [
     {
