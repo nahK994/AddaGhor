@@ -10,4 +10,3 @@ pytz==2022.2.1
 sqlparse==0.4.3
 django-rest-swagger==2.1.2
 python-dotenv
-beautifulsoup4

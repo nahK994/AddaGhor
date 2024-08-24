@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ActivityFeedComponent } from './activity-feed.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { AngularEmojisModule } from 'angular-emojis';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -18,7 +17,6 @@ import { EditItemModule } from '../edit-item/edit-item.module';
     CommonModule,
     MatButtonModule,
     MatIconModule,
-    AngularEmojisModule,
     ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,

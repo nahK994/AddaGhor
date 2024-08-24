@@ -17,7 +17,7 @@
         <ng-container *ngFor="let react of reactTypes">
             <div class="react-item">
                 <div class="react-action" (click)="reactPost(reactType[react])">
-                    <angular-emojis [name]="reactEmoji[react]" size="20"></angular-emojis>
+                    <div style="font-size: 20px;">{{reactEmoji[react]}}</div>
                 </div>
                 <ng-container *ngIf="activityFeed.userReact === reactType[react]; else notUserReacted">
                     <div class="react-count user-react">

@@ -20,9 +20,9 @@ export class ActivityFeedComponent {
   reactType = ReactType
   reactTypes = [ReactType.smile, ReactType.like, ReactType.love]
   reactEmoji = {
-    "love": "heartpulse",
-    "like": "thumbsup",
-    "smile": "smiley"
+    "love": "🥰",
+    "like": "👍",
+    "smile": "😄"
   }
 
   activityFeed: ActivityFeed;

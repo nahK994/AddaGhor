@@ -5,7 +5,7 @@ import json
 
 
 def initiate_channel():
-    params = pika.URLParameters('amqps://itqdjkpt:6GAMl22_0xjDtFVbmslqDEZ-mtqN7VqP@shrimp.rmq.cloudamqp.com/itqdjkpt')
+    params = pika.URLParameters('amqps://yzmvpdbx:9lISIr_7LPy-RPUFOa_BNUhW9oNeyeNy@shrimp.rmq.cloudamqp.com/yzmvpdbx')
     connection = pika.BlockingConnection(params)
     channel = connection.channel()
     return channel
